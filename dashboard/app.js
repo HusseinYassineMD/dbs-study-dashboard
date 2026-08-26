@@ -28,6 +28,10 @@ const DATASETS = {
   "Monthly Meeting > Visit Trends (Sheet5)": "visit_trends_sheet5",
   "Monthly Meeting > Visit Trends (Sheet6)": "visit_trends_sheet6",
   "Monthly Meeting > Enrolled Mapping": "enrolled_mapping",
+  "DBS Tracker > NP Results Requests": "np_results_requests",
+  "DBS Tracker > uds_id_200": "uds_id_200",
+  "Monthly Meeting > 16 DQ pts": "dq_pts",
+  "Monthly Meeting > MRI Outcomes (Sheet 9)": "mri_outcomes",
 };
 
 let DATA = null;
@@ -49,6 +53,21 @@ function getPath(obj, path) {
   return path.split(".").reduce((acc, key) => (acc ? acc[key] : undefined), obj);
 }
 
+function getDataset(path, type = "structured") {
+  if (type === "raw") {
+    return DATA.raw_sheets?.[path] || [];
+  }
+  return getPath(DATA, path) || [];
+}
+
+function tableColumns(rows) {
+  if (!rows?.length) return [];
+  const keys = new Set();
+  rows.forEach((row) => Object.keys(row).forEach((k) => keys.add(k)));
+  const ordered = ["participant_id", "ID", ...Array.from(keys).filter((k) => k !== "participant_id" && k !== "ID")];
+  return ordered.filter((k, i, arr) => arr.indexOf(k) === i);
+}
+
 function pct(value) {
   if (value == null) return "—";
   const num = Number(value);
@@ -68,7 +87,7 @@ function renderTable(containerId, rows, columns, options = {}) {
     return;
   }
   const limited = options.limit ? rows.slice(0, options.limit) : rows;
-  const headers = columns || Object.keys(limited[0]);
+  const headers = columns || tableColumns(limited);
   el.innerHTML = `
     <table>
       <thead><tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead>
@@ -365,9 +384,7 @@ function renderVisits() {
       Month: fmtDate(r.scheduling_month),
       Assigned: r.assigned_to || "—",
       Notes: r.notes || "—",
-    })),
-    null,
-    { limit: 100 }
+    }))
   );
   renderTable(
     "completed-third",
@@ -375,10 +392,20 @@ function renderVisits() {
       ID: r.participant_id,
       Month: fmtDate(r.scheduling_month),
       Notes: r.notes || "—",
-    })),
-    null,
-    { limit: 100 }
+    }))
   );
+  renderTable(
+    "completed-fourth",
+    DATA.completed_visits.fourth_year.map((r) => ({
+      ID: r.participant_id,
+      Month: fmtDate(r.scheduling_month),
+      Notes: r.notes || "—",
+    }))
+  );
+  renderTable("baseline-scheduling-table", DATA.baseline_scheduling);
+  renderTable("second-year-scheduling-table", DATA.second_year_scheduling);
+  renderTable("third-year-scheduling-table", DATA.third_year_scheduling);
+  renderTable("fourth-year-scheduling-table", DATA.fourth_year_scheduling);
 }
 
 function renderClinical() {
@@ -391,7 +418,7 @@ function renderClinical() {
     { label: "Screening Records", value: DATA.screening.length },
     { label: "Study Partners Completed", value: partnerComplete },
     { label: "Stool Samples Complete", value: stoolComplete },
-    { label: "Sample Drop-Offs Logged", value: DATA.sample_drop_off.length },
+    { label: "ClinCard Records", value: DATA.clincard.length },
   ]
     .map(
       (k) => `
@@ -404,7 +431,7 @@ function renderClinical() {
 
   renderTable(
     "screening-table",
-    DATA.screening.slice(0, 80).map((r) => ({
+    DATA.screening.map((r) => ({
       ID: r.participant_id,
       "Screening Date": fmtDate(r.screening_date),
       ICF: r.icf_signed,
@@ -418,34 +445,16 @@ function renderClinical() {
       ID: r.participant_id,
       Completed: r.completed ?? "—",
       Sent: r.survey_link_sent || "—",
-    }))
-  );
-  renderTable(
-    "stool-table",
-    DATA.stool_samples.participants.map((r) => ({
-      ID: r.participant_id,
-      Status: r.status,
-      Given: fmtDate(r.date_given_or_mailed),
-      Received: fmtDate(r.date_received),
-    }))
-  );
-  renderTable(
-    "sample-dropoff-table",
-    DATA.sample_drop_off.slice(0, 80).map((r) => ({
-      ID: r.participant_id,
-      Collected: fmtDate(r["Date Collected:"]),
-      Type: r["Visit Type (SCREENING BD (SBD), MRI BASE (MB), MRI POST (MP), LP)"] || "—",
-    }))
-  );
-  renderTable(
-    "mri-dates-table",
-    DATA.mri_dates_available.slice(0, 80).map((r) => ({
-      Month: r.month,
-      Date: fmtDate(r.mri_date),
-      Time: r.mri_time,
       Notes: r.notes || "—",
     }))
   );
+  renderTable("stool-table", DATA.stool_samples.participants);
+  renderTable("sample-dropoff-table", DATA.sample_drop_off);
+  renderTable("mri-dates-table", DATA.mri_dates_available);
+  renderTable("clincard-table", DATA.clincard);
+  renderTable("np-results-table", DATA.np_results_requests);
+  renderTable("mri-outcomes-table", DATA.mri_outcomes);
+  renderTable("dq-pts-table", DATA.dq_pts);
 }
 
 function renderGenotype() {
@@ -538,34 +547,34 @@ function renderDropouts() {
     "meeting-dropouts-table",
     DATA.meeting_dropouts.map((r) => ({ ID: r.participant_id, Reason: r.reason || "—" }))
   );
-  renderTable(
-    "baseline-dropouts-table",
-    DATA.dropouts.baseline_ineligible.map((r) => ({
-      ID: r.participant_id,
-      "SV Date": fmtDate(r["SV Date"]),
-      Notes: r["IV Notes"] || r.Notes || "—",
-    })),
-    null,
-    { limit: 80 }
-  );
-  renderTable(
-    "yearly-dropouts-table",
-    DATA.dropouts.year_1_to_4.map((r) => ({
-      ID: r.participant_id,
-      Site: r["IV Site"],
-      Notes: r["IV Notes"] || "—",
-    }))
-  );
+  renderTable("baseline-dropouts-table", DATA.dropouts.baseline_ineligible);
+  renderTable("yearly-dropouts-table", DATA.dropouts.year_1_to_4);
 }
 
 function renderCatalog() {
   const grid = document.getElementById("catalog-grid");
-  grid.innerHTML = Object.entries(DATASETS)
+  const cards = [];
+
+  Object.entries(DATASETS).forEach(([label, path]) => {
+    const rows = getDataset(path);
+    const count = Array.isArray(rows) ? rows.length : 0;
+    cards.push({ label, path, type: "structured", count });
+  });
+
+  (DATA.sheet_catalog || []).forEach((item) => {
+    const prefix = item.workbook === "DBS Tracker" ? "tracker" : "meeting";
+    const rawKey = `${prefix}::${item.sheet.trim()}`;
+    const label = `${item.workbook} > ${item.sheet.trim()} (Complete Raw)`;
+    const rows = getDataset(rawKey, "raw");
+    cards.push({ label, path: rawKey, type: "raw", count: rows.length });
+  });
+
+  grid.innerHTML = cards
     .map(
-      ([label]) => `
-      <div class="catalog-card" data-dataset="${label}">
-        <h4>${label.split(" > ")[1] || label}</h4>
-        <p>${label.split(" > ")[0]}</p>
+      (card) => `
+      <div class="catalog-card" data-path="${card.path}" data-type="${card.type}">
+        <h4>${card.label.split(" > ").slice(-1)[0]}</h4>
+        <p>${card.label.includes(" > ") ? card.label.split(" > ")[0] : "Dataset"} · ${card.count} rows</p>
       </div>`
     )
     .join("");
@@ -574,9 +583,8 @@ function renderCatalog() {
     card.addEventListener("click", () => {
       grid.querySelectorAll(".catalog-card").forEach((c) => c.classList.remove("active"));
       card.classList.add("active");
-      const path = DATASETS[card.dataset.dataset];
-      const rows = getPath(DATA, path) || [];
-      document.getElementById("explorer-title").textContent = card.dataset.dataset;
+      const rows = getDataset(card.dataset.path, card.dataset.type);
+      document.getElementById("explorer-title").textContent = card.querySelector("h4").textContent;
       renderTable("explorer-table", Array.isArray(rows) ? rows : [rows]);
     });
   });

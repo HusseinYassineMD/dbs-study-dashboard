@@ -228,7 +228,7 @@ body {
 .table-wrap {
   overflow: auto;
   margin-top: 16px;
-  max-height: 520px;
+  max-height: 720px;
 }
 
 .table-wrap.compact { max-height: 360px; }

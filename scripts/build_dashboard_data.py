@@ -255,19 +255,28 @@ def parse_dropouts_tracker(path: Path) -> dict[str, list[dict[str, Any]]]:
     return {"baseline_ineligible": baseline, "year_1_to_4": yearly}
 
 
+def first_column_id(row: pd.Series) -> str | None:
+    for value in row:
+        pid = normalize_id(value)
+        if pid:
+            return pid
+    return None
+
+
 def parse_study_partner(path: Path) -> list[dict[str, Any]]:
     df = read_sheet(path, "Study Partner")
+    id_col = df.columns[0]
     rows = []
     for _, row in df.iterrows():
-        pid = normalize_id(row.get("Unnamed: 0"))
+        pid = normalize_id(row.get(id_col))
         if not pid:
             continue
         rows.append(
             {
                 "participant_id": pid,
                 "survey_link_sent": serialize(row.get("Survey Link Sent/Mailed")),
-                "completed": serialize(row.get("Completed ")),
-                "notes": serialize(row.get("Notes ")),
+                "completed": serialize(row.get("Completed") or row.get("Completed ")),
+                "notes": serialize(row.get("Notes") or row.get("Notes ")),
                 "record_id": serialize(row.get("Record ID/location")),
             }
         )
@@ -276,13 +285,14 @@ def parse_study_partner(path: Path) -> list[dict[str, Any]]:
 
 def parse_stool_samples(path: Path) -> dict[str, Any]:
     df = read_sheet(path, "Stool Samples")
+    id_col = next((c for c in df.columns if "eligible" in str(c).lower()), df.columns[0])
     summary = {
         "complete": serialize(df.iloc[0].get("Status")),
         "total_consented": serialize(df.iloc[0].get("Total Consented")),
     }
     rows = []
     for _, row in df.iloc[1:].iterrows():
-        pid = normalize_id(row.get("ID's Eligible "))
+        pid = normalize_id(row.get(id_col))
         if not pid:
             continue
         rows.append(
@@ -294,6 +304,7 @@ def parse_stool_samples(path: Path) -> dict[str, Any]:
                 "kit_number": serialize(row.get("KIT Number")),
                 "date_received": serialize(row.get("Date Received")),
                 "follow_up_notes": serialize(row.get("Follow up notes")),
+                "notes": serialize(row.get("Column") or row.get("Column_1")),
             }
         )
     return {"summary": summary, "participants": rows}
@@ -335,9 +346,15 @@ def parse_consent(path: Path) -> list[dict[str, Any]]:
 
 def parse_requests(path: Path, sheet: str, id_col: str) -> list[dict[str, Any]]:
     df = read_sheet(path, sheet)
+    resolved_id_col = next(
+        (c for c in df.columns if str(c).strip().lower() == id_col.strip().lower()),
+        id_col,
+    )
     rows = []
     for _, row in df.iterrows():
-        pid = normalize_id(row.get(id_col))
+        pid = normalize_id(row.get(resolved_id_col))
+        if not pid:
+            pid = first_column_id(row)
         if not pid:
             continue
         rows.append({k: serialize(v) for k, v in row.items()} | {"participant_id": pid})
@@ -367,21 +384,118 @@ def parse_synopsis(path: Path) -> list[dict[str, Any]]:
 
 
 def parse_scheduling_notes(path: Path, sheet: str, header: int = 1) -> list[dict[str, Any]]:
-    df = pd.read_excel(path, sheet_name=sheet, header=header)
-    df.columns = clean_columns(list(df.columns))
+    df = pd.read_excel(path, sheet_name=sheet, header=None)
+    header_row = 0
+    for idx in range(min(3, len(df))):
+        row_text = " ".join(str(v).lower() for v in df.iloc[idx].tolist() if pd.notna(v))
+        if "id" in row_text:
+            header_row = idx
+            break
+
+    headers = clean_columns(
+        [serialize(v) if pd.notna(v) else f"col_{i}" for i, v in enumerate(df.iloc[header_row])]
+    )
+    id_col_idx = next((i for i, h in enumerate(headers) if h.lower() == "id"), None)
+
     rows = []
-    id_candidates = ["ID", "Column", "Column_1"]
-    for _, row in df.iterrows():
+    for idx in range(header_row + 1, len(df)):
+        row = df.iloc[idx]
         pid = None
-        for col in id_candidates:
-            if col in row:
-                pid = normalize_id(row[col])
+        if id_col_idx is not None:
+            pid = normalize_id(row.iloc[id_col_idx])
+        if not pid:
+            pid = first_column_id(row)
+        if not pid:
+            for value in row:
+                pid = normalize_id(value)
                 if pid:
                     break
         if not pid:
             continue
+        record = {headers[i]: serialize(row.iloc[i]) for i in range(len(headers))}
+        record["participant_id"] = pid
+        rows.append(record)
+    return rows
+
+
+def parse_np_results_requests(path: Path) -> list[dict[str, Any]]:
+    df = read_sheet(path, "NP Results Requests")
+    id_col = next((c for c in df.columns if str(c).strip().lower() == "id"), df.columns[0])
+    rows = []
+    for _, row in df.iterrows():
+        pid = normalize_id(row.get(id_col))
+        if not pid:
+            continue
         rows.append({k: serialize(v) for k, v in row.items()} | {"participant_id": pid})
     return rows
+
+
+def parse_uds_id_200(path: Path) -> list[dict[str, Any]]:
+    df = pd.read_excel(path, sheet_name="uds_id_200", header=None)
+    rows = []
+    for idx in range(1, len(df)):
+        uds = df.iloc[idx, 1]
+        if pd.isna(uds):
+            continue
+        pid = normalize_id(uds)
+        rows.append(
+            {
+                "participant_id": pid,
+                "row_index": serialize(df.iloc[idx, 0]),
+                "uds_id_200": serialize(uds),
+                "not_enrolled": serialize(df.iloc[idx, 3]) if df.shape[1] > 3 else None,
+                "dq": serialize(df.iloc[idx, 5]) if df.shape[1] > 5 else None,
+            }
+        )
+    return rows
+
+
+def parse_dq_pts(path: Path) -> list[dict[str, Any]]:
+    df = pd.read_excel(path, sheet_name="16 DQ pts", header=None)
+    rows = []
+    for idx in range(1, len(df)):
+        val = df.iloc[idx, 0]
+        if pd.isna(val):
+            continue
+        rows.append({"uds_id": serialize(val), "participant_id": normalize_id(val)})
+    return rows
+
+
+def parse_mri_outcomes(path: Path) -> list[dict[str, Any]]:
+    df = pd.read_excel(path, sheet_name="Sheet 9", header=None)
+    headers = clean_columns([serialize(v) if pd.notna(v) else f"col_{i}" for i, v in enumerate(df.iloc[0])])
+    rows = []
+    for idx in range(1, len(df)):
+        row = df.iloc[idx]
+        if row.isna().all():
+            continue
+        rows.append({headers[i]: serialize(row.iloc[i]) for i in range(len(headers))})
+    return rows
+
+
+def parse_raw_sheet(path: Path, sheet: str) -> list[dict[str, Any]]:
+    df = pd.read_excel(path, sheet_name=sheet, header=None)
+    rows = []
+    for idx in range(len(df)):
+        row = df.iloc[idx]
+        if row.isna().all():
+            continue
+        record = {f"col_{i}": serialize(row.iloc[i]) for i in range(df.shape[1])}
+        record["row_number"] = idx + 1
+        pid = first_column_id(row)
+        if pid:
+            record["participant_id"] = pid
+        rows.append(record)
+    return rows
+
+
+def parse_all_raw_sheets() -> dict[str, list[dict[str, Any]]]:
+    raw: dict[str, list[dict[str, Any]]] = {}
+    for path, prefix in [(TRACKER, "tracker"), (MEETING, "meeting")]:
+        for sheet in pd.ExcelFile(path).sheet_names:
+            key = f"{prefix}::{sheet.strip()}"
+            raw[key] = parse_raw_sheet(path, sheet)
+    return raw
 
 
 def parse_mri_dates(path: Path) -> list[dict[str, Any]]:
@@ -551,6 +665,28 @@ def build_participant_index(data: dict[str, Any]) -> list[dict[str, Any]]:
     for row in data["meeting_dropouts"]:
         ensure(row["participant_id"])["meeting_dropout_reason"] = row.get("reason")
 
+    for row in data.get("baseline_scheduling", []):
+        ensure(row["participant_id"]).setdefault("baseline_scheduling", row)
+
+    for row in data.get("second_year_scheduling", []):
+        ensure(row["participant_id"]).setdefault("second_year_scheduling", row)
+
+    for row in data.get("third_year_scheduling", []):
+        ensure(row["participant_id"]).setdefault("third_year_scheduling", row)
+
+    for row in data.get("fourth_year_scheduling", []):
+        ensure(row["participant_id"]).setdefault("fourth_year_scheduling", row)
+
+    for row in data.get("clincard", []):
+        ensure(row["participant_id"]).setdefault("clincard", row)
+
+    for row in data.get("np_results_requests", []):
+        ensure(row["participant_id"]).setdefault("np_results_requests", row)
+
+    for row in data.get("uds_id_200", []):
+        if row.get("participant_id"):
+            ensure(row["participant_id"])["uds_id_200"] = row
+
     return sorted(participants.values(), key=lambda x: x["participant_id"])
 
 
@@ -589,6 +725,7 @@ def main() -> None:
         "labs": parse_labs(TRACKER),
         "consent": parse_consent(TRACKER),
         "lab_results_requests": parse_requests(TRACKER, "Lab Results Requests", "ID"),
+        "np_results_requests": parse_np_results_requests(TRACKER),
         "mri_cd_requests": parse_requests(TRACKER, "MRI CD Requests", "ID"),
         "sample_drop_off": parse_sample_dropoff(TRACKER),
         "synopsis_forms": parse_synopsis(TRACKER),
@@ -604,6 +741,10 @@ def main() -> None:
         "visit_trends_sheet5": parse_visit_trends(MEETING, "Sheet5"),
         "visit_trends_sheet6": parse_visit_trends(MEETING, "Sheet6"),
         "enrolled_mapping": parse_enrolled_mapping(MEETING),
+        "uds_id_200": parse_uds_id_200(TRACKER),
+        "dq_pts": parse_dq_pts(MEETING),
+        "mri_outcomes": parse_mri_outcomes(MEETING),
+        "raw_sheets": parse_all_raw_sheets(),
         "sheet_catalog": sheet_catalog(),
     }
 
