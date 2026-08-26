@@ -16,6 +16,8 @@ git add -A
 git commit -m "Update dashboard data $(date +%Y-%m-%d)" || { echo "No changes to publish."; exit 0; }
 git push origin main
 
+gh workflow run deploy-pages.yml --repo HusseinYassineMD/dbs-study-dashboard-site >/dev/null 2>&1 || true
+
 echo ""
 echo "Live site: https://husseinyassinemd.github.io/dbs-study-dashboard-site/"
-echo "Deployment will finish in ~1 minute."
+echo "Deployment triggered — live in ~1 minute."
