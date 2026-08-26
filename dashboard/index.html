@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DBS Study Operations Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">DBS</div>
+        <div>
+          <h1>Diabetes Brain Study</h1>
+          <p>Operations Dashboard</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="nav-item active" data-section="overview">Overview</button>
+        <button class="nav-item" data-section="progress">Study Progress</button>
+        <button class="nav-item" data-section="recruitment">Recruitment</button>
+        <button class="nav-item" data-section="participants">Participants</button>
+        <button class="nav-item" data-section="visits">Visit Tracking</button>
+        <button class="nav-item" data-section="clinical">Clinical Ops</button>
+        <button class="nav-item" data-section="genotype">Genotype & Labs</button>
+        <button class="nav-item" data-section="dropouts">Dropouts</button>
+        <button class="nav-item" data-section="data-explorer">Data Explorer</button>
+      </nav>
+      <footer class="sidebar-footer">
+        <span id="generated-at">Loading…</span>
+      </footer>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h2 id="section-title">Overview</h2>
+          <p id="section-subtitle">Unified metrics across DBS Tracker and Monthly Meeting Updates</p>
+        </div>
+        <div class="topbar-actions">
+          <input type="search" id="global-search" placeholder="Search participant ID (e.g. DBS-0044)" />
+        </div>
+      </header>
+
+      <section id="overview" class="panel active">
+        <div class="kpi-grid" id="kpi-grid"></div>
+        <div class="grid-2">
+          <article class="card chart-card">
+            <div class="card-header"><h3>Enrollment Funnel</h3><p>From recruitment leads to active participants</p></div>
+            <canvas id="funnel-chart"></canvas>
+          </article>
+          <article class="card chart-card">
+            <div class="card-header"><h3>Year-over-Year Completion</h3><p>Completed visits by study year</p></div>
+            <canvas id="progress-chart"></canvas>
+          </article>
+        </div>
+        <article class="card">
+          <div class="card-header"><h3>About This Dashboard</h3></div>
+          <div class="about-copy">
+            <p>This dashboard integrates operational data from <strong>DBS Tracker.xlsx</strong> and <strong>Monthly Meeting Updates.xlsx</strong>, linking every participant record, visit milestone, recruitment source, genotype result, lab request, and dropout event into a single research operations view.</p>
+            <p>Use the sidebar to explore study progress, participant-level details, clinical workflows, and the full raw data catalog.</p>
+          </div>
+        </article>
+      </section>
+
+      <section id="progress" class="panel">
+        <div class="grid-2">
+          <article class="card chart-card">
+            <div class="card-header"><h3>Completion Rate (of Total Enrolled)</h3></div>
+            <canvas id="completion-total-chart"></canvas>
+          </article>
+          <article class="card chart-card">
+            <div class="card-header"><h3>Completion Rate (of Active Participants)</h3></div>
+            <canvas id="completion-active-chart"></canvas>
+          </article>
+        </div>
+        <article class="card">
+          <div class="card-header"><h3>Study Progress Table</h3><p>Tracker vs. Monthly Meeting Updates</p></div>
+          <div class="table-wrap" id="progress-table"></div>
+        </article>
+      </section>
+
+      <section id="recruitment" class="panel">
+        <div class="grid-2">
+          <article class="card chart-card">
+            <div class="card-header"><h3>Leads by Source</h3></div>
+            <canvas id="recruitment-pie"></canvas>
+          </article>
+          <article class="card chart-card">
+            <div class="card-header"><h3>Recruitment Timeline</h3><p>Monthly lead volume by top sources</p></div>
+            <canvas id="recruitment-timeline"></canvas>
+          </article>
+        </div>
+        <article class="card">
+          <div class="card-header"><h3>Recruitment Source Breakdown</h3></div>
+          <div class="table-wrap" id="recruitment-table"></div>
+        </article>
+      </section>
+
+      <section id="participants" class="panel">
+        <article class="card">
+          <div class="card-header">
+            <h3>Participant Directory</h3>
+            <p>Linked records from ID location, genotype, consent, study partner, labs, and visit status</p>
+          </div>
+          <div class="filters">
+            <select id="status-filter">
+              <option value="all">All statuses</option>
+              <option value="Active">Active</option>
+              <option value="Dropped Out">Dropped Out</option>
+            </select>
+          </div>
+          <div class="table-wrap" id="participants-table"></div>
+        </article>
+        <article class="card" id="participant-detail-card" hidden>
+          <div class="card-header"><h3 id="participant-detail-title">Participant Detail</h3></div>
+          <pre id="participant-detail"></pre>
+        </article>
+      </section>
+
+      <section id="visits" class="panel">
+        <div class="grid-2">
+          <article class="card chart-card">
+            <div class="card-header"><h3>2nd Year Visit Completion by Month</h3></div>
+            <canvas id="second-year-chart"></canvas>
+          </article>
+          <article class="card chart-card">
+            <div class="card-header"><h3>Cumulative Visit Trends</h3></div>
+            <canvas id="visit-trend-chart"></canvas>
+          </article>
+        </div>
+        <div class="grid-2">
+          <article class="card">
+            <div class="card-header"><h3>Completed Visits — 2nd Year</h3></div>
+            <div class="table-wrap compact" id="completed-second"></div>
+          </article>
+          <article class="card">
+            <div class="card-header"><h3>Completed Visits — 3rd Year</h3></div>
+            <div class="table-wrap compact" id="completed-third"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="clinical" class="panel">
+        <div class="mini-kpi-grid" id="clinical-kpis"></div>
+        <div class="grid-2">
+          <article class="card">
+            <div class="card-header"><h3>Screening Visits</h3></div>
+            <div class="table-wrap compact" id="screening-table"></div>
+          </article>
+          <article class="card">
+            <div class="card-header"><h3>Study Partner Survey Status</h3></div>
+            <div class="table-wrap compact" id="study-partner-table"></div>
+          </article>
+        </div>
+        <div class="grid-2">
+          <article class="card">
+            <div class="card-header"><h3>Stool Sample Collection</h3></div>
+            <div class="table-wrap compact" id="stool-table"></div>
+          </article>
+          <article class="card">
+            <div class="card-header"><h3>Sample Drop-Off Log</h3></div>
+            <div class="table-wrap compact" id="sample-dropoff-table"></div>
+          </article>
+        </div>
+        <article class="card">
+          <div class="card-header"><h3>MRI Dates Available</h3></div>
+          <div class="table-wrap compact" id="mri-dates-table"></div>
+        </article>
+      </section>
+
+      <section id="genotype" class="panel">
+        <div class="mini-kpi-grid" id="genotype-kpis"></div>
+        <div class="grid-2">
+          <article class="card chart-card">
+            <div class="card-header"><h3>Diabetes Status Distribution</h3></div>
+            <canvas id="diabetes-chart"></canvas>
+          </article>
+          <article class="card chart-card">
+            <div class="card-header"><h3>Alzheimer's Risk Groups</h3></div>
+            <canvas id="ad-risk-chart"></canvas>
+          </article>
+        </div>
+        <div class="grid-2">
+          <article class="card">
+            <div class="card-header"><h3>Genotype Records</h3></div>
+            <div class="table-wrap compact" id="genotype-table"></div>
+          </article>
+          <article class="card">
+            <div class="card-header"><h3>Labs & MRNs</h3></div>
+            <div class="table-wrap compact" id="labs-table"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="dropouts" class="panel">
+        <div class="grid-2">
+          <article class="card chart-card">
+            <div class="card-header"><h3>Dropout Timeline</h3></div>
+            <canvas id="dropout-chart"></canvas>
+          </article>
+          <article class="card">
+            <div class="card-header"><h3>Baseline Dropouts (Meeting Updates)</h3></div>
+            <div class="table-wrap compact" id="meeting-dropouts-table"></div>
+          </article>
+        </div>
+        <div class="grid-2">
+          <article class="card">
+            <div class="card-header"><h3>Dropouts / No Longer Eligible (Tracker)</h3></div>
+            <div class="table-wrap compact" id="baseline-dropouts-table"></div>
+          </article>
+          <article class="card">
+            <div class="card-header"><h3>Dropouts Year 1–4 (Tracker)</h3></div>
+            <div class="table-wrap compact" id="yearly-dropouts-table"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="data-explorer" class="panel">
+        <article class="card">
+          <div class="card-header">
+            <h3>Complete Data Catalog</h3>
+            <p>Every sheet from both workbooks is loaded into this dashboard</p>
+          </div>
+          <div id="catalog-grid" class="catalog-grid"></div>
+        </article>
+        <article class="card">
+          <div class="card-header">
+            <h3 id="explorer-title">Select a dataset</h3>
+          </div>
+          <div class="table-wrap" id="explorer-table"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
