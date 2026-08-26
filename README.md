@@ -31,6 +31,16 @@ python -m http.server 8080 --directory dashboard
 
 Open [http://localhost:8080](http://localhost:8080) in your browser.
 
+## Live site (GitHub Pages)
+
+**https://husseinyassinemd.github.io/dbs-study-dashboard-site/**
+
+To republish after Excel updates:
+
+```bash
+./publish_site.sh
+```
+
 ## Updating data
 
 Whenever the Excel files change, rerun:
