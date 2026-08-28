@@ -4,6 +4,11 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 source .venv/bin/activate
+
+if [[ -f credentials/google_service_account.json && -f config/google_sheets.json ]]; then
+  python scripts/sync_from_google_sheets.py
+fi
+
 python scripts/build_dashboard_data.py
 
 SITE_DIR=$(mktemp -d)

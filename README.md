@@ -43,7 +43,21 @@ To republish after Excel updates:
 
 ## Updating data
 
-Whenever the Excel files change, rerun:
+### From Google Sheets (recommended)
+
+Once Google Sheets sync is configured, run:
+
+```bash
+./publish_site.sh
+```
+
+That downloads the latest Google Sheets, rebuilds the dashboard, and publishes the live site.
+
+See [docs/GOOGLE_SHEETS_SETUP.md](docs/GOOGLE_SHEETS_SETUP.md) for the one-time setup steps.
+
+### From local Excel files
+
+Whenever the Excel files change locally, rerun:
 
 ```bash
 python scripts/build_dashboard_data.py

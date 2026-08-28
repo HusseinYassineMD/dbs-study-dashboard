@@ -1,0 +1,7 @@
+{
+  "owner_email": "ajagadis@usc.edu",
+  "tracker_spreadsheet_id": "PASTE_DBS_TRACKER_GOOGLE_SHEET_ID_HERE",
+  "meeting_spreadsheet_id": "PASTE_MONTHLY_MEETING_UPDATES_GOOGLE_SHEET_ID_HERE",
+  "tracker_output": "DBS Tracker.xlsx",
+  "meeting_output": "Monthly Meeting Updates.xlsx"
+}

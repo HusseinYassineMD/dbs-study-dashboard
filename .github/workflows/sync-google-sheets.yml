@@ -1,0 +1,71 @@
+name: Sync Google Sheets and Publish Dashboard
+
+on:
+  schedule:
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Write Google credentials
+        env:
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+        run: |
+          mkdir -p credentials config
+          printf '%s' "$GOOGLE_CREDENTIALS_JSON" > credentials/google_service_account.json
+          cat > config/google_sheets.json <<EOF
+          {
+            "owner_email": "ajagadis@usc.edu",
+            "tracker_spreadsheet_id": "${{ secrets.GOOGLE_TRACKER_SHEET_ID }}",
+            "meeting_spreadsheet_id": "${{ secrets.GOOGLE_MEETING_SHEET_ID }}",
+            "tracker_output": "DBS Tracker.xlsx",
+            "meeting_output": "Monthly Meeting Updates.xlsx"
+          }
+          EOF
+
+      - name: Sync Google Sheets
+        run: python scripts/sync_from_google_sheets.py
+
+      - name: Build dashboard data
+        run: python scripts/build_dashboard_data.py
+
+      - name: Publish live dashboard
+        env:
+          GH_TOKEN: ${{ secrets.DBS_SITE_DEPLOY_TOKEN }}
+        run: |
+          git config user.name "DBS Dashboard Bot"
+          git config user.email "ajagadis@usc.edu"
+          git add "DBS Tracker.xlsx" "Monthly Meeting Updates.xlsx" dashboard/data.json || true
+          git diff --cached --quiet || git commit -m "Auto-sync dashboard data from Google Sheets"
+          git push origin main
+
+          SITE_DIR=$(mktemp -d)
+          git clone --depth 1 https://x-access-token:${GH_TOKEN}@github.com/HusseinYassineMD/dbs-study-dashboard-site.git "$SITE_DIR"
+          cp dashboard/index.html dashboard/app.js dashboard/styles.css dashboard/data.json "$SITE_DIR/"
+          cd "$SITE_DIR"
+          git config user.name "DBS Dashboard Bot"
+          git config user.email "ajagadis@usc.edu"
+          git add -A
+          git diff --cached --quiet || git commit -m "Auto-sync dashboard data from Google Sheets"
+          git push origin main
+
+      - name: Trigger GitHub Pages deployment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run deploy-pages.yml --repo HusseinYassineMD/dbs-study-dashboard-site
