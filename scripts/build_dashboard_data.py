@@ -71,8 +71,34 @@ def records_from_df(df: pd.DataFrame, id_column: str | None = None) -> list[dict
     return rows
 
 
-def read_sheet(path: Path, sheet: str, header: int | None = 0) -> pd.DataFrame:
-    df = pd.read_excel(path, sheet_name=sheet, header=header)
+def list_sheets(path: Path) -> list[str]:
+    return pd.ExcelFile(path).sheet_names
+
+
+def resolve_sheet(path: Path, *candidates: str, required: bool = True) -> str | None:
+    sheets = list_sheets(path)
+    by_normalized = {s.strip().lower(): s for s in sheets}
+    for candidate in candidates:
+        if candidate in sheets:
+            return candidate
+        match = by_normalized.get(candidate.strip().lower())
+        if match:
+            return match
+    if required:
+        raise ValueError(
+            f"Worksheet not found in {path.name}. Tried {list(candidates)}. Available: {sheets}"
+        )
+    return None
+
+
+def read_sheet(
+    path: Path, sheet: str, header: int | None = 0, required: bool = True, alt_names: list[str] | None = None
+) -> pd.DataFrame:
+    names = [sheet, *(alt_names or [])]
+    resolved = resolve_sheet(path, *names, required=required)
+    if resolved is None:
+        return pd.DataFrame()
+    df = pd.read_excel(path, sheet_name=resolved, header=header)
     df.columns = clean_columns(list(df.columns))
     return df
 
@@ -451,7 +477,10 @@ def parse_uds_id_200(path: Path) -> list[dict[str, Any]]:
 
 
 def parse_dq_pts(path: Path) -> list[dict[str, Any]]:
-    df = pd.read_excel(path, sheet_name="16 DQ pts", header=None)
+    sheet = resolve_sheet(path, "16 DQ pts", "DQ pts", required=False)
+    if not sheet:
+        return []
+    df = pd.read_excel(path, sheet_name=sheet, header=None)
     rows = []
     for idx in range(1, len(df)):
         val = df.iloc[idx, 0]
