@@ -2,7 +2,7 @@
   "meta": {
     "title": "Diabetes Brain Study (DBS) Operations Dashboard",
     "subtitle": "Unified view of participant tracking, recruitment, and visit progress",
-    "generated_at": "2026-08-28T13:44:59.228782",
+    "generated_at": "2026-08-28T20:47:08.203396",
     "sources": [
       "DBS Tracker.xlsx",
       "Monthly Meeting Updates.xlsx"
@@ -35961,7 +35961,19 @@
     },
     {
       "month": "September '26",
+      "mri_date": "2026-09-28T00:00:00",
+      "mri_time": "Scan:8:00am-9:00am ",
+      "notes": null
+    },
+    {
+      "month": "September '26",
       "mri_date": "2026-09-29T00:00:00",
+      "mri_time": "Scan:8:00am-9:00am ",
+      "notes": null
+    },
+    {
+      "month": "October '26",
+      "mri_date": "2026-10-01T00:00:00",
       "mri_time": "Scan:8:00am-9:00am ",
       "notes": null
     },
@@ -48031,8 +48043,8 @@
       "col_2": "CT",
       "MRI/BD Scheduling Notes": "Prefers text. Still interested. Open convo... 8/28/26 JE ;; CTS 08/28: Called and left VM but is still not answering. CTS 08/25: Called left VM CTS 08/19: Called, left VM + text",
       "MRI Date": "2026-10-01T00:00:00",
-      "BD Date": null,
-      "MRI Scan Time": null,
+      "BD Date": "2026-10-01T00:00:00",
+      "MRI Scan Time": "Scan:8:00am-9:00am ",
       "col_7": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
@@ -63438,7 +63450,7 @@
       },
       {
         "col_0": null,
-        "col_1": "2026-09-29T00:00:00",
+        "col_1": "2026-09-28T00:00:00",
         "col_2": "Scan:8:00am-9:00am ",
         "col_3": null,
         "col_4": null,
@@ -63447,14 +63459,34 @@
         "row_number": 179
       },
       {
+        "col_0": null,
+        "col_1": "2026-09-29T00:00:00",
+        "col_2": "Scan:8:00am-9:00am ",
+        "col_3": null,
+        "col_4": null,
+        "col_5": null,
+        "col_6": null,
+        "row_number": 180
+      },
+      {
         "col_0": "October '26",
+        "col_1": "2026-10-01T00:00:00",
+        "col_2": "Scan:8:00am-9:00am ",
+        "col_3": null,
+        "col_4": null,
+        "col_5": null,
+        "col_6": null,
+        "row_number": 182
+      },
+      {
+        "col_0": null,
         "col_1": "2026-10-06T00:00:00",
         "col_2": "Scan:8:00am-9:00am ",
         "col_3": null,
         "col_4": null,
         "col_5": null,
         "col_6": null,
-        "row_number": 181
+        "row_number": 183
       },
       {
         "col_0": null,
@@ -63464,7 +63496,7 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
-        "row_number": 182
+        "row_number": 184
       }
     ],
     "tracker::3rd Yr Scheduling Notes": [
@@ -67851,8 +67883,8 @@
         "col_2": "CT",
         "col_3": "Prefers text. Still interested. Open convo... 8/28/26 JE ;; CTS 08/28: Called and left VM but is still not answering. CTS 08/25: Called left VM CTS 08/19: Called, left VM + text",
         "col_4": "2026-10-01T00:00:00",
-        "col_5": null,
-        "col_6": null,
+        "col_5": "2026-10-01T00:00:00",
+        "col_6": "Scan:8:00am-9:00am ",
         "col_7": "IV",
         "col_8": null,
         "col_9": null,
@@ -178485,8 +178517,8 @@
         "col_2": "CT",
         "MRI/BD Scheduling Notes": "Prefers text. Still interested. Open convo... 8/28/26 JE ;; CTS 08/28: Called and left VM but is still not answering. CTS 08/25: Called left VM CTS 08/19: Called, left VM + text",
         "MRI Date": "2026-10-01T00:00:00",
-        "BD Date": null,
-        "MRI Scan Time": null,
+        "BD Date": "2026-10-01T00:00:00",
+        "MRI Scan Time": "Scan:8:00am-9:00am ",
         "col_7": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
