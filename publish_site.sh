@@ -5,24 +5,16 @@ cd "$(dirname "$0")"
 
 source .venv/bin/activate
 
-if [[ -f credentials/google_service_account.json && -f config/google_sheets.json ]]; then
+if [[ -f credentials/google_service_account.json && -f config/google_sheets.json ]] || [[ -f credentials/google_token.json ]]; then
   python scripts/sync_from_google_sheets.py
 fi
 
 python scripts/build_dashboard_data.py
 
-SITE_DIR=$(mktemp -d)
-trap 'rm -rf "$SITE_DIR"' EXIT
-
-git clone --depth 1 https://github.com/HusseinYassineMD/dbs-study-dashboard-site.git "$SITE_DIR"
-cp dashboard/index.html dashboard/app.js dashboard/styles.css dashboard/data.json "$SITE_DIR/"
-cd "$SITE_DIR"
-git add -A
-git commit -m "Update dashboard data $(date +%Y-%m-%d)" || { echo "No changes to publish."; exit 0; }
+git add dashboard/data.json "DBS Tracker.xlsx" "Monthly Meeting Updates.xlsx" 2>/dev/null || git add dashboard/data.json
+git diff --cached --quiet || git commit -m "Update dashboard data $(date +%Y-%m-%d)"
 git push origin main
 
-gh workflow run deploy-pages.yml --repo HusseinYassineMD/dbs-study-dashboard-site >/dev/null 2>&1 || true
-
 echo ""
-echo "Live site: https://husseinyassinemd.github.io/dbs-study-dashboard-site/"
-echo "Deployment triggered — live in ~1 minute."
+echo "Live site: https://husseinyassinemd.github.io/dbs-study-dashboard/"
+echo "GitHub Pages deploys automatically after push (~1 minute)."

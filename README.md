@@ -33,7 +33,7 @@ Open [http://localhost:8080](http://localhost:8080) in your browser.
 
 ## Live site (GitHub Pages)
 
-**https://husseinyassinemd.github.io/dbs-study-dashboard-site/**
+**https://husseinyassinemd.github.io/dbs-study-dashboard/**
 
 To republish after Excel updates:
 

@@ -79,4 +79,4 @@ You can also trigger it manually from **Actions → Run workflow**.
 
 Dashboard owner: **ajagadis@usc.edu**
 
-Live site: https://husseinyassinemd.github.io/dbs-study-dashboard-site/
+Live site: https://husseinyassinemd.github.io/dbs-study-dashboard/
