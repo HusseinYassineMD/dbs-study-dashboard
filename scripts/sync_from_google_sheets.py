@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = ROOT / "config" / "google_sheets.json"
 EXAMPLE_CONFIG_PATH = ROOT / "config" / "google_sheets.example.json"
 DEFAULT_CREDENTIALS_PATH = ROOT / "credentials" / "google_service_account.json"
+USER_TOKEN_PATH = ROOT / "credentials" / "google_token.json"
 
 
 def load_config() -> dict:
@@ -37,14 +38,39 @@ def extract_sheet_id(value: str) -> str:
     return value
 
 
-def export_spreadsheet(spreadsheet_id: str, output_path: Path, credentials_file: Path) -> None:
-    from google.oauth2.service_account import Credentials
+def get_credentials():
+    from google.auth.transport.requests import Request
+    from google.oauth2.credentials import Credentials as UserCredentials
+    from google.oauth2.service_account import Credentials as ServiceCredentials
+
+    scopes = ["https://www.googleapis.com/auth/drive.readonly"]
+
+    creds_file = credentials_path()
+    if creds_file.exists():
+        return ServiceCredentials.from_service_account_file(str(creds_file), scopes=scopes)
+
+    if USER_TOKEN_PATH.exists():
+        creds = UserCredentials.from_authorized_user_file(str(USER_TOKEN_PATH), scopes)
+        if creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+            USER_TOKEN_PATH.write_text(creds.to_json(), encoding="utf-8")
+        return creds
+
+    token_json = os.environ.get("GOOGLE_OAUTH_TOKEN_JSON")
+    if token_json:
+        creds = UserCredentials.from_authorized_user_info(json.loads(token_json), scopes)
+        if creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        return creds
+
+    return None
+
+
+def export_spreadsheet(spreadsheet_id: str, output_path: Path, credentials) -> None:
     from googleapiclient.discovery import build
     from googleapiclient.http import MediaIoBaseDownload
 
-    scopes = ["https://www.googleapis.com/auth/drive.readonly"]
-    creds = Credentials.from_service_account_file(str(credentials_file), scopes=scopes)
-    drive = build("drive", "v3", credentials=creds, cache_discovery=False)
+    drive = build("drive", "v3", credentials=credentials, cache_discovery=False)
 
     request = drive.files().export_media(
         fileId=spreadsheet_id,
@@ -60,24 +86,19 @@ def export_spreadsheet(spreadsheet_id: str, output_path: Path, credentials_file:
     output_path.write_bytes(buffer.getvalue())
 
 
-def service_account_email(credentials_file: Path) -> str:
-    data = json.loads(credentials_file.read_text(encoding="utf-8"))
-    return data["client_email"]
-
-
 def main() -> int:
     config = load_config()
-    creds_file = credentials_path()
+    credentials = get_credentials()
 
-    if not creds_file.exists():
+    if credentials is None:
         print("Google credentials not found.", file=sys.stderr)
-        print(f"Expected credentials at: {creds_file}", file=sys.stderr)
         print("", file=sys.stderr)
-        print("Next steps:", file=sys.stderr)
-        print("1. Create a Google Cloud service account with Drive API access.", file=sys.stderr)
-        print("2. Save the JSON key to credentials/google_service_account.json", file=sys.stderr)
-        print("3. Ask Jimena to share both Google Sheets with the service account email.", file=sys.stderr)
-        print("4. Fill in config/google_sheets.json with the spreadsheet IDs.", file=sys.stderr)
+        print("Jimena already shared the sheets with ajagadis@usc.edu.", file=sys.stderr)
+        print("Run this one-time setup:", file=sys.stderr)
+        print("  1. Create an OAuth Desktop client in Google Cloud Console", file=sys.stderr)
+        print("  2. Save JSON to credentials/google_oauth_client.json", file=sys.stderr)
+        print("  3. python scripts/google_auth_setup.py", file=sys.stderr)
+        print("  4. python scripts/sync_from_google_sheets.py", file=sys.stderr)
         return 1
 
     tracker_id = extract_sheet_id(config["tracker_spreadsheet_id"])
@@ -90,11 +111,12 @@ def main() -> int:
         print(f"Edit {CONFIG_PATH} and add the spreadsheet IDs or full Google Sheets URLs.", file=sys.stderr)
         return 1
 
-    print(f"Using service account: {service_account_email(creds_file)}")
+    owner = config.get("owner_email", "ajagadis@usc.edu")
+    print(f"Syncing Google Sheets using access for {owner}")
     print(f"Downloading tracker sheet -> {tracker_output.name}")
-    export_spreadsheet(tracker_id, tracker_output, creds_file)
+    export_spreadsheet(tracker_id, tracker_output, credentials)
     print(f"Downloading meeting updates sheet -> {meeting_output.name}")
-    export_spreadsheet(meeting_id, meeting_output, creds_file)
+    export_spreadsheet(meeting_id, meeting_output, credentials)
     print("Google Sheets sync complete.")
     return 0
 
