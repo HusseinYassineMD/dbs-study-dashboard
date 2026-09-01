@@ -2,7 +2,7 @@
   "meta": {
     "title": "Diabetes Brain Study (DBS) Operations Dashboard",
     "subtitle": "Unified view of participant tracking, recruitment, and visit progress",
-    "generated_at": "2026-08-31T14:01:23.556622",
+    "generated_at": "2026-09-01T14:01:36.708996",
     "sources": [
       "DBS Tracker.xlsx",
       "Monthly Meeting Updates.xlsx"
@@ -20358,6 +20358,17 @@
       "printed": null,
       "mri_hct": null,
       "notes": "Would like results emailed when availabe. - JE 8/27/26"
+    },
+    {
+      "participant_id": "DBS-1455",
+      "year": null,
+      "mrn": "005087260",
+      "lab_date": null,
+      "labs_year": null,
+      "emailed_texted": null,
+      "printed": null,
+      "mri_hct": null,
+      "notes": "Would like results ASAP - CTS 08/31/26"
     }
   ],
   "consent": [
@@ -33023,8 +33034,8 @@
     },
     {
       "ID": "DBS-1455",
-      "Card Number/Token #": "84848539",
-      "Expiration Date": "2024-11-26T00:00:00",
+      "Card Number/Token #": "NEW: 35664592 84848539",
+      "Expiration Date": "10/28 11/26/2024",
       "Date Requested": "2024-08-19T00:00:00",
       "Staff Requesting": "IV",
       "General Notes": "Informed 8/20",
@@ -33044,11 +33055,11 @@
       "Travel Expense Mileage Rate = Roundtrip Miles * 0.725 Mileage cutoff for $50 is 38 miles (oneway) or 76 miles (roundtrip)": null,
       "Column_1": null,
       "Column_2": null,
-      "Year 3 BD": null,
+      "Year 3 BD": 25,
       "Year 3 CV": null,
       "Year 3 NP": null,
-      "Year 3 MRI": null,
-      "Travel Expense Mileage Rate = Roundtrip Miles * 0.725 Mileage cutoff for $50 is 38 miles (oneway) or 76 miles (roundtrip).1": null,
+      "Year 3 MRI": 100,
+      "Travel Expense Mileage Rate = Roundtrip Miles * 0.725 Mileage cutoff for $50 is 38 miles (oneway) or 76 miles (roundtrip).1": "Uber",
       "Notes": null,
       "Column_3": null,
       "Year 4 BD": null,
@@ -47624,7 +47635,7 @@
       "MRI/BD Scheduling Notes": "07/22/26 CTS: Called and confirmed; will do Study Partner in person 07/20/26 CTS: Texted/called and communicated hesitancy about Study Partner forms. Will call back. MRI+BD still pending 6/12/26 JE Called but vm. MRI not availabe for tentative date. When scheduing new date plase make note if afternoon scan is necessary - otherwise schedule for morning. ;; 06/03 CTS: Called, left VM + text; answered back and would like separate visits in the afternoon, was advised that it has to be 8HRs minimum fasted",
       "MRI Date": "2026-08-31T00:00:00",
       "BD Date": "2026-08-31T00:00:00",
-      "MRI Scan Time": "Scan: 11am - 12pm",
+      "MRI Scan Time": "Scan: 11:30am - 12:30pm",
       "col_7": "IV",
       "NP/CV Scheduling Notes": "IV 8/6: needs uber 06/03 CTS: Called, left VM + text; answered back Let him know Ivett would contact when she comes back.",
       "NP Date": "2026-09-21T00:00:00",
@@ -67449,7 +67460,7 @@
         "col_3": "07/22/26 CTS: Called and confirmed; will do Study Partner in person 07/20/26 CTS: Texted/called and communicated hesitancy about Study Partner forms. Will call back. MRI+BD still pending 6/12/26 JE Called but vm. MRI not availabe for tentative date. When scheduing new date plase make note if afternoon scan is necessary - otherwise schedule for morning. ;; 06/03 CTS: Called, left VM + text; answered back and would like separate visits in the afternoon, was advised that it has to be 8HRs minimum fasted",
         "col_4": "2026-08-31T00:00:00",
         "col_5": "2026-08-31T00:00:00",
-        "col_6": "Scan: 11am - 12pm",
+        "col_6": "Scan: 11:30am - 12:30pm",
         "col_7": "IV",
         "col_8": "IV 8/6: needs uber 06/03 CTS: Called, left VM + text; answered back Let him know Ivett would contact when she comes back.",
         "col_9": "2026-09-21T00:00:00",
@@ -72450,6 +72461,25 @@
         "col_14": null,
         "row_number": 151,
         "participant_id": "DBS-0450"
+      },
+      {
+        "col_0": "DBS-1455",
+        "col_1": "Yr 3",
+        "col_2": "005087260",
+        "col_3": "2026-08-31T00:00:00",
+        "col_4": null,
+        "col_5": null,
+        "col_6": null,
+        "col_7": "2026-08-31T00:00:00",
+        "col_8": "Would like results ASAP - CTS 08/31/26",
+        "col_9": null,
+        "col_10": null,
+        "col_11": null,
+        "col_12": null,
+        "col_13": null,
+        "col_14": null,
+        "row_number": 152,
+        "participant_id": "DBS-1455"
       }
     ],
     "tracker::ClinCard": [
@@ -81022,8 +81052,8 @@
       },
       {
         "col_0": "DBS-1455",
-        "col_1": "84848539",
-        "col_2": "2024-11-26T00:00:00",
+        "col_1": "NEW: 35664592 84848539",
+        "col_2": "10/28 11/26/2024",
         "col_3": "2024-08-19T00:00:00",
         "col_4": "IV",
         "col_5": "Informed 8/20",
@@ -81043,11 +81073,11 @@
         "col_19": null,
         "col_20": null,
         "col_21": null,
-        "col_22": null,
+        "col_22": 25,
         "col_23": null,
         "col_24": null,
-        "col_25": null,
-        "col_26": null,
+        "col_25": 100,
+        "col_26": "Uber",
         "col_27": null,
         "col_28": null,
         "col_29": null,
@@ -176524,6 +176554,19 @@
         "follow_up_notes": null,
         "notes": null
       },
+      "labs": [
+        {
+          "participant_id": "DBS-1455",
+          "year": null,
+          "mrn": "005087260",
+          "lab_date": null,
+          "labs_year": null,
+          "emailed_texted": null,
+          "printed": null,
+          "mri_hct": null,
+          "notes": "Would like results ASAP - CTS 08/31/26"
+        }
+      ],
       "screening": [
         {
           "participant_id": "DBS-1455",
@@ -176600,7 +176643,7 @@
         "MRI/BD Scheduling Notes": "07/22/26 CTS: Called and confirmed; will do Study Partner in person 07/20/26 CTS: Texted/called and communicated hesitancy about Study Partner forms. Will call back. MRI+BD still pending 6/12/26 JE Called but vm. MRI not availabe for tentative date. When scheduing new date plase make note if afternoon scan is necessary - otherwise schedule for morning. ;; 06/03 CTS: Called, left VM + text; answered back and would like separate visits in the afternoon, was advised that it has to be 8HRs minimum fasted",
         "MRI Date": "2026-08-31T00:00:00",
         "BD Date": "2026-08-31T00:00:00",
-        "MRI Scan Time": "Scan: 11am - 12pm",
+        "MRI Scan Time": "Scan: 11:30am - 12:30pm",
         "col_7": "IV",
         "NP/CV Scheduling Notes": "IV 8/6: needs uber 06/03 CTS: Called, left VM + text; answered back Let him know Ivett would contact when she comes back.",
         "NP Date": "2026-09-21T00:00:00",
@@ -176623,8 +176666,8 @@
       },
       "clincard": {
         "ID": "DBS-1455",
-        "Card Number/Token #": "84848539",
-        "Expiration Date": "2024-11-26T00:00:00",
+        "Card Number/Token #": "NEW: 35664592 84848539",
+        "Expiration Date": "10/28 11/26/2024",
         "Date Requested": "2024-08-19T00:00:00",
         "Staff Requesting": "IV",
         "General Notes": "Informed 8/20",
@@ -176644,11 +176687,11 @@
         "Travel Expense Mileage Rate = Roundtrip Miles * 0.725 Mileage cutoff for $50 is 38 miles (oneway) or 76 miles (roundtrip)": null,
         "Column_1": null,
         "Column_2": null,
-        "Year 3 BD": null,
+        "Year 3 BD": 25,
         "Year 3 CV": null,
         "Year 3 NP": null,
-        "Year 3 MRI": null,
-        "Travel Expense Mileage Rate = Roundtrip Miles * 0.725 Mileage cutoff for $50 is 38 miles (oneway) or 76 miles (roundtrip).1": null,
+        "Year 3 MRI": 100,
+        "Travel Expense Mileage Rate = Roundtrip Miles * 0.725 Mileage cutoff for $50 is 38 miles (oneway) or 76 miles (roundtrip).1": "Uber",
         "Notes": null,
         "Column_3": null,
         "Year 4 BD": null,
