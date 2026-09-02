@@ -2,7 +2,7 @@
   "meta": {
     "title": "Diabetes Brain Study (DBS) Operations Dashboard",
     "subtitle": "Unified view of participant tracking, recruitment, and visit progress",
-    "generated_at": "2026-09-01T14:01:36.708996",
+    "generated_at": "2026-09-02T14:01:34.351786",
     "sources": [
       "DBS Tracker.xlsx",
       "Monthly Meeting Updates.xlsx"
@@ -4999,7 +4999,7 @@
       {
         "participant_id": "DBS-0956",
         "scheduling_month": "2027-01-01T00:00:00",
-        "notes": null
+        "notes": "Might get a new phone # - email to get in touch or house mail if you are not able to reach "
       },
       {
         "participant_id": "DBS-0978",
@@ -5278,6 +5278,11 @@
       },
       {
         "participant_id": "DBS-1241",
+        "scheduling_month": "2027-08-01T00:00:00",
+        "notes": null
+      },
+      {
+        "participant_id": "DBS-1347",
         "scheduling_month": "2027-08-01T00:00:00",
         "notes": null
       }
@@ -16035,7 +16040,7 @@
       "participant_id": "DBS-0918",
       "survey_link_sent": "LC 02/18 Sent Survey Link",
       "completed": null,
-      "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC;6/22/26 NC sent reminder text 4/16/26 JE Still pending. It had been started but never complted. Explained and re shared link. Asked if calling was ok but she shared study partner has limited free time so she will talk to her and ask to complete soon.;;  Following up... 2/4/26 JE Said her sis already completed it. Resent link jic. ;; 1/26 NC Sent text 9/16 sent email (invalid) 8/18 NC sent follow up text NC 7/25 Sent Text TB 6/25: Sent text NC 6/2: invalid email  LC 04/02: F/u for survey; LC 03/12: F/u for survey; LC 02/26: F/u for survey; ",
+      "notes": "9/1/2026 JE Participant is out of town. Relative recently passed. Check back at a later time. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC;6/22/26 NC sent reminder text 4/16/26 JE Still pending. It had been started but never complted. Explained and re shared link. Asked if calling was ok but she shared study partner has limited free time so she will talk to her and ask to complete soon.;;  Following up... 2/4/26 JE Said her sis already completed it. Resent link jic. ;; 1/26 NC Sent text 9/16 sent email (invalid) 8/18 NC sent follow up text NC 7/25 Sent Text TB 6/25: Sent text NC 6/2: invalid email  LC 04/02: F/u for survey; LC 03/12: F/u for survey; LC 02/26: F/u for survey; ",
       "record_id": null
     },
     {
@@ -16238,7 +16243,7 @@
       "participant_id": "DBS-1167",
       "survey_link_sent": "LC 02/19: Sent survey link",
       "completed": null,
-      "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 5/6/26 Sent link again. Said her son would complete. JE ;; 1/30/26 Text sent NC 9/2 NC sent email IV 8/11: reminded at visit, said shed give to son NC 8/7 Sent text NC 7/9 Sent text NC 6/9: F/u for survey; LC 03/03: F/u for survey ",
+      "notes": "9/1/26 JE Sent link to her son. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 5/6/26 Sent link again. Said her son would complete. JE ;; 1/30/26 Text sent NC 9/2 NC sent email IV 8/11: reminded at visit, said shed give to son NC 8/7 Sent text NC 7/9 Sent text NC 6/9: F/u for survey; LC 03/03: F/u for survey ",
       "record_id": null
     },
     {
@@ -16364,7 +16369,7 @@
       "participant_id": "DBS-1695",
       "survey_link_sent": "GT 2/13 Sent Survey Link",
       "completed": null,
-      "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30/26 Text sent NC 9/2 NC sent email NC 8/7 Sent text NC 7/9 Sent text NC 6/9: F/u for survey; NC 5/16: only consent form started",
+      "notes": "9/1/26 JE Touching base with her co-worker. Will follow up. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30/26 Text sent NC 9/2 NC sent email NC 8/7 Sent text NC 7/9 Sent text NC 6/9: F/u for survey; NC 5/16: only consent form started",
       "record_id": null
     },
     {
@@ -16567,7 +16572,7 @@
       "participant_id": "DBS-1521",
       "survey_link_sent": "LC 02/20: Sent survey link",
       "completed": null,
-      "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder1/30 NC sent text  10/28 Ivett reminded in person, said wife will complete 9/16 NC sent email  9/2 NC sent email AG 7/23/: sent follow up text, AG 7/9 sent text; NC 6/9: F/u for survey; LC 03/12: F/u for survey ",
+      "notes": "9/1/26 Wife will complete. Link shared. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder1/30 NC sent text  10/28 Ivett reminded in person, said wife will complete 9/16 NC sent email  9/2 NC sent email AG 7/23/: sent follow up text, AG 7/9 sent text; NC 6/9: F/u for survey; LC 03/12: F/u for survey ",
       "record_id": null
     },
     {
@@ -16665,7 +16670,7 @@
       "participant_id": "DBS-1664",
       "survey_link_sent": "LC 02/21: Sent survey link",
       "completed": null,
-      "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30 NC sent text IV 11/2: reminded at visit, resent link 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text, AG 7/9 sent text; NC 6/9: F/u for survey; LC 03/13: F/u for survey ",
+      "notes": "9/1/26 JE Daughter will complete. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30 NC sent text IV 11/2: reminded at visit, resent link 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text, AG 7/9 sent text; NC 6/9: F/u for survey; LC 03/13: F/u for survey ",
       "record_id": null
     },
     {
@@ -16742,7 +16747,7 @@
       "participant_id": "DBS-0822",
       "survey_link_sent": "LC 02/24 sent link",
       "completed": null,
-      "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 6/10 NC Called, asked to be emailed and sent. 5/6/26 JE Sent reminder text. ;; 4/9/26 JE Reminded at visit. Will ask brother. ;; 2/13/26 Reminder text sent NC9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, AG 7/9: sent text; NC 6/9: F/u for survey; LC 03/14: F/u for survey",
+      "notes": "9/1/26 JE Participant is going to be traveling so may be difficult to reach, but he shared that his brother already completed the form. Brothers name Peter Sanchez. Mightg not be able to get him to do it again. Broher said he did it and if we did not receive it is our system fault ;/ ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 6/10 NC Called, asked to be emailed and sent. 5/6/26 JE Sent reminder text. ;; 4/9/26 JE Reminded at visit. Will ask brother. ;; 2/13/26 Reminder text sent NC9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, AG 7/9: sent text; NC 6/9: F/u for survey; LC 03/14: F/u for survey",
       "record_id": null
     },
     {
@@ -16791,7 +16796,7 @@
       "participant_id": "DBS-0830",
       "survey_link_sent": "LC 02/24 sent link",
       "completed": null,
-      "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder JE 11/11 Reminded at the MRI.;; MJ 10/06: link resent 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/9: F/u for survey;LC 03/14: F/u for survey, AG 7/9: sent text ",
+      "notes": "9/1/26 JE Son will fill out but lives in Guatamela - may have forgotten. Will send reminder. Pt just asks for patience. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder JE 11/11 Reminded at the MRI.;; MJ 10/06: link resent 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/9: F/u for survey;LC 03/14: F/u for survey, AG 7/9: sent text ",
       "record_id": null
     },
     {
@@ -16819,7 +16824,7 @@
       "participant_id": "DBS-0418",
       "survey_link_sent": "LC 02/26: Sent link",
       "completed": null,
-      "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 2/13/26 Reminder text sent NC, IV 10/23: reminded at visit, sent again 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/9: F/u for survey; LC 03/14: F/u for survey, AG 7/9: sent text ",
+      "notes": "9/1/26 JE Was out of town and got his phone robbed. But will be in touch with daughter (out of state - CT) to complete. Will share our number with her to call us. If not follow up... ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 2/13/26 Reminder text sent NC, IV 10/23: reminded at visit, sent again 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/9: F/u for survey; LC 03/14: F/u for survey, AG 7/9: sent text ",
       "record_id": null
     },
     {
@@ -17267,7 +17272,7 @@
       "participant_id": "DBS-0587",
       "survey_link_sent": "NC 6/2 : Sent link",
       "completed": null,
-      "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 2/13 reminder text sent NC IV 10/16: said she thought they filled it out, sent her link again, follow up mri date 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/30 Sent follow up text",
+      "notes": "9/1/26 JE Will have her friend complete. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 2/13 reminder text sent NC IV 10/16: said she thought they filled it out, sent her link again, follow up mri date 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/30 Sent follow up text",
       "record_id": null
     },
     {
@@ -17351,7 +17356,7 @@
       "participant_id": "DBS-0878",
       "survey_link_sent": "NC 6/2 : Sent link",
       "completed": null,
-      "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 6/10 NC called, left voicemail and sent link. 2/13 reminder text sent 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/30 Sent follow up text",
+      "notes": "9/1/26 JE Will have friend complete. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 6/10 NC called, left voicemail and sent link. 2/13 reminder text sent 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/30 Sent follow up text",
       "record_id": null
     },
     {
@@ -32537,9 +32542,9 @@
       "Column_2": null,
       "Year 3 BD": 25,
       "Year 3 CV": 50,
-      "Year 3 NP": null,
+      "Year 3 NP": 50,
       "Year 3 MRI": 100,
-      "Travel Expense Mileage Rate = Roundtrip Miles * 0.725 Mileage cutoff for $50 is 38 miles (oneway) or 76 miles (roundtrip).1": "23.93 (07/13/26)",
+      "Travel Expense Mileage Rate = Roundtrip Miles * 0.725 Mileage cutoff for $50 is 38 miles (oneway) or 76 miles (roundtrip).1": "23.93 (09/1/26)",
       "Notes": "New card,,old one expires in 11/26",
       "Column_3": null,
       "Year 4 BD": null,
@@ -48079,17 +48084,17 @@
     {
       "Month": "2026-11-01T00:00:00",
       "ID": "DBS-1605",
-      "col_2": null,
-      "MRI/BD Scheduling Notes": "wait for reminder email to be sent before scheduling ",
+      "col_2": "CT",
+      "MRI/BD Scheduling Notes": null,
       "MRI Date": null,
       "BD Date": null,
       "MRI Scan Time": null,
-      "col_7": null,
+      "col_7": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
       "col_11": null,
-      "MRI Scheduling Notes": null,
+      "MRI Scheduling Notes": "EMAIL SENT 9/1/26",
       "BD Notes": null,
       "CV Scheduling Notes": null,
       "col_15": null,
@@ -48107,12 +48112,12 @@
     {
       "Month": "2026-11-01T00:00:00",
       "ID": "DBS-1601",
-      "col_2": null,
+      "col_2": "CT",
       "MRI/BD Scheduling Notes": null,
       "MRI Date": null,
       "BD Date": null,
       "MRI Scan Time": null,
-      "col_7": null,
+      "col_7": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -48135,12 +48140,12 @@
     {
       "Month": "2026-11-01T00:00:00",
       "ID": "DBS-1593",
-      "col_2": null,
+      "col_2": "CT",
       "MRI/BD Scheduling Notes": null,
       "MRI Date": null,
       "BD Date": null,
       "MRI Scan Time": null,
-      "col_7": null,
+      "col_7": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -48163,12 +48168,12 @@
     {
       "Month": "2026-11-01T00:00:00",
       "ID": "DBS-1575",
-      "col_2": null,
+      "col_2": "CT",
       "MRI/BD Scheduling Notes": null,
       "MRI Date": null,
       "BD Date": null,
       "MRI Scan Time": null,
-      "col_7": null,
+      "col_7": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -48191,12 +48196,12 @@
     {
       "Month": "2026-11-01T00:00:00",
       "ID": "DBS-1629",
-      "col_2": null,
+      "col_2": "CT",
       "MRI/BD Scheduling Notes": null,
       "MRI Date": null,
       "BD Date": null,
       "MRI Scan Time": null,
-      "col_7": null,
+      "col_7": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -48219,12 +48224,12 @@
     {
       "Month": "2026-11-01T00:00:00",
       "ID": "DBS-1622",
-      "col_2": null,
+      "col_2": "CT",
       "MRI/BD Scheduling Notes": null,
       "MRI Date": null,
       "BD Date": null,
       "MRI Scan Time": null,
-      "col_7": null,
+      "col_7": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -48247,12 +48252,12 @@
     {
       "Month": "2026-11-01T00:00:00",
       "ID": "DBS-1579",
-      "col_2": null,
+      "col_2": "CT",
       "MRI/BD Scheduling Notes": null,
       "MRI Date": null,
       "BD Date": null,
       "MRI Scan Time": null,
-      "col_7": null,
+      "col_7": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -48275,12 +48280,12 @@
     {
       "Month": "2026-11-01T00:00:00",
       "ID": "DBS-1284",
-      "col_2": null,
+      "col_2": "CT",
       "MRI/BD Scheduling Notes": null,
       "MRI Date": null,
       "BD Date": null,
       "MRI Scan Time": null,
-      "col_7": null,
+      "col_7": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -49319,7 +49324,7 @@
     {
       "Month": "2026-10-01T00:00:00",
       "ID": "DBS-0613",
-      "col_2": null,
+      "col_2": "IV",
       "NP/CV Scheduling Notes": "WAIT FOR EMAIL TO GO OUT",
       "NP Date": null,
       "CV Date": null,
@@ -49337,7 +49342,7 @@
     {
       "Month": "2026-10-01T00:00:00",
       "ID": "DBS-0620",
-      "col_2": null,
+      "col_2": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -49355,7 +49360,7 @@
     {
       "Month": "2026-10-01T00:00:00",
       "ID": "DBS-0055",
-      "col_2": null,
+      "col_2": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -49373,7 +49378,7 @@
     {
       "Month": "2026-10-01T00:00:00",
       "ID": "DBS-0569",
-      "col_2": null,
+      "col_2": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -49391,7 +49396,7 @@
     {
       "Month": "2026-10-01T00:00:00",
       "ID": "DBS-0745",
-      "col_2": null,
+      "col_2": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -49409,7 +49414,7 @@
     {
       "Month": "2026-10-01T00:00:00",
       "ID": "DBS-0587",
-      "col_2": null,
+      "col_2": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -49427,7 +49432,7 @@
     {
       "Month": "2026-10-01T00:00:00",
       "ID": "DBS-0599",
-      "col_2": null,
+      "col_2": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -49445,7 +49450,7 @@
     {
       "Month": "2026-10-01T00:00:00",
       "ID": "DBS-0657",
-      "col_2": null,
+      "col_2": "IV",
       "NP/CV Scheduling Notes": null,
       "NP Date": null,
       "CV Date": null,
@@ -58831,7 +58836,7 @@
         "col_9": null,
         "col_10": "DBS-0956",
         "col_11": "2027-01-01T00:00:00",
-        "col_12": null,
+        "col_12": "Might get a new phone # - email to get in touch or house mail if you are not able to reach ",
         "col_13": null,
         "col_14": null,
         "col_15": null,
@@ -60026,8 +60031,8 @@
         "col_7": "2026-05-01T00:00:00",
         "col_8": "came late in august, lives in bakersfield needs to bus to LA, might need uber to location near us ",
         "col_9": null,
-        "col_10": null,
-        "col_11": null,
+        "col_10": "DBS-1347",
+        "col_11": "2027-08-01T00:00:00",
         "col_12": null,
         "col_13": null,
         "col_14": null,
@@ -61684,6 +61689,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": "SCAN COST ",
+        "col_10": 720,
         "row_number": 1
       },
       {
@@ -61694,6 +61703,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": "scheduled/ taken",
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 2
       },
       {
@@ -61704,6 +61717,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": "pending",
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 3
       },
       {
@@ -61714,6 +61731,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": "cancelled",
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 4
       },
       {
@@ -61724,6 +61745,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": "came in but did not comnplete scan - rescheduled ",
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 5
       },
       {
@@ -61734,6 +61759,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 6
       },
       {
@@ -61744,6 +61773,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 7
       },
       {
@@ -61754,6 +61787,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 8
       },
       {
@@ -61764,6 +61801,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 9
       },
       {
@@ -61774,6 +61815,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 10
       },
       {
@@ -61784,6 +61829,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 11
       },
       {
@@ -61794,6 +61843,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 12
       },
       {
@@ -61804,6 +61857,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 13
       },
       {
@@ -61814,6 +61871,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 14
       },
       {
@@ -61824,6 +61885,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 15
       },
       {
@@ -61834,6 +61899,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 16
       },
       {
@@ -61844,6 +61913,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 17
       },
       {
@@ -61854,6 +61927,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 18
       },
       {
@@ -61864,6 +61941,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 19
       },
       {
@@ -61874,6 +61955,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 20
       },
       {
@@ -61884,6 +61969,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 21
       },
       {
@@ -61894,6 +61983,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 22
       },
       {
@@ -61904,6 +61997,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 23
       },
       {
@@ -61914,6 +62011,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 24
       },
       {
@@ -61924,6 +62025,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 25
       },
       {
@@ -61934,6 +62039,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 26
       },
       {
@@ -61944,6 +62053,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 27
       },
       {
@@ -61954,6 +62067,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 28
       },
       {
@@ -61964,6 +62081,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 29
       },
       {
@@ -61974,6 +62095,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 30
       },
       {
@@ -61984,6 +62109,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 31
       },
       {
@@ -61994,6 +62123,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 32
       },
       {
@@ -62004,6 +62137,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 33
       },
       {
@@ -62014,6 +62151,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 34
       },
       {
@@ -62024,6 +62165,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 35
       },
       {
@@ -62034,6 +62179,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 36
       },
       {
@@ -62044,6 +62193,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 37
       },
       {
@@ -62054,6 +62207,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 38
       },
       {
@@ -62064,6 +62221,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 39
       },
       {
@@ -62074,6 +62235,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 40
       },
       {
@@ -62084,6 +62249,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 41
       },
       {
@@ -62094,6 +62263,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 42
       },
       {
@@ -62104,6 +62277,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 43
       },
       {
@@ -62114,6 +62291,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 44
       },
       {
@@ -62124,6 +62305,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 45
       },
       {
@@ -62134,6 +62319,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 46
       },
       {
@@ -62144,6 +62333,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 47
       },
       {
@@ -62154,6 +62347,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 48
       },
       {
@@ -62164,6 +62361,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 49
       },
       {
@@ -62174,6 +62375,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 50
       },
       {
@@ -62184,6 +62389,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 51
       },
       {
@@ -62194,6 +62403,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 52
       },
       {
@@ -62204,6 +62417,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 53
       },
       {
@@ -62214,6 +62431,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 54
       },
       {
@@ -62224,6 +62445,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 55
       },
       {
@@ -62234,6 +62459,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 56
       },
       {
@@ -62244,6 +62473,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 57
       },
       {
@@ -62254,6 +62487,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 58
       },
       {
@@ -62264,6 +62501,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 59
       },
       {
@@ -62274,6 +62515,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 60
       },
       {
@@ -62284,6 +62529,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 61
       },
       {
@@ -62294,6 +62543,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 62
       },
       {
@@ -62304,6 +62557,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 63
       },
       {
@@ -62314,6 +62571,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 64
       },
       {
@@ -62324,6 +62585,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 65
       },
       {
@@ -62334,6 +62599,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 66
       },
       {
@@ -62344,6 +62613,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 67
       },
       {
@@ -62354,6 +62627,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 68
       },
       {
@@ -62364,6 +62641,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 69
       },
       {
@@ -62374,6 +62655,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 70
       },
       {
@@ -62384,6 +62669,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 71
       },
       {
@@ -62394,6 +62683,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 72
       },
       {
@@ -62404,6 +62697,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 73
       },
       {
@@ -62414,6 +62711,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 74
       },
       {
@@ -62424,6 +62725,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 75
       },
       {
@@ -62434,6 +62739,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 76
       },
       {
@@ -62444,6 +62753,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 77
       },
       {
@@ -62454,6 +62767,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 78
       },
       {
@@ -62464,6 +62781,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 79
       },
       {
@@ -62474,6 +62795,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 80
       },
       {
@@ -62484,6 +62809,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 81
       },
       {
@@ -62494,6 +62823,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 82
       },
       {
@@ -62504,6 +62837,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 83
       },
       {
@@ -62514,6 +62851,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 84
       },
       {
@@ -62524,6 +62865,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 85
       },
       {
@@ -62534,6 +62879,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 86
       },
       {
@@ -62544,6 +62893,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 87
       },
       {
@@ -62554,6 +62907,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 88
       },
       {
@@ -62564,6 +62921,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 89
       },
       {
@@ -62574,6 +62935,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 90
       },
       {
@@ -62584,6 +62949,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 91
       },
       {
@@ -62594,6 +62963,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 92
       },
       {
@@ -62604,6 +62977,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 93
       },
       {
@@ -62614,6 +62991,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 94,
         "participant_id": "DBS-0789"
       },
@@ -62625,6 +63006,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 95
       },
       {
@@ -62635,6 +63020,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 96
       },
       {
@@ -62645,6 +63034,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 97
       },
       {
@@ -62655,6 +63048,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 98
       },
       {
@@ -62665,6 +63062,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 99
       },
       {
@@ -62675,6 +63076,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 100
       },
       {
@@ -62685,6 +63090,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 101
       },
       {
@@ -62695,6 +63104,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 102
       },
       {
@@ -62705,6 +63118,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 103
       },
       {
@@ -62715,6 +63132,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 104
       },
       {
@@ -62725,6 +63146,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 105
       },
       {
@@ -62735,6 +63160,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 106
       },
       {
@@ -62745,6 +63174,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 107,
         "participant_id": "DBS-0770"
       },
@@ -62756,6 +63189,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 108
       },
       {
@@ -62766,6 +63203,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 109
       },
       {
@@ -62776,6 +63217,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 110
       },
       {
@@ -62786,6 +63231,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 111,
         "participant_id": "DBS-0916"
       },
@@ -62797,6 +63246,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 112
       },
       {
@@ -62807,6 +63260,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 113
       },
       {
@@ -62817,6 +63274,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 114,
         "participant_id": "DBS-1047"
       },
@@ -62828,6 +63289,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 115,
         "participant_id": "DBS-1008"
       },
@@ -62839,6 +63304,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 116
       },
       {
@@ -62849,6 +63318,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 117
       },
       {
@@ -62859,6 +63332,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 118,
         "participant_id": "DBS-0916"
       },
@@ -62870,6 +63347,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 119
       },
       {
@@ -62880,6 +63361,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 120
       },
       {
@@ -62890,6 +63375,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 121
       },
       {
@@ -62900,6 +63389,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 122
       },
       {
@@ -62910,6 +63403,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 123
       },
       {
@@ -62920,6 +63417,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 124
       },
       {
@@ -62930,6 +63431,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 125
       },
       {
@@ -62940,6 +63445,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 126
       },
       {
@@ -62950,6 +63459,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 127
       },
       {
@@ -62960,6 +63473,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 128
       },
       {
@@ -62970,6 +63487,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 129
       },
       {
@@ -62980,6 +63501,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 130
       },
       {
@@ -62990,6 +63515,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 131
       },
       {
@@ -63000,6 +63529,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 132
       },
       {
@@ -63010,6 +63543,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 133
       },
       {
@@ -63020,6 +63557,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 134
       },
       {
@@ -63030,6 +63571,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 135
       },
       {
@@ -63040,6 +63585,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 136
       },
       {
@@ -63050,6 +63599,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 137,
         "participant_id": "DBS-0916"
       },
@@ -63061,6 +63614,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 138,
         "participant_id": "DBS-1079"
       },
@@ -63072,6 +63629,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 139
       },
       {
@@ -63082,6 +63643,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 140
       },
       {
@@ -63092,6 +63657,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 141,
         "participant_id": "DBS-1218"
       },
@@ -63103,6 +63672,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 142
       },
       {
@@ -63113,6 +63686,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 143
       },
       {
@@ -63123,6 +63700,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 144
       },
       {
@@ -63133,6 +63714,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 145
       },
       {
@@ -63143,6 +63728,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 146,
         "participant_id": "DBS-1160"
       },
@@ -63154,6 +63743,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 147
       },
       {
@@ -63164,6 +63757,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 148
       },
       {
@@ -63174,6 +63771,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 149,
         "participant_id": "DBS-1059"
       },
@@ -63185,6 +63786,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 150
       },
       {
@@ -63195,6 +63800,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 151,
         "participant_id": "DBS-1202"
       },
@@ -63206,6 +63815,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 152
       },
       {
@@ -63216,6 +63829,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 153
       },
       {
@@ -63226,6 +63843,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 154
       },
       {
@@ -63236,6 +63857,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 155
       },
       {
@@ -63246,6 +63871,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 156,
         "participant_id": "DBS-1392"
       },
@@ -63257,6 +63886,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 157
       },
       {
@@ -63267,6 +63900,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 158
       },
       {
@@ -63277,6 +63914,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 159
       },
       {
@@ -63287,6 +63928,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 160
       },
       {
@@ -63297,6 +63942,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 161
       },
       {
@@ -63307,6 +63956,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 162
       },
       {
@@ -63317,6 +63970,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 163
       },
       {
@@ -63327,6 +63984,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 164
       },
       {
@@ -63337,6 +63998,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 165
       },
       {
@@ -63347,6 +64012,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 166
       },
       {
@@ -63357,6 +64026,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 167
       },
       {
@@ -63367,6 +64040,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 168
       },
       {
@@ -63377,6 +64054,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 169
       },
       {
@@ -63387,6 +64068,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 170
       },
       {
@@ -63397,6 +64082,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 171
       },
       {
@@ -63407,6 +64096,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 173
       },
       {
@@ -63417,6 +64110,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 174
       },
       {
@@ -63427,6 +64124,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 175
       },
       {
@@ -63437,6 +64138,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 176
       },
       {
@@ -63447,6 +64152,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 177
       },
       {
@@ -63457,6 +64166,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 178
       },
       {
@@ -63467,6 +64180,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 179
       },
       {
@@ -63477,6 +64194,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 180
       },
       {
@@ -63487,6 +64208,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 182
       },
       {
@@ -63497,6 +64222,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 183
       },
       {
@@ -63507,6 +64236,10 @@
         "col_4": null,
         "col_5": null,
         "col_6": null,
+        "col_7": null,
+        "col_8": null,
+        "col_9": null,
+        "col_10": null,
         "row_number": 184
       }
     ],
@@ -67920,17 +68653,17 @@
       {
         "col_0": "2026-11-01T00:00:00",
         "col_1": "DBS-1605",
-        "col_2": null,
-        "col_3": "wait for reminder email to be sent before scheduling ",
+        "col_2": "CT",
+        "col_3": null,
         "col_4": null,
         "col_5": null,
         "col_6": null,
-        "col_7": null,
+        "col_7": "IV",
         "col_8": null,
         "col_9": null,
         "col_10": null,
         "col_11": null,
-        "col_12": null,
+        "col_12": "EMAIL SENT 9/1/26",
         "col_13": null,
         "col_14": null,
         "col_15": null,
@@ -67949,12 +68682,12 @@
       {
         "col_0": "2026-11-01T00:00:00",
         "col_1": "DBS-1601",
-        "col_2": null,
+        "col_2": "CT",
         "col_3": null,
         "col_4": null,
         "col_5": null,
         "col_6": null,
-        "col_7": null,
+        "col_7": "IV",
         "col_8": null,
         "col_9": null,
         "col_10": null,
@@ -67978,12 +68711,12 @@
       {
         "col_0": "2026-11-01T00:00:00",
         "col_1": "DBS-1593",
-        "col_2": null,
+        "col_2": "CT",
         "col_3": null,
         "col_4": null,
         "col_5": null,
         "col_6": null,
-        "col_7": null,
+        "col_7": "IV",
         "col_8": null,
         "col_9": null,
         "col_10": null,
@@ -68007,12 +68740,12 @@
       {
         "col_0": "2026-11-01T00:00:00",
         "col_1": "DBS-1575",
-        "col_2": null,
+        "col_2": "CT",
         "col_3": null,
         "col_4": null,
         "col_5": null,
         "col_6": null,
-        "col_7": null,
+        "col_7": "IV",
         "col_8": null,
         "col_9": null,
         "col_10": null,
@@ -68036,12 +68769,12 @@
       {
         "col_0": "2026-11-01T00:00:00",
         "col_1": "DBS-1629",
-        "col_2": null,
+        "col_2": "CT",
         "col_3": null,
         "col_4": null,
         "col_5": null,
         "col_6": null,
-        "col_7": null,
+        "col_7": "IV",
         "col_8": null,
         "col_9": null,
         "col_10": null,
@@ -68065,12 +68798,12 @@
       {
         "col_0": "2026-11-01T00:00:00",
         "col_1": "DBS-1622",
-        "col_2": null,
+        "col_2": "CT",
         "col_3": null,
         "col_4": null,
         "col_5": null,
         "col_6": null,
-        "col_7": null,
+        "col_7": "IV",
         "col_8": null,
         "col_9": null,
         "col_10": null,
@@ -68094,12 +68827,12 @@
       {
         "col_0": "2026-11-01T00:00:00",
         "col_1": "DBS-1579",
-        "col_2": null,
+        "col_2": "CT",
         "col_3": null,
         "col_4": null,
         "col_5": null,
         "col_6": null,
-        "col_7": null,
+        "col_7": "IV",
         "col_8": null,
         "col_9": null,
         "col_10": null,
@@ -68123,12 +68856,12 @@
       {
         "col_0": "2026-11-01T00:00:00",
         "col_1": "DBS-1284",
-        "col_2": null,
+        "col_2": "CT",
         "col_3": null,
         "col_4": null,
         "col_5": null,
         "col_6": null,
-        "col_7": null,
+        "col_7": "IV",
         "col_8": null,
         "col_9": null,
         "col_10": null,
@@ -69252,7 +69985,7 @@
       {
         "col_0": "2026-10-01T00:00:00",
         "col_1": "DBS-0613",
-        "col_2": null,
+        "col_2": "IV",
         "col_3": "WAIT FOR EMAIL TO GO OUT",
         "col_4": null,
         "col_5": null,
@@ -69271,7 +70004,7 @@
       {
         "col_0": "2026-10-01T00:00:00",
         "col_1": "DBS-0620",
-        "col_2": null,
+        "col_2": "IV",
         "col_3": null,
         "col_4": null,
         "col_5": null,
@@ -69290,7 +70023,7 @@
       {
         "col_0": "2026-10-01T00:00:00",
         "col_1": "DBS-0055",
-        "col_2": null,
+        "col_2": "IV",
         "col_3": null,
         "col_4": null,
         "col_5": null,
@@ -69309,7 +70042,7 @@
       {
         "col_0": "2026-10-01T00:00:00",
         "col_1": "DBS-0569",
-        "col_2": null,
+        "col_2": "IV",
         "col_3": null,
         "col_4": null,
         "col_5": null,
@@ -69328,7 +70061,7 @@
       {
         "col_0": "2026-10-01T00:00:00",
         "col_1": "DBS-0745",
-        "col_2": null,
+        "col_2": "IV",
         "col_3": null,
         "col_4": null,
         "col_5": null,
@@ -69347,7 +70080,7 @@
       {
         "col_0": "2026-10-01T00:00:00",
         "col_1": "DBS-0587",
-        "col_2": null,
+        "col_2": "IV",
         "col_3": null,
         "col_4": null,
         "col_5": null,
@@ -69366,7 +70099,7 @@
       {
         "col_0": "2026-10-01T00:00:00",
         "col_1": "DBS-0599",
-        "col_2": null,
+        "col_2": "IV",
         "col_3": null,
         "col_4": null,
         "col_5": null,
@@ -69385,7 +70118,7 @@
       {
         "col_0": "2026-10-01T00:00:00",
         "col_1": "DBS-0657",
-        "col_2": null,
+        "col_2": "IV",
         "col_3": null,
         "col_4": null,
         "col_5": null,
@@ -80542,9 +81275,9 @@
         "col_21": null,
         "col_22": 25,
         "col_23": 50,
-        "col_24": null,
+        "col_24": 50,
         "col_25": 100,
-        "col_26": "23.93 (07/13/26)",
+        "col_26": "23.93 (09/1/26)",
         "col_27": "New card,,old one expires in 11/26",
         "col_28": null,
         "col_29": null,
@@ -85458,7 +86191,7 @@
         "col_0": "DBS-0918",
         "col_1": "LC 02/18 Sent Survey Link",
         "col_2": false,
-        "col_3": "8/21/26 NC sent text; 7/17/26 Email sent NC;6/22/26 NC sent reminder text 4/16/26 JE Still pending. It had been started but never complted. Explained and re shared link. Asked if calling was ok but she shared study partner has limited free time so she will talk to her and ask to complete soon.;;  Following up... 2/4/26 JE Said her sis already completed it. Resent link jic. ;; 1/26 NC Sent text 9/16 sent email (invalid) 8/18 NC sent follow up text NC 7/25 Sent Text TB 6/25: Sent text NC 6/2: invalid email  LC 04/02: F/u for survey; LC 03/12: F/u for survey; LC 02/26: F/u for survey; ",
+        "col_3": "9/1/2026 JE Participant is out of town. Relative recently passed. Check back at a later time. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC;6/22/26 NC sent reminder text 4/16/26 JE Still pending. It had been started but never complted. Explained and re shared link. Asked if calling was ok but she shared study partner has limited free time so she will talk to her and ask to complete soon.;;  Following up... 2/4/26 JE Said her sis already completed it. Resent link jic. ;; 1/26 NC Sent text 9/16 sent email (invalid) 8/18 NC sent follow up text NC 7/25 Sent Text TB 6/25: Sent text NC 6/2: invalid email  LC 04/02: F/u for survey; LC 03/12: F/u for survey; LC 02/26: F/u for survey; ",
         "col_4": null,
         "col_5": null,
         "col_6": null,
@@ -85922,7 +86655,7 @@
         "col_0": "DBS-1167",
         "col_1": "LC 02/19: Sent survey link",
         "col_2": false,
-        "col_3": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 5/6/26 Sent link again. Said her son would complete. JE ;; 1/30/26 Text sent NC 9/2 NC sent email IV 8/11: reminded at visit, said shed give to son NC 8/7 Sent text NC 7/9 Sent text NC 6/9: F/u for survey; LC 03/03: F/u for survey ",
+        "col_3": "9/1/26 JE Sent link to her son. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 5/6/26 Sent link again. Said her son would complete. JE ;; 1/30/26 Text sent NC 9/2 NC sent email IV 8/11: reminded at visit, said shed give to son NC 8/7 Sent text NC 7/9 Sent text NC 6/9: F/u for survey; LC 03/03: F/u for survey ",
         "col_4": null,
         "col_5": null,
         "col_6": null,
@@ -86210,7 +86943,7 @@
         "col_0": "DBS-1695",
         "col_1": "GT 2/13 Sent Survey Link",
         "col_2": false,
-        "col_3": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30/26 Text sent NC 9/2 NC sent email NC 8/7 Sent text NC 7/9 Sent text NC 6/9: F/u for survey; NC 5/16: only consent form started",
+        "col_3": "9/1/26 JE Touching base with her co-worker. Will follow up. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30/26 Text sent NC 9/2 NC sent email NC 8/7 Sent text NC 7/9 Sent text NC 6/9: F/u for survey; NC 5/16: only consent form started",
         "col_4": null,
         "col_5": null,
         "col_6": null,
@@ -86674,7 +87407,7 @@
         "col_0": "DBS-1521",
         "col_1": "LC 02/20: Sent survey link",
         "col_2": false,
-        "col_3": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder1/30 NC sent text  10/28 Ivett reminded in person, said wife will complete 9/16 NC sent email  9/2 NC sent email AG 7/23/: sent follow up text, AG 7/9 sent text; NC 6/9: F/u for survey; LC 03/12: F/u for survey ",
+        "col_3": "9/1/26 Wife will complete. Link shared. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder1/30 NC sent text  10/28 Ivett reminded in person, said wife will complete 9/16 NC sent email  9/2 NC sent email AG 7/23/: sent follow up text, AG 7/9 sent text; NC 6/9: F/u for survey; LC 03/12: F/u for survey ",
         "col_4": null,
         "col_5": null,
         "col_6": null,
@@ -86898,7 +87631,7 @@
         "col_0": "DBS-1664",
         "col_1": "LC 02/21: Sent survey link",
         "col_2": false,
-        "col_3": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30 NC sent text IV 11/2: reminded at visit, resent link 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text, AG 7/9 sent text; NC 6/9: F/u for survey; LC 03/13: F/u for survey ",
+        "col_3": "9/1/26 JE Daughter will complete. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30 NC sent text IV 11/2: reminded at visit, resent link 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text, AG 7/9 sent text; NC 6/9: F/u for survey; LC 03/13: F/u for survey ",
         "col_4": null,
         "col_5": null,
         "col_6": null,
@@ -87074,9 +87807,9 @@
         "col_0": "DBS-0822",
         "col_1": "LC 02/24 sent link",
         "col_2": false,
-        "col_3": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 6/10 NC Called, asked to be emailed and sent. 5/6/26 JE Sent reminder text. ;; 4/9/26 JE Reminded at visit. Will ask brother. ;; 2/13/26 Reminder text sent NC9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, AG 7/9: sent text; NC 6/9: F/u for survey; LC 03/14: F/u for survey",
+        "col_3": "9/1/26 JE Participant is going to be traveling so may be difficult to reach, but he shared that his brother already completed the form. Brothers name Peter Sanchez. Mightg not be able to get him to do it again. Broher said he did it and if we did not receive it is our system fault ;/ ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 6/10 NC Called, asked to be emailed and sent. 5/6/26 JE Sent reminder text. ;; 4/9/26 JE Reminded at visit. Will ask brother. ;; 2/13/26 Reminder text sent NC9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, AG 7/9: sent text; NC 6/9: F/u for survey; LC 03/14: F/u for survey",
         "col_4": null,
-        "col_5": null,
+        "col_5": "Peter Sanchez",
         "col_6": null,
         "col_7": null,
         "col_8": null,
@@ -87186,7 +87919,7 @@
         "col_0": "DBS-0830",
         "col_1": "LC 02/24 sent link",
         "col_2": false,
-        "col_3": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder JE 11/11 Reminded at the MRI.;; MJ 10/06: link resent 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/9: F/u for survey;LC 03/14: F/u for survey, AG 7/9: sent text ",
+        "col_3": "9/1/26 JE Son will fill out but lives in Guatamela - may have forgotten. Will send reminder. Pt just asks for patience. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder JE 11/11 Reminded at the MRI.;; MJ 10/06: link resent 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/9: F/u for survey;LC 03/14: F/u for survey, AG 7/9: sent text ",
         "col_4": null,
         "col_5": null,
         "col_6": null,
@@ -87250,7 +87983,7 @@
         "col_0": "DBS-0418",
         "col_1": "LC 02/26: Sent link",
         "col_2": false,
-        "col_3": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 2/13/26 Reminder text sent NC, IV 10/23: reminded at visit, sent again 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/9: F/u for survey; LC 03/14: F/u for survey, AG 7/9: sent text ",
+        "col_3": "9/1/26 JE Was out of town and got his phone robbed. But will be in touch with daughter (out of state - CT) to complete. Will share our number with her to call us. If not follow up... ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 2/13/26 Reminder text sent NC, IV 10/23: reminded at visit, sent again 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/9: F/u for survey; LC 03/14: F/u for survey, AG 7/9: sent text ",
         "col_4": null,
         "col_5": null,
         "col_6": null,
@@ -88274,7 +89007,7 @@
         "col_0": "DBS-0587",
         "col_1": "NC 6/2 : Sent link",
         "col_2": false,
-        "col_3": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 2/13 reminder text sent NC IV 10/16: said she thought they filled it out, sent her link again, follow up mri date 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/30 Sent follow up text",
+        "col_3": "9/1/26 JE Will have her friend complete. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 2/13 reminder text sent NC IV 10/16: said she thought they filled it out, sent her link again, follow up mri date 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/30 Sent follow up text",
         "col_4": null,
         "col_5": null,
         "col_6": null,
@@ -88466,7 +89199,7 @@
         "col_0": "DBS-0878",
         "col_1": "NC 6/2 : Sent link",
         "col_2": false,
-        "col_3": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 6/10 NC called, left voicemail and sent link. 2/13 reminder text sent 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/30 Sent follow up text",
+        "col_3": "9/1/26 JE Will have friend complete. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 6/10 NC called, left voicemail and sent link. 2/13 reminder text sent 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/30 Sent follow up text",
         "col_4": null,
         "col_5": null,
         "col_6": null,
@@ -138440,7 +139173,7 @@
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
         "ID": "DBS-0055",
-        "col_2": null,
+        "col_2": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -145382,7 +146115,7 @@
         "participant_id": "DBS-0418",
         "survey_link_sent": "LC 02/26: Sent link",
         "completed": null,
-        "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 2/13/26 Reminder text sent NC, IV 10/23: reminded at visit, sent again 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/9: F/u for survey; LC 03/14: F/u for survey, AG 7/9: sent text ",
+        "notes": "9/1/26 JE Was out of town and got his phone robbed. But will be in touch with daughter (out of state - CT) to complete. Will share our number with her to call us. If not follow up... ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 2/13/26 Reminder text sent NC, IV 10/23: reminded at visit, sent again 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/9: F/u for survey; LC 03/14: F/u for survey, AG 7/9: sent text ",
         "record_id": null
       },
       "labs": [
@@ -148491,7 +149224,7 @@
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
         "ID": "DBS-0569",
-        "col_2": null,
+        "col_2": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -148872,7 +149605,7 @@
         "participant_id": "DBS-0587",
         "survey_link_sent": "NC 6/2 : Sent link",
         "completed": null,
-        "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 2/13 reminder text sent NC IV 10/16: said she thought they filled it out, sent her link again, follow up mri date 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/30 Sent follow up text",
+        "notes": "9/1/26 JE Will have her friend complete. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 2/13 reminder text sent NC IV 10/16: said she thought they filled it out, sent her link again, follow up mri date 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/30 Sent follow up text",
         "record_id": null
       },
       "labs": [
@@ -148993,7 +149726,7 @@
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
         "ID": "DBS-0587",
-        "col_2": null,
+        "col_2": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -149403,7 +150136,7 @@
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
         "ID": "DBS-0599",
-        "col_2": null,
+        "col_2": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -149730,7 +150463,7 @@
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
         "ID": "DBS-0613",
-        "col_2": null,
+        "col_2": "IV",
         "NP/CV Scheduling Notes": "WAIT FOR EMAIL TO GO OUT",
         "NP Date": null,
         "CV Date": null,
@@ -150336,7 +151069,7 @@
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
         "ID": "DBS-0620",
-        "col_2": null,
+        "col_2": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -150952,7 +151685,7 @@
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
         "ID": "DBS-0657",
-        "col_2": null,
+        "col_2": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -152889,7 +153622,7 @@
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
         "ID": "DBS-0745",
-        "col_2": null,
+        "col_2": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -156248,7 +156981,7 @@
         "participant_id": "DBS-0822",
         "survey_link_sent": "LC 02/24 sent link",
         "completed": null,
-        "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 6/10 NC Called, asked to be emailed and sent. 5/6/26 JE Sent reminder text. ;; 4/9/26 JE Reminded at visit. Will ask brother. ;; 2/13/26 Reminder text sent NC9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, AG 7/9: sent text; NC 6/9: F/u for survey; LC 03/14: F/u for survey",
+        "notes": "9/1/26 JE Participant is going to be traveling so may be difficult to reach, but he shared that his brother already completed the form. Brothers name Peter Sanchez. Mightg not be able to get him to do it again. Broher said he did it and if we did not receive it is our system fault ;/ ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 6/10 NC Called, asked to be emailed and sent. 5/6/26 JE Sent reminder text. ;; 4/9/26 JE Reminded at visit. Will ask brother. ;; 2/13/26 Reminder text sent NC9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, AG 7/9: sent text; NC 6/9: F/u for survey; LC 03/14: F/u for survey",
         "record_id": null
       },
       "stool_sample": {
@@ -156660,7 +157393,7 @@
         "participant_id": "DBS-0830",
         "survey_link_sent": "LC 02/24 sent link",
         "completed": null,
-        "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder JE 11/11 Reminded at the MRI.;; MJ 10/06: link resent 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/9: F/u for survey;LC 03/14: F/u for survey, AG 7/9: sent text ",
+        "notes": "9/1/26 JE Son will fill out but lives in Guatamela - may have forgotten. Will send reminder. Pt just asks for patience. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder JE 11/11 Reminded at the MRI.;; MJ 10/06: link resent 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/9: F/u for survey;LC 03/14: F/u for survey, AG 7/9: sent text ",
         "record_id": null
       },
       "stool_sample": {
@@ -158008,7 +158741,7 @@
         "participant_id": "DBS-0878",
         "survey_link_sent": "NC 6/2 : Sent link",
         "completed": null,
-        "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 6/10 NC called, left voicemail and sent link. 2/13 reminder text sent 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/30 Sent follow up text",
+        "notes": "9/1/26 JE Will have friend complete. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 6/10 NC called, left voicemail and sent link. 2/13 reminder text sent 9/16 NC sent email 8/18 NC sent follow up text AG 7/23/: sent follow up text, NC 6/30 Sent follow up text",
         "record_id": null
       },
       "stool_sample": {
@@ -159586,7 +160319,7 @@
         "participant_id": "DBS-0918",
         "survey_link_sent": "LC 02/18 Sent Survey Link",
         "completed": null,
-        "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC;6/22/26 NC sent reminder text 4/16/26 JE Still pending. It had been started but never complted. Explained and re shared link. Asked if calling was ok but she shared study partner has limited free time so she will talk to her and ask to complete soon.;;  Following up... 2/4/26 JE Said her sis already completed it. Resent link jic. ;; 1/26 NC Sent text 9/16 sent email (invalid) 8/18 NC sent follow up text NC 7/25 Sent Text TB 6/25: Sent text NC 6/2: invalid email  LC 04/02: F/u for survey; LC 03/12: F/u for survey; LC 02/26: F/u for survey; ",
+        "notes": "9/1/2026 JE Participant is out of town. Relative recently passed. Check back at a later time. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC;6/22/26 NC sent reminder text 4/16/26 JE Still pending. It had been started but never complted. Explained and re shared link. Asked if calling was ok but she shared study partner has limited free time so she will talk to her and ask to complete soon.;;  Following up... 2/4/26 JE Said her sis already completed it. Resent link jic. ;; 1/26 NC Sent text 9/16 sent email (invalid) 8/18 NC sent follow up text NC 7/25 Sent Text TB 6/25: Sent text NC 6/2: invalid email  LC 04/02: F/u for survey; LC 03/12: F/u for survey; LC 02/26: F/u for survey; ",
         "record_id": null
       },
       "stool_sample": {
@@ -160818,7 +161551,7 @@
         "fourth_year": {
           "participant_id": "DBS-0956",
           "scheduling_month": "2027-01-01T00:00:00",
-          "notes": null
+          "notes": "Might get a new phone # - email to get in touch or house mail if you are not able to reach "
         }
       },
       "baseline_scheduling": {
@@ -169549,7 +170282,7 @@
         "participant_id": "DBS-1167",
         "survey_link_sent": "LC 02/19: Sent survey link",
         "completed": null,
-        "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 5/6/26 Sent link again. Said her son would complete. JE ;; 1/30/26 Text sent NC 9/2 NC sent email IV 8/11: reminded at visit, said shed give to son NC 8/7 Sent text NC 7/9 Sent text NC 6/9: F/u for survey; LC 03/03: F/u for survey ",
+        "notes": "9/1/26 JE Sent link to her son. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 5/6/26 Sent link again. Said her son would complete. JE ;; 1/30/26 Text sent NC 9/2 NC sent email IV 8/11: reminded at visit, said shed give to son NC 8/7 Sent text NC 7/9 Sent text NC 6/9: F/u for survey; LC 03/03: F/u for survey ",
         "record_id": null
       },
       "stool_sample": {
@@ -172602,12 +173335,12 @@
       "third_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
         "ID": "DBS-1284",
-        "col_2": null,
+        "col_2": "CT",
         "MRI/BD Scheduling Notes": null,
         "MRI Date": null,
         "BD Date": null,
         "MRI Scan Time": null,
-        "col_7": null,
+        "col_7": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -174139,6 +174872,11 @@
           "participant_id": "DBS-1347",
           "scheduling_month": "2026-07-01T00:00:00",
           "notes": null
+        },
+        "fourth_year": {
+          "participant_id": "DBS-1347",
+          "scheduling_month": "2027-08-01T00:00:00",
+          "notes": null
         }
       },
       "baseline_scheduling": {
@@ -174234,9 +174972,9 @@
         "Column_2": null,
         "Year 3 BD": 25,
         "Year 3 CV": 50,
-        "Year 3 NP": null,
+        "Year 3 NP": 50,
         "Year 3 MRI": 100,
-        "Travel Expense Mileage Rate = Roundtrip Miles * 0.725 Mileage cutoff for $50 is 38 miles (oneway) or 76 miles (roundtrip).1": "23.93 (07/13/26)",
+        "Travel Expense Mileage Rate = Roundtrip Miles * 0.725 Mileage cutoff for $50 is 38 miles (oneway) or 76 miles (roundtrip).1": "23.93 (09/1/26)",
         "Notes": "New card,,old one expires in 11/26",
         "Column_3": null,
         "Year 4 BD": null,
@@ -178472,7 +179210,7 @@
         "participant_id": "DBS-1521",
         "survey_link_sent": "LC 02/20: Sent survey link",
         "completed": null,
-        "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder1/30 NC sent text  10/28 Ivett reminded in person, said wife will complete 9/16 NC sent email  9/2 NC sent email AG 7/23/: sent follow up text, AG 7/9 sent text; NC 6/9: F/u for survey; LC 03/12: F/u for survey ",
+        "notes": "9/1/26 Wife will complete. Link shared. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder1/30 NC sent text  10/28 Ivett reminded in person, said wife will complete 9/16 NC sent email  9/2 NC sent email AG 7/23/: sent follow up text, AG 7/9 sent text; NC 6/9: F/u for survey; LC 03/12: F/u for survey ",
         "record_id": null
       },
       "stool_sample": {
@@ -179717,12 +180455,12 @@
       "third_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
         "ID": "DBS-1575",
-        "col_2": null,
+        "col_2": "CT",
         "MRI/BD Scheduling Notes": null,
         "MRI Date": null,
         "BD Date": null,
         "MRI Scan Time": null,
-        "col_7": null,
+        "col_7": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -180108,12 +180846,12 @@
       "third_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
         "ID": "DBS-1579",
-        "col_2": null,
+        "col_2": "CT",
         "MRI/BD Scheduling Notes": null,
         "MRI Date": null,
         "BD Date": null,
         "MRI Scan Time": null,
-        "col_7": null,
+        "col_7": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -180340,12 +181078,12 @@
       "third_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
         "ID": "DBS-1593",
-        "col_2": null,
+        "col_2": "CT",
         "MRI/BD Scheduling Notes": null,
         "MRI Date": null,
         "BD Date": null,
         "MRI Scan Time": null,
-        "col_7": null,
+        "col_7": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -180564,12 +181302,12 @@
       "third_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
         "ID": "DBS-1601",
-        "col_2": null,
+        "col_2": "CT",
         "MRI/BD Scheduling Notes": null,
         "MRI Date": null,
         "BD Date": null,
         "MRI Scan Time": null,
-        "col_7": null,
+        "col_7": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -180752,17 +181490,17 @@
       "third_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
         "ID": "DBS-1605",
-        "col_2": null,
-        "MRI/BD Scheduling Notes": "wait for reminder email to be sent before scheduling ",
+        "col_2": "CT",
+        "MRI/BD Scheduling Notes": null,
         "MRI Date": null,
         "BD Date": null,
         "MRI Scan Time": null,
-        "col_7": null,
+        "col_7": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
         "col_11": null,
-        "MRI Scheduling Notes": null,
+        "MRI Scheduling Notes": "EMAIL SENT 9/1/26",
         "BD Notes": null,
         "CV Scheduling Notes": null,
         "col_15": null,
@@ -181422,12 +182160,12 @@
       "third_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
         "ID": "DBS-1622",
-        "col_2": null,
+        "col_2": "CT",
         "MRI/BD Scheduling Notes": null,
         "MRI Date": null,
         "BD Date": null,
         "MRI Scan Time": null,
-        "col_7": null,
+        "col_7": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -181822,12 +182560,12 @@
       "third_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
         "ID": "DBS-1629",
-        "col_2": null,
+        "col_2": "CT",
         "MRI/BD Scheduling Notes": null,
         "MRI Date": null,
         "BD Date": null,
         "MRI Scan Time": null,
-        "col_7": null,
+        "col_7": "IV",
         "NP/CV Scheduling Notes": null,
         "NP Date": null,
         "CV Date": null,
@@ -182573,7 +183311,7 @@
         "participant_id": "DBS-1664",
         "survey_link_sent": "LC 02/21: Sent survey link",
         "completed": null,
-        "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30 NC sent text IV 11/2: reminded at visit, resent link 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text, AG 7/9 sent text; NC 6/9: F/u for survey; LC 03/13: F/u for survey ",
+        "notes": "9/1/26 JE Daughter will complete. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30 NC sent text IV 11/2: reminded at visit, resent link 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text, AG 7/9 sent text; NC 6/9: F/u for survey; LC 03/13: F/u for survey ",
         "record_id": null
       },
       "stool_sample": {
@@ -183366,7 +184104,7 @@
         "participant_id": "DBS-1695",
         "survey_link_sent": "GT 2/13 Sent Survey Link",
         "completed": null,
-        "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30/26 Text sent NC 9/2 NC sent email NC 8/7 Sent text NC 7/9 Sent text NC 6/9: F/u for survey; NC 5/16: only consent form started",
+        "notes": "9/1/26 JE Touching base with her co-worker. Will follow up. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30/26 Text sent NC 9/2 NC sent email NC 8/7 Sent text NC 7/9 Sent text NC 6/9: F/u for survey; NC 5/16: only consent form started",
         "record_id": null
       },
       "stool_sample": {
