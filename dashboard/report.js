@@ -14,6 +14,20 @@ const MONTH_NAMES = [
   "July", "August", "September", "October", "November", "December",
 ];
 
+/** Report range: May 2024 through September 2026 */
+const REPORT_START_KEY = 2024 * 12 + 5;
+const REPORT_END_KEY = 2026 * 12 + 9;
+
+function monthKey(year, month) {
+  return year * 12 + month;
+}
+
+function displayCount(value) {
+  if (value == null || value === "") return 0;
+  const n = Number(value);
+  return Number.isFinite(n) ? n : 0;
+}
+
 function parseIsoDate(value) {
   if (value == null || value === "") return null;
   const s = String(value).trim();
@@ -65,9 +79,25 @@ function findMonthlyColumn(monthlyRows, year, month) {
   return (
     keys.find((k) => k.toLowerCase().includes(full.toLowerCase()) && k.includes(`'${yy}`)) ||
     keys.find((k) => k.toLowerCase().startsWith(abbr.toLowerCase()) && k.includes(`'${yy}`)) ||
-    keys.find((k) => k.toLowerCase().includes(abbr.toLowerCase()) && k.includes(yy)) ||
+    keys.find((k) => k.toLowerCase().startsWith(abbr.toLowerCase()) && k.includes(yy)) ||
     null
   );
+}
+
+function lastTrendOnOrBefore(sheetKey, year, month) {
+  const target = monthKey(year, month);
+  let best = null;
+  let bestKey = -1;
+  (DATA[sheetKey] || []).forEach((r) => {
+    const d = parseIsoDate(r.Date);
+    if (!d) return;
+    const key = monthKey(d.getFullYear(), d.getMonth() + 1);
+    if (key <= target && key > bestKey) {
+      bestKey = key;
+      best = r;
+    }
+  });
+  return best;
 }
 
 function visitTrendForMonth(sheetKey, year, month) {
@@ -145,12 +175,24 @@ function collectReportMetrics(year, month) {
   const monthCol = findMonthlyColumn(DATA.second_year_monthly, year, month);
   const y2Monthly = {
     column: monthCol,
-    cv: monthCol && cvRow ? Number(cvRow[monthCol]) || 0 : null,
-    np: monthCol && npRow ? Number(npRow[monthCol]) || 0 : null,
+    cv: monthCol && cvRow ? displayCount(cvRow[monthCol]) : null,
+    np: monthCol && npRow ? displayCount(npRow[monthCol]) : null,
   };
 
   const trend5 = visitTrendForMonth("visit_trends_sheet5", year, month);
   const trend6 = visitTrendForMonth("visit_trends_sheet6", year, month);
+  const lastTrend5 = lastTrendOnOrBefore("visit_trends_sheet5", year, month);
+  const lastTrend6 = lastTrendOnOrBefore("visit_trends_sheet6", year, month);
+
+  const y2cv = y2Monthly.cv != null ? y2Monthly.cv : displayCount(trend5?.["CV Monthly"]);
+  const y2np = y2Monthly.np != null ? y2Monthly.np : displayCount(trend5?.["NP Monthly"]);
+  const y2Cumulative =
+    trend5?.["CV Cumulative"] ??
+    trend6?.["CV Cumulative"] ??
+    lastTrend5?.["CV Cumulative"] ??
+    lastTrend6?.["CV Cumulative"] ??
+    null;
+  const y2CumulativeCarried = !trend5 && !trend6 && lastTrend5 != null;
   const recruitmentMonth = recruitmentLeadsForMonth(year, month);
 
   const dropouts = {
@@ -171,15 +213,7 @@ function collectReportMetrics(year, month) {
   const y3TotalMonthVisits = y3Visits.mri + y3Visits.bloodDraw + y3Visits.np + y3Visits.cv;
   const y4TotalMonthVisits = y4Visits.bloodDraw + y4Visits.np + y4Visits.cv;
 
-  const monthlyVisitTotal =
-    (y2Monthly.cv ?? trend5?.["CV Monthly"] ?? trend6?.["CV Monthly"] ?? 0) +
-    (y2Monthly.np ?? trend5?.["NP Monthly"] ?? trend6?.["NP Monthly"] ?? 0) +
-    y3TotalMonthVisits +
-    y4TotalMonthVisits;
-
-  const isCurrentOrFuture =
-    year > new Date().getFullYear() ||
-    (year === new Date().getFullYear() && month >= new Date().getMonth() + 1);
+  const monthlyVisitTotal = y2cv + y2np + y3TotalMonthVisits + y4TotalMonthVisits;
 
   return {
     label: monthLabel(year, month),
@@ -196,8 +230,13 @@ function collectReportMetrics(year, month) {
     y3Visits,
     y4Visits,
     y2Monthly,
+    y2cv,
+    y2np,
+    y2Cumulative,
+    y2CumulativeCarried,
     trend5,
     trend6,
+    lastTrend5,
     recruitmentMonth,
     y2CompletedMonth,
     y3CompletedMonth,
@@ -205,8 +244,7 @@ function collectReportMetrics(year, month) {
     y3TotalMonthVisits,
     y4TotalMonthVisits,
     monthlyVisitTotal,
-    isCurrentOrFuture,
-    cumulativeY2AtMonth: trend5?.["CV Cumulative"] ?? trend6?.["CV Cumulative"] ?? null,
+    cumulativeY2AtMonth: y2Cumulative,
     recruitment,
     genotype,
     meetingDropouts: DATA.meeting_dropouts?.length ?? 0,
@@ -372,8 +410,8 @@ function buildExecutiveSummarySlide(pptx, m) {
   addSlideTitle(slide, "Executive Summary", m.label);
 
   addMetricTiles(slide, [
-    { label: "2nd Yr CV This Month", value: m.y2Monthly.cv ?? m.trend5?.["CV Monthly"] ?? "—" },
-    { label: "2nd Yr NP This Month", value: m.y2Monthly.np ?? m.trend5?.["NP Monthly"] ?? "—" },
+    { label: "2nd Yr CV This Month", value: m.y2cv },
+    { label: "2nd Yr NP This Month", value: m.y2np },
     { label: "Year 3 Completed (now)", value: m.y3.completed ?? "—" },
     { label: "Year 4 Completed (now)", value: m.y4.completed ?? "—" },
   ]);
@@ -391,8 +429,8 @@ function buildMonthlyVisitsSlide(pptx, m) {
   const slide = pptx.addSlide();
   addSlideTitle(slide, `Completed Visits in ${MONTH_NAMES[m.month - 1]}`, m.label);
 
-  const y2cv = m.y2Monthly.cv ?? m.trend5?.["CV Monthly"] ?? 0;
-  const y2np = m.y2Monthly.np ?? m.trend5?.["NP Monthly"] ?? 0;
+  const y2cv = m.y2cv;
+  const y2np = m.y2np;
 
   const rows = [
     [
@@ -424,9 +462,9 @@ function buildMonthlyVisitsSlide(pptx, m) {
   });
 
   const extras = [];
-  if (m.trend5) {
+  if (m.trend5 || m.y2Cumulative != null) {
     extras.push(
-      `2nd year cumulative through ${MONTH_NAMES[m.month - 1]}: CV ${m.trend5["CV Cumulative"]}, NP ${m.trend5["NP Cumulative"]}`
+      `2nd year cumulative through ${MONTH_NAMES[m.month - 1]}: CV ${m.y2Cumulative ?? "—"}${m.y2CumulativeCarried ? " (latest available)" : ""}`
     );
   }
   if (m.recruitmentMonth.total) {
@@ -706,14 +744,14 @@ function availableReportMonths() {
     if (!Number.isNaN(d.getTime())) addMonthToSet(seen, d.getFullYear(), d.getMonth() + 1);
   }
 
-  // Fill every month between earliest and latest so there are no gaps
+  // Fill every month between earliest and latest (capped at Sep 2026)
   const parsed = [...seen].map((k) => {
     const [y, m] = k.split("-").map(Number);
-    return { year: y, month: m, key: y * 12 + m };
+    return monthKey(y, m);
   });
   if (parsed.length) {
-    const min = Math.min(...parsed.map((p) => p.key));
-    const max = Math.max(...parsed.map((p) => p.key));
+    const min = Math.max(Math.min(...parsed), REPORT_START_KEY);
+    const max = Math.min(Math.max(...parsed), REPORT_END_KEY);
     for (let cursor = min; cursor <= max; cursor += 1) {
       const year = Math.floor((cursor - 1) / 12);
       const month = ((cursor - 1) % 12) + 1;
@@ -724,26 +762,33 @@ function availableReportMonths() {
   return [...seen]
     .map((k) => {
       const [year, month] = k.split("-").map(Number);
-      return { year, month, label: monthLabel(year, month) };
+      return { year, month, label: monthLabel(year, month), key: monthKey(year, month) };
     })
-    .sort((a, b) => b.year - a.year || b.month - a.month);
+    .filter((m) => m.key >= REPORT_START_KEY && m.key <= REPORT_END_KEY)
+    .sort((a, b) => b.key - a.key);
 }
 
 function renderReportPreview(metrics) {
   const el = document.getElementById("report-preview");
   if (!el) return;
 
-  const y2cv = metrics.y2Monthly.cv ?? metrics.trend5?.["CV Monthly"] ?? "—";
-  const y2np = metrics.y2Monthly.np ?? metrics.trend5?.["NP Monthly"] ?? "—";
+  const y2CumulativeLabel = metrics.y2CumulativeCarried
+    ? `${metrics.y2Cumulative} (latest trend data — 2nd year sheet ends Mar 2026)`
+    : metrics.y2Cumulative ?? 0;
 
   const monthlyRows = [
-    ["2nd Year CV Completed", y2cv],
-    ["2nd Year NP Completed", y2np],
-    ["2nd Year CV Cumulative (end of month)", metrics.trend5?.["CV Cumulative"] ?? metrics.trend6?.["CV Cumulative"] ?? "—"],
+    ["2nd Year CV Completed", metrics.y2cv],
+    ["2nd Year NP Completed", metrics.y2np],
+    ["2nd Year CV Cumulative", y2CumulativeLabel],
     ["2nd Year Completions Logged", metrics.y2CompletedMonth],
-    ["3rd Year MRI / BD / NP / CV", `${metrics.y3Visits.mri} / ${metrics.y3Visits.bloodDraw} / ${metrics.y3Visits.np} / ${metrics.y3Visits.cv}`],
-    ["4th Year BD / NP / CV", `${metrics.y4Visits.bloodDraw} / ${metrics.y4Visits.np} / ${metrics.y4Visits.cv}`],
+    ["3rd Year MRI", metrics.y3Visits.mri],
+    ["3rd Year Blood Draw", metrics.y3Visits.bloodDraw],
+    ["3rd Year NP Visit", metrics.y3Visits.np],
+    ["3rd Year Clinician Visit", metrics.y3Visits.cv],
     ["3rd Year Completions Logged", metrics.y3CompletedMonth],
+    ["4th Year Blood Draw", metrics.y4Visits.bloodDraw],
+    ["4th Year NP Visit", metrics.y4Visits.np],
+    ["4th Year Clinician Visit", metrics.y4Visits.cv],
     ["4th Year Completions Logged", metrics.y4CompletedMonth],
     ["Recruitment Leads (this month)", metrics.recruitmentMonth.total],
     ["Total Visit Events (this month)", metrics.monthlyVisitTotal],
@@ -763,7 +808,7 @@ function renderReportPreview(metrics) {
       ${note ? `<p class="report-preview-note">${note}</p>` : ""}
       <table>
         <thead><tr><th>Metric</th><th>Value</th></tr></thead>
-        <tbody>${rows.map(([k, v]) => `<tr><td>${k}</td><td><strong>${v ?? "—"}</strong></td></tr>`).join("")}</tbody>
+        <tbody>${rows.map(([k, v]) => `<tr><td>${k}</td><td><strong>${v ?? 0}</strong></td></tr>`).join("")}</tbody>
       </table>
     </div>`;
 
@@ -788,7 +833,7 @@ function updateReportPreview() {
   renderReportPreview(metrics);
   const badge = document.getElementById("report-live-badge");
   if (badge) {
-    badge.textContent = `Live preview · ${metrics.label} · 2nd Yr CV: ${metrics.y2Monthly.cv ?? metrics.trend5?.["CV Monthly"] ?? 0} · 3rd Yr visits: ${metrics.y3TotalMonthVisits}`;
+    badge.textContent = `Live preview · ${metrics.label} · 2nd Yr CV: ${metrics.y2cv} · 3rd Yr: ${metrics.y3Visits.mri}/${metrics.y3Visits.bloodDraw}/${metrics.y3Visits.np}/${metrics.y3Visits.cv} · 4th Yr: ${metrics.y4Visits.bloodDraw}/${metrics.y4Visits.np}/${metrics.y4Visits.cv}`;
   }
 }
 
