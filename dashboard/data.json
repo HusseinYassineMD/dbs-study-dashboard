@@ -2,7 +2,7 @@
   "meta": {
     "title": "Diabetes Brain Study (DBS) Operations Dashboard",
     "subtitle": "Unified view of participant tracking, recruitment, and visit progress",
-    "generated_at": "2026-09-03T13:46:29.272385",
+    "generated_at": "2026-09-03T15:35:33.871467",
     "sources": [
       "DBS Tracker.xlsx",
       "Monthly Meeting Updates.xlsx"
@@ -114,940 +114,185 @@
   ],
   "recruitment": {
     "summary_n": 1735,
-    "grand_total": null,
+    "grand_total": 1735,
     "sources": [
-      {
-        "source": "Recruitment Source",
-        "total_leads": "Number of Leads (Total) (n=1735)",
-        "timeline": {}
-      },
       {
         "source": "Facebook",
         "total_leads": 1572,
-        "timeline": {}
+        "timeline": {
+          "Number of Leads (Dec '22 - Feb 23. '23) (n=234)": 204,
+          "Number of Leads (Feb 24. '23 - Mar 23. '23) (n=65)": 60,
+          "Number of Leads (Mar 24. '23 - Apr 28. '23) (n=83)": 73,
+          "Number of Leads (April 29. '23 - May 26. '23) (n=51)": 43,
+          "Number of Leads (May 27. '23 - June 30. '23) (n=85)": 76,
+          "Number of Leads (July 1. '23 - July 28. '23) (n=69)": 65,
+          "Number of Leads (July 29. '23 - Aug 25. '23) (n=52)": 45,
+          "Number of Leads (Aug 26. '23 – Sept 29. '23) (n=105)": 98,
+          "Number of Leads (Sep 30. '23 – Oct 27. '23) (n=72)": 66,
+          "Number of Leads (Oct 28. '23 – Nov 17. '23) (n=53)": 50,
+          "Number of Leads (Nov 18. '23 – Dec 15. '23) (n=63)": 54,
+          "Number of Leads (Dec 16. '23 – Jan 26. '24) (n=93)": 85,
+          "Number of Leads (Jan 27. '24 – Mar 1. '24) (n=78)": 69,
+          "Number of Leads (Mar 2. '24 – Mar 28. '24) (n=69)": 63,
+          "Number of Leads (Mar 29. '24 – Apr 26. '24) (n=82)": 71,
+          "Number of Leads (Apr 27. '24 – May 31. '24) (n=103)": 101,
+          "Number of Leads (Jun 1. '24 – Jun 28. '24) (n=61)": 56,
+          "Number of Leads (Jun 29. '24 – Jul 26. '24) (n=35)": 26,
+          "Number of Leads (Jul 27. '24 – Aug 30. '24) (n=48)": 43,
+          "Number of Leads (Aug 31. '24 – Oct 4. '24) (n=58)": 54,
+          "Number of Leads (Oct 5. '24 – Oct 25. '24) (n=56)": 55,
+          "Number of Leads (Oct 26. '24 – Nov 22. '24) (n=68)": 66,
+          "Number of Leads (Nov 23. '24 – Dec 20. '24) (n=42)": 41,
+          "Number of Leads (Dec 21. '24 – Jan 31. '25) (n=9)": 8
+        }
       },
       {
         "source": "DBS Website",
         "total_leads": 80,
-        "timeline": {}
+        "timeline": {
+          "Number of Leads (Dec '22 - Feb 23. '23) (n=234)": 10,
+          "Number of Leads (Feb 24. '23 - Mar 23. '23) (n=65)": 3,
+          "Number of Leads (Mar 24. '23 - Apr 28. '23) (n=83)": 7,
+          "Number of Leads (April 29. '23 - May 26. '23) (n=51)": 2,
+          "Number of Leads (May 27. '23 - June 30. '23) (n=85)": 7,
+          "Number of Leads (July 1. '23 - July 28. '23) (n=69)": 0,
+          "Number of Leads (July 29. '23 - Aug 25. '23) (n=52)": 3,
+          "Number of Leads (Aug 26. '23 – Sept 29. '23) (n=105)": 5,
+          "Number of Leads (Sep 30. '23 – Oct 27. '23) (n=72)": 5,
+          "Number of Leads (Oct 28. '23 – Nov 17. '23) (n=53)": 2,
+          "Number of Leads (Nov 18. '23 – Dec 15. '23) (n=63)": 7,
+          "Number of Leads (Dec 16. '23 – Jan 26. '24) (n=93)": 5,
+          "Number of Leads (Jan 27. '24 – Mar 1. '24) (n=78)": 3,
+          "Number of Leads (Mar 2. '24 – Mar 28. '24) (n=69)": 2,
+          "Number of Leads (Mar 29. '24 – Apr 26. '24) (n=82)": 6,
+          "Number of Leads (Apr 27. '24 – May 31. '24) (n=103)": 2,
+          "Number of Leads (Jun 1. '24 – Jun 28. '24) (n=61)": 3,
+          "Number of Leads (Jun 29. '24 – Jul 26. '24) (n=35)": 6,
+          "Number of Leads (Jul 27. '24 – Aug 30. '24) (n=48)": 0,
+          "Number of Leads (Aug 31. '24 – Oct 4. '24) (n=58)": 1,
+          "Number of Leads (Oct 5. '24 – Oct 25. '24) (n=56)": 1,
+          "Number of Leads (Oct 26. '24 – Nov 22. '24) (n=68)": 0,
+          "Number of Leads (Nov 23. '24 – Dec 20. '24) (n=42)": 0,
+          "Number of Leads (Dec 21. '24 – Jan 31. '25) (n=9)": 0
+        }
       },
       {
         "source": "Call-In (800 #)",
         "total_leads": 29,
-        "timeline": {}
+        "timeline": {
+          "Number of Leads (Dec '22 - Feb 23. '23) (n=234)": 4,
+          "Number of Leads (Feb 24. '23 - Mar 23. '23) (n=65)": 0,
+          "Number of Leads (Mar 24. '23 - Apr 28. '23) (n=83)": 2,
+          "Number of Leads (April 29. '23 - May 26. '23) (n=51)": 0,
+          "Number of Leads (May 27. '23 - June 30. '23) (n=85)": 1,
+          "Number of Leads (July 1. '23 - July 28. '23) (n=69)": 1,
+          "Number of Leads (July 29. '23 - Aug 25. '23) (n=52)": 1,
+          "Number of Leads (Aug 26. '23 – Sept 29. '23) (n=105)": 1,
+          "Number of Leads (Sep 30. '23 – Oct 27. '23) (n=72)": 0,
+          "Number of Leads (Oct 28. '23 – Nov 17. '23) (n=53)": 0,
+          "Number of Leads (Nov 18. '23 – Dec 15. '23) (n=63)": 1,
+          "Number of Leads (Dec 16. '23 – Jan 26. '24) (n=93)": 2,
+          "Number of Leads (Jan 27. '24 – Mar 1. '24) (n=78)": 4,
+          "Number of Leads (Mar 2. '24 – Mar 28. '24) (n=69)": 1,
+          "Number of Leads (Mar 29. '24 – Apr 26. '24) (n=82)": 2,
+          "Number of Leads (Apr 27. '24 – May 31. '24) (n=103)": 0,
+          "Number of Leads (Jun 1. '24 – Jun 28. '24) (n=61)": 1,
+          "Number of Leads (Jun 29. '24 – Jul 26. '24) (n=35)": 2,
+          "Number of Leads (Jul 27. '24 – Aug 30. '24) (n=48)": 2,
+          "Number of Leads (Aug 31. '24 – Oct 4. '24) (n=58)": 1,
+          "Number of Leads (Oct 5. '24 – Oct 25. '24) (n=56)": 0,
+          "Number of Leads (Oct 26. '24 – Nov 22. '24) (n=68)": 2,
+          "Number of Leads (Nov 23. '24 – Dec 20. '24) (n=42)": 1,
+          "Number of Leads (Dec 21. '24 – Jan 31. '25) (n=9)": 0
+        }
       },
       {
         "source": "CTSI Directory",
         "total_leads": 33,
-        "timeline": {}
+        "timeline": {
+          "Number of Leads (Dec '22 - Feb 23. '23) (n=234)": 15,
+          "Number of Leads (Feb 24. '23 - Mar 23. '23) (n=65)": 1,
+          "Number of Leads (Mar 24. '23 - Apr 28. '23) (n=83)": 0,
+          "Number of Leads (April 29. '23 - May 26. '23) (n=51)": 4,
+          "Number of Leads (May 27. '23 - June 30. '23) (n=85)": 1,
+          "Number of Leads (July 1. '23 - July 28. '23) (n=69)": 2,
+          "Number of Leads (July 29. '23 - Aug 25. '23) (n=52)": 2,
+          "Number of Leads (Aug 26. '23 – Sept 29. '23) (n=105)": 1,
+          "Number of Leads (Sep 30. '23 – Oct 27. '23) (n=72)": 0,
+          "Number of Leads (Oct 28. '23 – Nov 17. '23) (n=53)": 0,
+          "Number of Leads (Nov 18. '23 – Dec 15. '23) (n=63)": 0,
+          "Number of Leads (Dec 16. '23 – Jan 26. '24) (n=93)": 0,
+          "Number of Leads (Jan 27. '24 – Mar 1. '24) (n=78)": 0,
+          "Number of Leads (Mar 2. '24 – Mar 28. '24) (n=69)": 1,
+          "Number of Leads (Mar 29. '24 – Apr 26. '24) (n=82)": 1,
+          "Number of Leads (Apr 27. '24 – May 31. '24) (n=103)": 0,
+          "Number of Leads (Jun 1. '24 – Jun 28. '24) (n=61)": 0,
+          "Number of Leads (Jun 29. '24 – Jul 26. '24) (n=35)": 0,
+          "Number of Leads (Jul 27. '24 – Aug 30. '24) (n=48)": 3,
+          "Number of Leads (Aug 31. '24 – Oct 4. '24) (n=58)": 2,
+          "Number of Leads (Oct 5. '24 – Oct 25. '24) (n=56)": 0,
+          "Number of Leads (Oct 26. '24 – Nov 22. '24) (n=68)": 0,
+          "Number of Leads (Nov 23. '24 – Dec 20. '24) (n=42)": 0,
+          "Number of Leads (Dec 21. '24 – Jan 31. '25) (n=9)": 0
+        }
       },
       {
         "source": "Other",
         "total_leads": 21,
-        "timeline": {}
-      },
-      {
-        "source": "Leads Summary (n=1773)",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": "Leads Status",
-        "total_leads": "Number of Leads (Total)",
-        "timeline": {}
-      },
-      {
-        "source": "Completed",
-        "total_leads": 1698,
-        "timeline": {}
-      },
-      {
-        "source": "In Progress",
-        "total_leads": 37,
-        "timeline": {}
-      },
-      {
-        "source": "Not Yet Initiated",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Leads Completed (n=1698)",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": "Completed Lead Status",
-        "total_leads": "Number of Leads (Dec '22 - Feb 23. '23) (n=96)",
-        "timeline": {}
-      },
-      {
-        "source": "Disqualified",
-        "total_leads": 40,
-        "timeline": {}
-      },
-      {
-        "source": "Not Interested",
-        "total_leads": 18,
-        "timeline": {}
-      },
-      {
-        "source": "Could Not Reach",
-        "total_leads": 17,
-        "timeline": {}
-      },
-      {
-        "source": "Duplicate Lead",
-        "total_leads": 6,
-        "timeline": {}
-      },
-      {
-        "source": "Timed Out",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Participant Undecided",
-        "total_leads": 6,
-        "timeline": {}
-      },
-      {
-        "source": "Screened, Disqualified",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Enrolled",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Screened, Qualified (Blood Tests Pending)",
-        "total_leads": 12,
-        "timeline": {}
-      },
-      {
-        "source": "Screened, Qualified (Blood Tests Completed)",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Disqualified Summary (n=235)",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": "Disqualified Reason",
-        "total_leads": "Number of Leads (Total)",
-        "timeline": {}
-      },
-      {
-        "source": "Ethnicity",
-        "total_leads": 4,
-        "timeline": {}
-      },
-      {
-        "source": "Age",
-        "total_leads": 12,
-        "timeline": {}
-      },
-      {
-        "source": "Illness",
-        "total_leads": 45,
-        "timeline": {}
-      },
-      {
-        "source": "Medication",
-        "total_leads": 37,
-        "timeline": {}
-      },
-      {
-        "source": "Menopause",
-        "total_leads": 45,
-        "timeline": {}
-      },
-      {
-        "source": "MRI Issue",
-        "total_leads": 49,
-        "timeline": {}
-      },
-      {
-        "source": "Other Medical",
-        "total_leads": 18,
-        "timeline": {}
-      },
-      {
-        "source": "Other",
-        "total_leads": 13,
-        "timeline": {}
-      },
-      {
-        "source": "No Study Partner",
-        "total_leads": 4,
-        "timeline": {}
-      },
-      {
-        "source": "Failed Neuropsychology Test",
-        "total_leads": 1,
-        "timeline": {}
-      },
-      {
-        "source": "Location",
-        "total_leads": 7,
-        "timeline": {}
-      },
-      {
-        "source": "Prescreening Summary (n=675)",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": "Prescreen Outcome",
-        "total_leads": "Number of Leads (Total)",
-        "timeline": {}
-      },
-      {
-        "source": "Disqualified",
-        "total_leads": 296,
-        "timeline": {}
-      },
-      {
-        "source": "Qualified",
-        "total_leads": 379,
-        "timeline": {}
-      },
-      {
-        "source": "Other",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Prescreening Summary Quarterly",
-        "total_leads": "Q1 '23 (n=91)",
-        "timeline": {}
-      },
-      {
-        "source": "Disqualified",
-        "total_leads": 54,
-        "timeline": {}
-      },
-      {
-        "source": "Qualified",
-        "total_leads": 37,
-        "timeline": {}
-      },
-      {
-        "source": "Other",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Prescreen Qualified Summary (n=64)",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": "Prescreen Qualified Status",
-        "total_leads": "Total",
-        "timeline": {}
-      },
-      {
-        "source": "Could Not Reach",
-        "total_leads": 7,
-        "timeline": {}
-      },
-      {
-        "source": "Scheduled for Screening",
-        "total_leads": 55,
-        "timeline": {}
-      },
-      {
-        "source": "Call to Schedule",
-        "total_leads": 2,
-        "timeline": {}
-      },
-      {
-        "source": "Screening Completed Summary (n=165)",
-        "total_leads": "(n=329) with 20 removed",
-        "timeline": {}
-      },
-      {
-        "source": "Screening Outcome Status",
-        "total_leads": "Total (n=349) (Everything but removed ppl)",
-        "timeline": {}
-      },
-      {
-        "source": "Not Interested",
-        "total_leads": 81,
-        "timeline": {}
-      },
-      {
-        "source": "Unable to Participate",
-        "total_leads": 16,
-        "timeline": {}
-      },
-      {
-        "source": "Screen Qualified",
-        "total_leads": 241,
-        "timeline": {}
-      },
-      {
-        "source": "Screen Disqualified",
-        "total_leads": 11,
-        "timeline": {}
-      },
-      {
-        "source": "Initial Visit Disqualification/ Not Interested (# Not included in total)",
-        "total_leads": 20,
-        "timeline": {}
-      },
-      {
-        "source": "Future Visit",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Screen Completed Quarterly",
-        "total_leads": "Q1 '23 (n=27)",
-        "timeline": {}
-      },
-      {
-        "source": "Not Interested",
-        "total_leads": 3,
-        "timeline": {}
-      },
-      {
-        "source": "Unable to Participate",
-        "total_leads": 4,
-        "timeline": {}
-      },
-      {
-        "source": "Screen Qualified",
-        "total_leads": 19,
-        "timeline": {}
-      },
-      {
-        "source": "Screen Disqualified",
-        "total_leads": 1,
-        "timeline": {}
-      },
-      {
-        "source": "Screened Participants (n=221)",
-        "total_leads": "Total (n=221)",
-        "timeline": {}
-      },
-      {
-        "source": "Males",
-        "total_leads": 80,
-        "timeline": {}
-      },
-      {
-        "source": "Females",
-        "total_leads": 141,
-        "timeline": {}
-      },
-      {
-        "source": "Diabetic",
-        "total_leads": 111,
-        "timeline": {}
-      },
-      {
-        "source": "Non Diabetic",
-        "total_leads": 110,
-        "timeline": {}
-      },
-      {
-        "source": "English Speakers",
-        "total_leads": 57,
-        "timeline": {}
-      },
-      {
-        "source": "Spanish Speakers",
-        "total_leads": 164,
-        "timeline": {}
-      },
-      {
-        "source": "Screened Participants Quarterly",
-        "total_leads": "Q1 '23 (n=17)",
-        "timeline": {}
-      },
-      {
-        "source": "Males",
-        "total_leads": 8,
-        "timeline": {}
-      },
-      {
-        "source": "Females",
-        "total_leads": 9,
-        "timeline": {}
-      },
-      {
-        "source": "Diabetic",
-        "total_leads": 15,
-        "timeline": {}
-      },
-      {
-        "source": "Non Diabetic",
-        "total_leads": 2,
-        "timeline": {}
-      },
-      {
-        "source": "English Speakers",
-        "total_leads": 3,
-        "timeline": {}
-      },
-      {
-        "source": "Spanish Speakers",
-        "total_leads": 14,
-        "timeline": {}
-      },
-      {
-        "source": "Baseline DQ (Removed)",
-        "total_leads": "16 DQ",
-        "timeline": {}
-      },
-      {
-        "source": "Enrolled Participants (n=200)",
-        "total_leads": "Total (n=200)",
-        "timeline": {}
-      },
-      {
-        "source": "Males",
-        "total_leads": 73,
-        "timeline": {}
-      },
-      {
-        "source": "Females",
-        "total_leads": 127,
-        "timeline": {}
-      },
-      {
-        "source": "Diabetic",
-        "total_leads": 59,
-        "timeline": {}
-      },
-      {
-        "source": "Prediabetic",
-        "total_leads": 44,
-        "timeline": {}
-      },
-      {
-        "source": "Non Diabetic",
-        "total_leads": 97,
-        "timeline": {}
-      },
-      {
-        "source": "English Speakers",
-        "total_leads": 52,
-        "timeline": {}
-      },
-      {
-        "source": "Spanish Speakers",
-        "total_leads": 148,
-        "timeline": {}
-      },
-      {
-        "source": "Dropouts (n=7)",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": "Baseline (ID)",
-        "total_leads": "131      212        254        539        85        738        742        672        778        844        907        873        803        1048        1174        1233",
-        "timeline": {}
-      },
-      {
-        "source": "Notes",
-        "total_leads": "Could not reach, out of country\tNo study partner\tFailed MRI\tFailed MRI\tCould not reach\tIllness\tFailed MRI\tDeath\tFailed MRI\tNo longer interested\tUnable to continue - personal problems\tNo longer interested\tFailed MRI\tFailed MRI\tFailed MRI\tFailed MRI",
-        "timeline": {}
-      },
-      {
-        "source": "2nd Year (ID)",
-        "total_leads": 268,
-        "timeline": {}
-      },
-      {
-        "source": "Notes",
-        "total_leads": "Could not reach",
-        "timeline": {}
-      },
-      {
-        "source": "\"Enrolled\" but no MRI, D/o included in total",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": "Completed Baseline Enrolled Participants (n=173)",
-        "total_leads": "Total (n=187)",
-        "timeline": {}
-      },
-      {
-        "source": "Males",
-        "total_leads": 68,
-        "timeline": {}
-      },
-      {
-        "source": "Females",
-        "total_leads": 119,
-        "timeline": {}
-      },
-      {
-        "source": "Diabetic",
-        "total_leads": 59,
-        "timeline": {}
-      },
-      {
-        "source": "Prediabetic",
-        "total_leads": 41,
-        "timeline": {}
-      },
-      {
-        "source": "Non Diabetic",
-        "total_leads": 87,
-        "timeline": {}
-      },
-      {
-        "source": "English Speakers",
-        "total_leads": 46,
-        "timeline": {}
-      },
-      {
-        "source": "Spanish Speakers",
-        "total_leads": 141,
-        "timeline": {}
-      },
-      {
-        "source": "Expected Enrolled Participants Quarterly",
-        "total_leads": "Q1 '23 (n=10)",
-        "timeline": {}
-      },
-      {
-        "source": "Males",
-        "total_leads": 6,
-        "timeline": {}
-      },
-      {
-        "source": "Females",
-        "total_leads": 4,
-        "timeline": {}
-      },
-      {
-        "source": "Diabetic",
-        "total_leads": 8,
-        "timeline": {}
-      },
-      {
-        "source": "Prediabetic",
-        "total_leads": 2,
-        "timeline": {}
-      },
-      {
-        "source": "Non Diabetic",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "English Speakers",
-        "total_leads": 2,
-        "timeline": {}
-      },
-      {
-        "source": "Spanish Speakers",
-        "total_leads": 8,
-        "timeline": {}
-      },
-      {
-        "source": "Age",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": 50,
-        "total_leads": 20,
-        "timeline": {}
-      },
-      {
-        "source": 51,
-        "total_leads": 13,
-        "timeline": {}
-      },
-      {
-        "source": 52,
-        "total_leads": 13,
-        "timeline": {}
-      },
-      {
-        "source": 53,
-        "total_leads": 17,
-        "timeline": {}
-      },
-      {
-        "source": 54,
-        "total_leads": 16,
-        "timeline": {}
-      },
-      {
-        "source": 55,
-        "total_leads": 7,
-        "timeline": {}
-      },
-      {
-        "source": 56,
-        "total_leads": 19,
-        "timeline": {}
-      },
-      {
-        "source": 57,
-        "total_leads": 15,
-        "timeline": {}
-      },
-      {
-        "source": 58,
-        "total_leads": 10,
-        "timeline": {}
-      },
-      {
-        "source": 59,
-        "total_leads": 13,
-        "timeline": {}
-      },
-      {
-        "source": 60,
-        "total_leads": 17,
-        "timeline": {}
-      },
-      {
-        "source": 61,
-        "total_leads": 13,
-        "timeline": {}
-      },
-      {
-        "source": 62,
-        "total_leads": 9,
-        "timeline": {}
-      },
-      {
-        "source": 63,
-        "total_leads": 6,
-        "timeline": {}
-      },
-      {
-        "source": 64,
-        "total_leads": 11,
-        "timeline": {}
-      },
-      {
-        "source": 65,
-        "total_leads": 1,
-        "timeline": {}
-      },
-      {
-        "source": "Clinician Visits ",
-        "total_leads": 214,
-        "timeline": {}
-      },
-      {
-        "source": "Full BD",
-        "total_leads": 215,
-        "timeline": {}
-      },
-      {
-        "source": "NP's",
-        "total_leads": 209,
-        "timeline": {}
-      },
-      {
-        "source": "LP's",
-        "total_leads": 37,
-        "timeline": {}
-      },
-      {
-        "source": "MRI's",
-        "total_leads": 193,
-        "timeline": {}
-      },
-      {
-        "source": "DROPPED",
-        "total_leads": 13,
-        "timeline": {}
-      },
-      {
-        "source": "Second Year Visits",
-        "total_leads": "Total Completed",
-        "timeline": {}
-      },
-      {
-        "source": "Clinician Visit",
-        "total_leads": 171,
-        "timeline": {}
-      },
-      {
-        "source": "NP",
-        "total_leads": 171,
-        "timeline": {}
-      },
-      {
-        "source": "DROPPED",
-        "total_leads": 15,
-        "timeline": {}
-      },
-      {
-        "source": "Third Year Visits",
-        "total_leads": "Total Completed",
-        "timeline": {}
-      },
-      {
-        "source": "MRI ",
-        "total_leads": 119,
-        "timeline": {}
-      },
-      {
-        "source": "BD",
-        "total_leads": 122,
-        "timeline": {}
-      },
-      {
-        "source": "NP",
-        "total_leads": 121,
-        "timeline": {}
-      },
-      {
-        "source": "Clinician Visit",
-        "total_leads": 122,
-        "timeline": {}
-      },
-      {
-        "source": "120 Complete ",
-        "total_leads": 484,
-        "timeline": {}
-      },
-      {
-        "source": "*Note: 3 opted out of MRI",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": "DROPPED",
-        "total_leads": 15,
-        "timeline": {}
-      },
-      {
-        "source": "Fourth Year Visits",
-        "total_leads": "Total Completed",
-        "timeline": {}
-      },
-      {
-        "source": "BD",
-        "total_leads": 28,
-        "timeline": {}
-      },
-      {
-        "source": "NP",
-        "total_leads": 28,
-        "timeline": {}
-      },
-      {
-        "source": "CV",
-        "total_leads": 28,
-        "timeline": {}
-      },
-      {
-        "source": "DROPPED",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": "Total Visits Quarterly",
-        "total_leads": "Q1 '23 (n=10)",
-        "timeline": {}
-      },
-      {
-        "source": "Clinician Visits ",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Full BD",
-        "total_leads": 10,
-        "timeline": {}
-      },
-      {
-        "source": "NP's",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "LP's",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "MRI's",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "APOE Status (n=200)",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": "E2/E2",
-        "total_leads": 1,
-        "timeline": {}
-      },
-      {
-        "source": "E2/E3",
-        "total_leads": 7,
-        "timeline": {}
-      },
-      {
-        "source": "E2/E4",
-        "total_leads": 1,
-        "timeline": {}
-      },
-      {
-        "source": "E3/E3",
-        "total_leads": 142,
-        "timeline": {}
-      },
-      {
-        "source": "E3/E4",
-        "total_leads": 44,
-        "timeline": {}
-      },
-      {
-        "source": "E4/E4",
-        "total_leads": 5,
-        "timeline": {}
-      },
-      {
-        "source": "Future Visits (n=14)",
-        "total_leads": "March",
-        "timeline": {}
-      },
-      {
-        "source": "Screening Visits",
-        "total_leads": 1,
-        "timeline": {}
-      },
-      {
-        "source": "Males",
-        "total_leads": 1,
-        "timeline": {}
-      },
-      {
-        "source": "Females",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Diabetic (Self-Reported)",
-        "total_leads": 2,
-        "timeline": {}
-      },
-      {
-        "source": "Non Diabetic (Self-Reported)",
-        "total_leads": 3,
-        "timeline": {}
-      },
-      {
-        "source": "English Speakers",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Spanish Speakers",
-        "total_leads": 1,
-        "timeline": {}
-      },
-      {
-        "source": "Future Visits (n=2)",
-        "total_leads": "March (n=2)",
-        "timeline": {}
-      },
-      {
-        "source": "Initial Visits",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": "Males",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Females",
-        "total_leads": 2,
-        "timeline": {}
-      },
-      {
-        "source": "Diabetic (Lab Verified)",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Prediabetic (Lab Verified)",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Non Diabetic (Lab Verified)",
-        "total_leads": 2,
-        "timeline": {}
-      },
-      {
-        "source": "English Speakers",
-        "total_leads": 0,
-        "timeline": {}
-      },
-      {
-        "source": "Spanish Speakers",
-        "total_leads": 2,
-        "timeline": {}
-      },
-      {
-        "source": "AGE",
-        "total_leads": "53, 55",
-        "timeline": {}
-      },
-      {
-        "source": "APOE Status Completed Baseline (n=187)",
-        "total_leads": null,
-        "timeline": {}
-      },
-      {
-        "source": "E2/E2",
-        "total_leads": 1,
-        "timeline": {}
-      },
-      {
-        "source": "E2/E3",
-        "total_leads": 7,
-        "timeline": {}
-      },
-      {
-        "source": "E2/E4",
-        "total_leads": 1,
-        "timeline": {}
-      },
-      {
-        "source": "E3/E3",
-        "total_leads": 133,
-        "timeline": {}
-      },
-      {
-        "source": "E3/E4",
-        "total_leads": 40,
-        "timeline": {}
-      },
-      {
-        "source": "E4/E4",
-        "total_leads": 5,
-        "timeline": {}
+        "timeline": {
+          "Number of Leads (Dec '22 - Feb 23. '23) (n=234)": 1,
+          "Number of Leads (Feb 24. '23 - Mar 23. '23) (n=65)": 1,
+          "Number of Leads (Mar 24. '23 - Apr 28. '23) (n=83)": 1,
+          "Number of Leads (April 29. '23 - May 26. '23) (n=51)": 2,
+          "Number of Leads (May 27. '23 - June 30. '23) (n=85)": 0,
+          "Number of Leads (July 1. '23 - July 28. '23) (n=69)": 1,
+          "Number of Leads (July 29. '23 - Aug 25. '23) (n=52)": 1,
+          "Number of Leads (Aug 26. '23 – Sept 29. '23) (n=105)": 0,
+          "Number of Leads (Sep 30. '23 – Oct 27. '23) (n=72)": 1,
+          "Number of Leads (Oct 28. '23 – Nov 17. '23) (n=53)": 1,
+          "Number of Leads (Nov 18. '23 – Dec 15. '23) (n=63)": 1,
+          "Number of Leads (Dec 16. '23 – Jan 26. '24) (n=93)": 2,
+          "Number of Leads (Jan 27. '24 – Mar 1. '24) (n=78)": 2,
+          "Number of Leads (Mar 2. '24 – Mar 28. '24) (n=69)": 2,
+          "Number of Leads (Mar 29. '24 – Apr 26. '24) (n=82)": 2,
+          "Number of Leads (Apr 27. '24 – May 31. '24) (n=103)": 0,
+          "Number of Leads (Jun 1. '24 – Jun 28. '24) (n=61)": 1,
+          "Number of Leads (Jun 29. '24 – Jul 26. '24) (n=35)": 1,
+          "Number of Leads (Jul 27. '24 – Aug 30. '24) (n=48)": 0,
+          "Number of Leads (Aug 31. '24 – Oct 4. '24) (n=58)": 0,
+          "Number of Leads (Oct 5. '24 – Oct 25. '24) (n=56)": 0,
+          "Number of Leads (Oct 26. '24 – Nov 22. '24) (n=68)": 0,
+          "Number of Leads (Nov 23. '24 – Dec 20. '24) (n=42)": 0,
+          "Number of Leads (Dec 21. '24 – Jan 31. '25) (n=9)": 1
+        }
       }
     ],
-    "periods": []
+    "periods": [
+      "Number of Leads (Dec '22 - Feb 23. '23) (n=234)",
+      "Number of Leads (Feb 24. '23 - Mar 23. '23) (n=65)",
+      "Number of Leads (Mar 24. '23 - Apr 28. '23) (n=83)",
+      "Number of Leads (April 29. '23 - May 26. '23) (n=51)",
+      "Number of Leads (May 27. '23 - June 30. '23) (n=85)",
+      "Number of Leads (July 1. '23 - July 28. '23) (n=69)",
+      "Number of Leads (July 29. '23 - Aug 25. '23) (n=52)",
+      "Number of Leads (Aug 26. '23 – Sept 29. '23) (n=105)",
+      "Number of Leads (Sep 30. '23 – Oct 27. '23) (n=72)",
+      "Number of Leads (Oct 28. '23 – Nov 17. '23) (n=53)",
+      "Number of Leads (Nov 18. '23 – Dec 15. '23) (n=63)",
+      "Number of Leads (Dec 16. '23 – Jan 26. '24) (n=93)",
+      "Number of Leads (Jan 27. '24 – Mar 1. '24) (n=78)",
+      "Number of Leads (Mar 2. '24 – Mar 28. '24) (n=69)",
+      "Number of Leads (Mar 29. '24 – Apr 26. '24) (n=82)",
+      "Number of Leads (Apr 27. '24 – May 31. '24) (n=103)",
+      "Number of Leads (Jun 1. '24 – Jun 28. '24) (n=61)",
+      "Number of Leads (Jun 29. '24 – Jul 26. '24) (n=35)",
+      "Number of Leads (Jul 27. '24 – Aug 30. '24) (n=48)",
+      "Number of Leads (Aug 31. '24 – Oct 4. '24) (n=58)",
+      "Number of Leads (Oct 5. '24 – Oct 25. '24) (n=56)",
+      "Number of Leads (Oct 26. '24 – Nov 22. '24) (n=68)",
+      "Number of Leads (Nov 23. '24 – Dec 20. '24) (n=42)",
+      "Number of Leads (Dec 21. '24 – Jan 31. '25) (n=9)"
+    ]
   },
   "active_participants": [
     "DBS-0007",
@@ -51486,15 +50731,6 @@
       "NP Cumulative": 171,
       "Total Visits Cumulative": 342,
       "Max Possible Visits": 374
-    },
-    {
-      "Date": " ",
-      "CV Monthly": null,
-      "NP Monthly": null,
-      "CV Cumulative": null,
-      "NP Cumulative": null,
-      "Total Visits Cumulative": null,
-      "Max Possible Visits": null
     }
   ],
   "visit_trends_sheet6": [

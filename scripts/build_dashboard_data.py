@@ -127,23 +127,29 @@ def parse_study_progress(path: Path, sheet: str = "Study Progress") -> list[dict
 
 def parse_recruitment(path: Path) -> dict[str, Any]:
     df = pd.read_excel(path, sheet_name="Study Details", header=None)
-    header_row = df.iloc[1].tolist()
+    header_row = df.iloc[2].tolist()
     period_columns = [serialize(c) for c in header_row[2:] if serialize(c)]
     rows = []
-    for idx in range(2, len(df)):
+    grand_total = None
+    for idx in range(3, len(df)):
         source = serialize(df.iloc[idx, 0])
-        if not source or source == "Total":
+        if not source:
+            break
+        total_raw = df.iloc[idx, 1]
+        if pd.isna(total_raw):
             continue
-        values = [serialize(v) for v in df.iloc[idx, 1:]]
-        total = values[0] if values else None
+        try:
+            total = int(float(total_raw))
+        except (TypeError, ValueError):
+            continue
         timeline = {}
         for col_name, val in zip(header_row[2:], df.iloc[idx, 2:]):
             key = serialize(col_name)
             if key:
                 timeline[key] = serialize(val)
         rows.append({"source": source, "total_leads": total, "timeline": timeline})
-    total_row = df[df.iloc[:, 0].astype(str).str.lower() == "total"]
-    grand_total = serialize(total_row.iloc[0, 1]) if not total_row.empty else None
+    if rows:
+        grand_total = sum(r["total_leads"] for r in rows)
     return {"summary_n": 1735, "grand_total": grand_total, "sources": rows, "periods": period_columns}
 
 
@@ -613,7 +619,8 @@ def parse_visit_trends(path: Path, sheet: str) -> list[dict[str, Any]]:
     df = read_sheet(path, sheet)
     rows = []
     for _, row in df.iterrows():
-        if pd.isna(row.get("Date")):
+        date_val = row.get("Date")
+        if pd.isna(date_val) or not str(date_val).strip():
             continue
         rows.append({k: serialize(v) for k, v in row.items()})
     return rows
