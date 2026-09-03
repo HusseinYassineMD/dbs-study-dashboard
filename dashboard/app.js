@@ -46,6 +46,7 @@ const sectionCopy = {
   clinical: ["Clinical Operations", "Screening, study partners, samples, and MRI logistics"],
   genotype: ["Genotype & Labs", "Diabetes status, AD risk groups, and lab fulfillment"],
   dropouts: ["Dropouts", "Attrition analysis across baseline and follow-up years"],
+  "monthly-report": ["Monthly Report", "One-click USC-branded PowerPoint for monthly progress meetings"],
   "data-explorer": ["Data Explorer", "Browse every sheet loaded from both workbooks"],
 };
 
@@ -657,6 +658,7 @@ async function boot() {
   renderClinical();
   renderGenotype();
   renderDropouts();
+  renderReport();
   renderCatalog();
   initNavigation();
 }

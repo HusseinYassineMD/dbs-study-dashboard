@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -29,6 +30,7 @@
         <button class="nav-item" data-section="clinical">Clinical Ops</button>
         <button class="nav-item" data-section="genotype">Genotype & Labs</button>
         <button class="nav-item" data-section="dropouts">Dropouts</button>
+        <button class="nav-item" data-section="monthly-report">Monthly Report</button>
         <button class="nav-item" data-section="data-explorer">Data Explorer</button>
       </nav>
       <footer class="sidebar-footer">
@@ -269,6 +271,53 @@
         </div>
       </section>
 
+      <section id="monthly-report" class="panel">
+        <article class="card report-hero">
+          <div class="card-header">
+            <h3>Monthly Progress Report</h3>
+            <p>Generate a USC-branded PowerPoint matching the monthly meeting deck — one click, all metrics pulled from live dashboard data</p>
+          </div>
+          <div class="report-controls">
+            <label for="report-month-select">Report month</label>
+            <select id="report-month-select"></select>
+            <button type="button" class="report-generate-btn" id="generate-report-btn">
+              Download PowerPoint (.pptx)
+            </button>
+          </div>
+          <p class="report-status" id="report-status">Select a month and click to generate your report.</p>
+        </article>
+        <div class="grid-2">
+          <article class="card">
+            <div class="card-header">
+              <h3>Report Preview</h3>
+              <p>Metrics that will appear in the deck</p>
+            </div>
+            <div class="table-wrap" id="report-preview"></div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <h3>Slides Included</h3>
+              <p>9 slides · USC Cardinal &amp; Gold branding</p>
+            </div>
+            <ol class="report-slide-list">
+              <li>Title — Diabetes Brain Study Monthly Progress Meeting</li>
+              <li>Executive Summary — dropouts, Year 3/4 completed, active count</li>
+              <li>Completed Visits — 3rd &amp; 4th year visit breakdown for selected month</li>
+              <li>Year 3 Visit Status</li>
+              <li>Year 4 Visit Status</li>
+              <li>Study Progress — participant flow table (N = 200)</li>
+              <li>Recruitment Summary — sources &amp; lead totals</li>
+              <li>Genotype &amp; Clinical Summary</li>
+              <li>Thank You / Questions</li>
+            </ol>
+            <div class="report-brand-note">
+              <span class="swatch cardinal"></span> USC Cardinal
+              <span class="swatch gold"></span> USC Gold
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section id="data-explorer" class="panel">
         <article class="card">
           <div class="card-header">
@@ -287,6 +336,7 @@
     </main>
   </div>
 
+  <script src="report.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
