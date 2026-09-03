@@ -624,6 +624,9 @@ function activateSection(section) {
   const [title, subtitle] = sectionCopy[section];
   document.getElementById("section-title").textContent = title;
   document.getElementById("section-subtitle").textContent = subtitle;
+  if (section === "monthly-report" && typeof updateReportPreview === "function") {
+    updateReportPreview();
+  }
 }
 
 function initNavigation() {

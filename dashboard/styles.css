@@ -393,6 +393,17 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 .swatch.cardinal { background: #990000; }
 .swatch.gold { background: #ffcc00; border: 1px solid rgba(0,0,0,0.08); }
 
+.report-live-badge {
+  margin: 0 24px 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(153, 0, 0, 0.08);
+  border: 1px solid rgba(153, 0, 0, 0.15);
+  color: #990000;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
 .report-preview-section {
   padding: 0 24px 20px;
 }

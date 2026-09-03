@@ -739,6 +739,18 @@ function renderReportPreview(metrics) {
     );
 }
 
+function updateReportPreview() {
+  const select = document.getElementById("report-month-select");
+  if (!select || !select.value || !DATA) return;
+  const [year, month] = select.value.split("-").map(Number);
+  const metrics = collectReportMetrics(year, month);
+  renderReportPreview(metrics);
+  const badge = document.getElementById("report-live-badge");
+  if (badge) {
+    badge.textContent = `Live preview · ${metrics.label} · 2nd Yr CV: ${metrics.y2Monthly.cv ?? metrics.trend5?.["CV Monthly"] ?? 0} · 3rd Yr visits: ${metrics.y3TotalMonthVisits}`;
+  }
+}
+
 function renderReport() {
   const select = document.getElementById("report-month-select");
   const months = availableReportMonths();
@@ -753,13 +765,9 @@ function renderReport() {
     select.value = prev;
   }
 
-  const updatePreview = () => {
-    const [year, month] = select.value.split("-").map(Number);
-    renderReportPreview(collectReportMetrics(year, month));
-  };
-
-  select.onchange = updatePreview;
-  updatePreview();
+  select.removeEventListener("change", updateReportPreview);
+  select.addEventListener("change", updateReportPreview);
+  updateReportPreview();
 
   const btn = document.getElementById("generate-report-btn");
   const status = document.getElementById("report-status");
