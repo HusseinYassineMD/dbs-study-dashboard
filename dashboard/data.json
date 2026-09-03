@@ -2,7 +2,7 @@
   "meta": {
     "title": "Diabetes Brain Study (DBS) Operations Dashboard",
     "subtitle": "Unified view of participant tracking, recruitment, and visit progress",
-    "generated_at": "2026-09-02T14:01:34.351786",
+    "generated_at": "2026-09-03T14:01:34.249450",
     "sources": [
       "DBS Tracker.xlsx",
       "Monthly Meeting Updates.xlsx"
@@ -16677,7 +16677,7 @@
       "participant_id": "DBS-1619",
       "survey_link_sent": "LC 02/21: Sent survey link",
       "completed": null,
-      "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30 NC sent text, IV 12/8: reminded, sent link 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text,AG 7/9: sent text; NC 6/9: F/u for survey; LC 03/13: F/u for survey ",
+      "notes": "9/2/26 JE Confirmed linked recived. Mentioend that the person did not live with him anymoe so I explained that he can share the link with anyone who he thinks would have isight on him despite location. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30 NC sent text, IV 12/8: reminded, sent link 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text,AG 7/9: sent text; NC 6/9: F/u for survey; LC 03/13: F/u for survey ",
       "record_id": null
     },
     {
@@ -24754,6 +24754,15 @@
       "Calendar Updated?": true,
       "Calendar updated up till 6/29/26": null,
       "participant_id": "DBS-1368"
+    },
+    {
+      "ID": "DBS-1523",
+      "Date of Visit": "2026-09-10T00:00:00",
+      "Completed?": false,
+      "Printed?": false,
+      "Calendar Updated?": true,
+      "Calendar updated up till 6/29/26": null,
+      "participant_id": "DBS-1523"
     }
   ],
   "clincard": [
@@ -64100,7 +64109,7 @@
         "col_8": null,
         "col_9": null,
         "col_10": null,
-        "row_number": 173
+        "row_number": 172
       },
       {
         "col_0": null,
@@ -64114,7 +64123,7 @@
         "col_8": null,
         "col_9": null,
         "col_10": null,
-        "row_number": 174
+        "row_number": 173
       },
       {
         "col_0": null,
@@ -64128,7 +64137,7 @@
         "col_8": null,
         "col_9": null,
         "col_10": null,
-        "row_number": 175
+        "row_number": 174
       },
       {
         "col_0": null,
@@ -64142,7 +64151,7 @@
         "col_8": null,
         "col_9": null,
         "col_10": null,
-        "row_number": 176
+        "row_number": 175
       },
       {
         "col_0": null,
@@ -64156,7 +64165,7 @@
         "col_8": null,
         "col_9": null,
         "col_10": null,
-        "row_number": 177
+        "row_number": 176
       },
       {
         "col_0": null,
@@ -64170,7 +64179,7 @@
         "col_8": null,
         "col_9": null,
         "col_10": null,
-        "row_number": 178
+        "row_number": 177
       },
       {
         "col_0": null,
@@ -64184,7 +64193,7 @@
         "col_8": null,
         "col_9": null,
         "col_10": null,
-        "row_number": 179
+        "row_number": 178
       },
       {
         "col_0": null,
@@ -64198,7 +64207,7 @@
         "col_8": null,
         "col_9": null,
         "col_10": null,
-        "row_number": 180
+        "row_number": 179
       },
       {
         "col_0": "October '26",
@@ -64212,7 +64221,7 @@
         "col_8": null,
         "col_9": null,
         "col_10": null,
-        "row_number": 182
+        "row_number": 181
       },
       {
         "col_0": null,
@@ -64226,7 +64235,7 @@
         "col_8": null,
         "col_9": null,
         "col_10": null,
-        "row_number": 183
+        "row_number": 182
       },
       {
         "col_0": null,
@@ -64240,7 +64249,7 @@
         "col_8": null,
         "col_9": null,
         "col_10": null,
-        "row_number": 184
+        "row_number": 183
       }
     ],
     "tracker::3rd Yr Scheduling Notes": [
@@ -70376,7 +70385,7 @@
         "col_8": null,
         "col_9": null,
         "col_10": null,
-        "col_11": "last extract batch: 8/11/26",
+        "col_11": "last extract batch: 9/2/26 NC",
         "col_12": null,
         "col_13": null,
         "col_14": null,
@@ -87647,7 +87656,7 @@
         "col_0": "DBS-1619",
         "col_1": "LC 02/21: Sent survey link",
         "col_2": false,
-        "col_3": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30 NC sent text, IV 12/8: reminded, sent link 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text,AG 7/9: sent text; NC 6/9: F/u for survey; LC 03/13: F/u for survey ",
+        "col_3": "9/2/26 JE Confirmed linked recived. Mentioend that the person did not live with him anymoe so I explained that he can share the link with anyone who he thinks would have isight on him despite location. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30 NC sent text, IV 12/8: reminded, sent link 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text,AG 7/9: sent text; NC 6/9: F/u for survey; LC 03/13: F/u for survey ",
         "col_4": null,
         "col_5": null,
         "col_6": null,
@@ -119605,6 +119614,16 @@
         "col_5": null,
         "row_number": 104,
         "participant_id": "DBS-1368"
+      },
+      {
+        "col_0": "DBS-1523",
+        "col_1": "2026-09-10T00:00:00",
+        "col_2": false,
+        "col_3": false,
+        "col_4": true,
+        "col_5": null,
+        "row_number": 105,
+        "participant_id": "DBS-1523"
       }
     ],
     "tracker::uds_id_200": [
@@ -181869,7 +181888,7 @@
         "participant_id": "DBS-1619",
         "survey_link_sent": "LC 02/21: Sent survey link",
         "completed": null,
-        "notes": "8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30 NC sent text, IV 12/8: reminded, sent link 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text,AG 7/9: sent text; NC 6/9: F/u for survey; LC 03/13: F/u for survey ",
+        "notes": "9/2/26 JE Confirmed linked recived. Mentioend that the person did not live with him anymoe so I explained that he can share the link with anyone who he thinks would have isight on him despite location. ;; 8/21/26 NC sent text; 7/17/26 Email sent NC; 6/22/26 NC sent reminder 1/30 NC sent text, IV 12/8: reminded, sent link 9/16 NC sent email  8/18 NC sent follow up text AG 7/23/: sent follow up text,AG 7/9: sent text; NC 6/9: F/u for survey; LC 03/13: F/u for survey ",
         "record_id": null
       },
       "stool_sample": {
