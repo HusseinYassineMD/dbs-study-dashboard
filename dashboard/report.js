@@ -650,42 +650,83 @@ async function generateMonthlyReportPPT(year, month) {
   return { filename, metrics };
 }
 
+function monthFromColumnKey(key) {
+  if (!key || ["visit_type", "total_completed"].includes(key)) return null;
+  const m = key.match(
+    /(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s.']+'?(\d{2})/i
+  );
+  if (!m) return null;
+  const abbr = m[1].slice(0, 3).toLowerCase();
+  const idx = MONTH_NAMES.findIndex((n) => n.toLowerCase().startsWith(abbr));
+  if (idx < 0) return null;
+  return { year: 2000 + Number(m[2]), month: idx + 1 };
+}
+
+function addMonthToSet(seen, year, month) {
+  if (!year || !month || month < 1 || month > 12) return;
+  seen.add(`${year}-${month}`);
+}
+
+function collectMonthsFromDates(seen, value) {
+  const d = parseIsoDate(value);
+  if (d) addMonthToSet(seen, d.getFullYear(), d.getMonth() + 1);
+}
+
 function availableReportMonths() {
   const seen = new Set();
-  const options = [];
-
-  const add = (year, month) => {
-    const key = `${year}-${month}`;
-    if (seen.has(key)) return;
-    seen.add(key);
-    options.push({ year, month, label: monthLabel(year, month) });
-  };
 
   ["visit_trends_sheet5", "visit_trends_sheet6"].forEach((key) => {
-    (DATA[key] || []).forEach((r) => {
-      const d = parseIsoDate(r.Date);
-      if (d) add(d.getFullYear(), d.getMonth() + 1);
-    });
+    (DATA[key] || []).forEach((r) => collectMonthsFromDates(seen, r.Date));
   });
 
   (DATA.second_year_monthly || []).forEach((row) => {
     Object.keys(row).forEach((k) => {
-      if (["visit_type", "total_completed"].includes(k)) return;
-      const m = k.match(/(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+'(\d{2})/i);
-      if (m) {
-        const abbr = m[1].slice(0, 3).toLowerCase();
-        const idx = MONTH_NAMES.findIndex((n) => n.toLowerCase().startsWith(abbr));
-        if (idx >= 0) add(2000 + Number(m[2]), idx + 1);
-      }
+      const parsed = monthFromColumnKey(k);
+      if (parsed) addMonthToSet(seen, parsed.year, parsed.month);
+    });
+  });
+
+  ["third_year_scheduling", "fourth_year_scheduling", "second_year_scheduling", "baseline_scheduling"].forEach((key) => {
+    (DATA[key] || []).forEach((row) => {
+      collectMonthsFromDates(seen, row.Month);
+      Object.entries(row).forEach(([field, val]) => {
+        if (/date|month/i.test(field)) collectMonthsFromDates(seen, val);
+      });
+    });
+  });
+
+  ["second_year", "third_year", "fourth_year"].forEach((key) => {
+    (DATA.completed_visits?.[key] || []).forEach((row) => {
+      collectMonthsFromDates(seen, row.scheduling_month);
     });
   });
 
   if (DATA.meta?.generated_at) {
     const d = new Date(DATA.meta.generated_at);
-    if (!Number.isNaN(d.getTime())) add(d.getFullYear(), d.getMonth() + 1);
+    if (!Number.isNaN(d.getTime())) addMonthToSet(seen, d.getFullYear(), d.getMonth() + 1);
   }
 
-  return options.sort((a, b) => b.year - a.year || b.month - a.month);
+  // Fill every month between earliest and latest so there are no gaps
+  const parsed = [...seen].map((k) => {
+    const [y, m] = k.split("-").map(Number);
+    return { year: y, month: m, key: y * 12 + m };
+  });
+  if (parsed.length) {
+    const min = Math.min(...parsed.map((p) => p.key));
+    const max = Math.max(...parsed.map((p) => p.key));
+    for (let cursor = min; cursor <= max; cursor += 1) {
+      const year = Math.floor((cursor - 1) / 12);
+      const month = ((cursor - 1) % 12) + 1;
+      addMonthToSet(seen, year, month);
+    }
+  }
+
+  return [...seen]
+    .map((k) => {
+      const [year, month] = k.split("-").map(Number);
+      return { year, month, label: monthLabel(year, month) };
+    })
+    .sort((a, b) => b.year - a.year || b.month - a.month);
 }
 
 function renderReportPreview(metrics) {
