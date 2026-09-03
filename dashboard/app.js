@@ -132,8 +132,12 @@ function chartDefaults() {
   Chart.defaults.color = "#5f6b7a";
 }
 
+function getMeetingProgress() {
+  return DATA.study_progress_meeting?.length ? DATA.study_progress_meeting : DATA.study_progress_tracker;
+}
+
 function renderOverview() {
-  const progress = DATA.study_progress_tracker;
+  const progress = getMeetingProgress();
   const baseline = progress.find((r) => String(r.year).toLowerCase() === "baseline") || progress[0];
   const year2 = progress.find((r) => String(r.year) === "2") || {};
   const year3 = progress.find((r) => String(r.year) === "3") || {};
@@ -162,7 +166,7 @@ function renderOverview() {
     {
       label: "Year 3 Completed",
       value: year3.completed ?? "—",
-      footnote: pct(year3.pct_completed_active) + " of active",
+      footnote: pct(year3.pct_completed_active) + " of active · Monthly Meeting Updates",
       cls: "",
     },
   ]
@@ -225,7 +229,8 @@ function renderOverview() {
 }
 
 function renderProgress() {
-  const progress = DATA.study_progress_tracker;
+  const progress = getMeetingProgress();
+  const tracker = DATA.study_progress_tracker || [];
   const labels = progress.map((r) => r.year);
   destroyChart("completion-total-chart");
   charts["completion-total-chart"] = new Chart(document.getElementById("completion-total-chart"), {
@@ -270,8 +275,30 @@ function renderProgress() {
     "% Total": pct(r.pct_completed_total),
     "% Active": pct(r.pct_completed_active),
     Notes: r.notes || "—",
+    Source: "Monthly Meeting Updates",
   }));
+
   renderTable("progress-table", rows);
+
+  const compareEl = document.getElementById("progress-compare-table");
+  if (compareEl) {
+    const compareRows = progress
+      .filter((r) => r.completed != null)
+      .map((meetingRow) => {
+        const trackerRow = tracker.find((t) => String(t.year) === String(meetingRow.year)) || {};
+        const meetingCompleted = meetingRow.completed;
+        const trackerCompleted = trackerRow.completed;
+        const match = meetingCompleted === trackerCompleted ? "Match" : "Mismatch";
+        return {
+          Year: meetingRow.year,
+          "Meeting Completed": meetingCompleted,
+          "Tracker Completed": trackerCompleted ?? "—",
+          Difference: trackerCompleted != null ? meetingCompleted - trackerCompleted : "—",
+          Status: match,
+        };
+      });
+    renderTable("progress-compare-table", compareRows);
+  }
 }
 
 function renderRecruitment() {
