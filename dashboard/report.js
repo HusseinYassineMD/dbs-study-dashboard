@@ -15,8 +15,10 @@ const MONTH_NAMES = [
 ];
 
 function parseIsoDate(value) {
-  if (!value) return null;
-  const d = new Date(value);
+  if (value == null || value === "") return null;
+  const s = String(value).trim();
+  if (!s || /opt out|n\/a|^nan$/i.test(s)) return null;
+  const d = new Date(s);
   return Number.isNaN(d.getTime()) ? null : d;
 }
 
@@ -53,30 +55,68 @@ function countCompletedVisitsInMonth(yearKey, year, month) {
 }
 
 function findMonthlyColumn(monthlyRows, year, month) {
-  const abbr = MONTH_NAMES[month - 1].slice(0, 3);
-  const yy = String(year).slice(-2);
-  const patterns = [
-    `${abbr} '${String(year).slice(-2)}`,
-    `${abbr} '${yy}`,
-    `${abbr} ${yy}`,
-    `${abbr}'${yy}`,
-    `${MONTH_NAMES[month - 1]} '${yy}`,
-    `${MONTH_NAMES[month - 1]} ${year}`,
-    `${MONTH_NAMES[month - 1]} '${String(year).slice(-2)}`,
-  ];
   if (!monthlyRows?.length) return null;
+  const full = MONTH_NAMES[month - 1];
+  const abbr = full.slice(0, 3);
+  const yy = String(year).slice(-2);
   const keys = Object.keys(monthlyRows[0]).filter(
     (k) => !["visit_type", "total_completed"].includes(k)
   );
-  for (const pattern of patterns) {
-    const match = keys.find((k) => k.toLowerCase().startsWith(pattern.toLowerCase()));
-    if (match) return match;
-  }
-  return keys.find((k) => k.toLowerCase().includes(abbr.toLowerCase()) && k.includes(String(year).slice(-2))) || null;
+  return (
+    keys.find((k) => k.toLowerCase().includes(full.toLowerCase()) && k.includes(`'${yy}`)) ||
+    keys.find((k) => k.toLowerCase().startsWith(abbr.toLowerCase()) && k.includes(`'${yy}`)) ||
+    keys.find((k) => k.toLowerCase().includes(abbr.toLowerCase()) && k.includes(yy)) ||
+    null
+  );
 }
 
-function visitTrendForMonth(year, month) {
-  return (DATA.visit_trends_sheet5 || []).find((r) => inCalendarMonth(r.Date, year, month)) || null;
+function visitTrendForMonth(sheetKey, year, month) {
+  return (DATA[sheetKey] || []).find((r) => inCalendarMonth(r.Date, year, month)) || null;
+}
+
+/** Sum recruitment leads from period columns overlapping the selected calendar month. */
+function recruitmentLeadsForMonth(year, month) {
+  const sources = DATA.recruitment?.sources || [];
+  const periods = DATA.recruitment?.periods || [];
+  const monthStart = new Date(year, month - 1, 1);
+  const monthEnd = new Date(year, month, 0);
+
+  const monthRe = new RegExp(
+    `(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\.?\\s+'?(\\d{2})`,
+    "gi"
+  );
+
+  function parsePeriodDate(token) {
+    const m = token.trim().match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+'?(\d{2})/i);
+    if (!m) return null;
+    const abbr = m[1].slice(0, 3).toLowerCase();
+    const idx = MONTH_NAMES.findIndex((n) => n.toLowerCase().startsWith(abbr));
+    if (idx < 0) return null;
+    const y = 2000 + Number(m[2]);
+    return new Date(y, idx, 1);
+  }
+
+  let total = 0;
+  const matchedPeriods = [];
+
+  periods.forEach((period) => {
+    const inner = period.match(/\(([^)]+)\)/);
+    if (!inner) return;
+    const parts = inner[1].split(/–|-/);
+    if (parts.length < 2) return;
+    const start = parsePeriodDate(parts[0]);
+    const end = parsePeriodDate(parts[1]);
+    if (!start || !end) return;
+    const endLast = new Date(end.getFullYear(), end.getMonth() + 1, 0);
+    if (start <= monthEnd && endLast >= monthStart) {
+      matchedPeriods.push(period);
+      sources.forEach((s) => {
+        total += Number(s.timeline?.[period]) || 0;
+      });
+    }
+  });
+
+  return { total, matchedPeriods };
 }
 
 function collectReportMetrics(year, month) {
@@ -104,11 +144,15 @@ function collectReportMetrics(year, month) {
   const npRow = DATA.second_year_monthly?.find((r) => r.visit_type === "NP");
   const monthCol = findMonthlyColumn(DATA.second_year_monthly, year, month);
   const y2Monthly = {
+    column: monthCol,
     cv: monthCol && cvRow ? Number(cvRow[monthCol]) || 0 : null,
     np: monthCol && npRow ? Number(npRow[monthCol]) || 0 : null,
   };
 
-  const trend = visitTrendForMonth(year, month);
+  const trend5 = visitTrendForMonth("visit_trends_sheet5", year, month);
+  const trend6 = visitTrendForMonth("visit_trends_sheet6", year, month);
+  const recruitmentMonth = recruitmentLeadsForMonth(year, month);
+
   const dropouts = {
     baseline: baseline.dropped_out_dq ?? 0,
     year2: y2.dropped_out_dq ?? 0,
@@ -120,11 +164,22 @@ function collectReportMetrics(year, month) {
   const recruitment = DATA.recruitment || {};
   const genotype = DATA.genotype_summary || {};
 
+  const y2CompletedMonth = countCompletedVisitsInMonth("second_year", year, month);
   const y3CompletedMonth = countCompletedVisitsInMonth("third_year", year, month);
   const y4CompletedMonth = countCompletedVisitsInMonth("fourth_year", year, month);
 
   const y3TotalMonthVisits = y3Visits.mri + y3Visits.bloodDraw + y3Visits.np + y3Visits.cv;
   const y4TotalMonthVisits = y4Visits.bloodDraw + y4Visits.np + y4Visits.cv;
+
+  const monthlyVisitTotal =
+    (y2Monthly.cv ?? trend5?.["CV Monthly"] ?? trend6?.["CV Monthly"] ?? 0) +
+    (y2Monthly.np ?? trend5?.["NP Monthly"] ?? trend6?.["NP Monthly"] ?? 0) +
+    y3TotalMonthVisits +
+    y4TotalMonthVisits;
+
+  const isCurrentOrFuture =
+    year > new Date().getFullYear() ||
+    (year === new Date().getFullYear() && month >= new Date().getMonth() + 1);
 
   return {
     label: monthLabel(year, month),
@@ -141,11 +196,17 @@ function collectReportMetrics(year, month) {
     y3Visits,
     y4Visits,
     y2Monthly,
-    trend,
+    trend5,
+    trend6,
+    recruitmentMonth,
+    y2CompletedMonth,
     y3CompletedMonth,
     y4CompletedMonth,
     y3TotalMonthVisits,
     y4TotalMonthVisits,
+    monthlyVisitTotal,
+    isCurrentOrFuture,
+    cumulativeY2AtMonth: trend5?.["CV Cumulative"] ?? trend6?.["CV Cumulative"] ?? null,
     recruitment,
     genotype,
     meetingDropouts: DATA.meeting_dropouts?.length ?? 0,
@@ -311,39 +372,44 @@ function buildExecutiveSummarySlide(pptx, m) {
   addSlideTitle(slide, "Executive Summary", m.label);
 
   addMetricTiles(slide, [
-    { label: "Total Dropouts", value: m.dropouts.total },
-    { label: "Year 3 Completed", value: m.y3.completed ?? "—" },
-    { label: "Year 4 Completed", value: m.y4.completed ?? "—" },
-    { label: "Active Participants", value: m.active },
+    { label: "2nd Yr CV This Month", value: m.y2Monthly.cv ?? m.trend5?.["CV Monthly"] ?? "—" },
+    { label: "2nd Yr NP This Month", value: m.y2Monthly.np ?? m.trend5?.["NP Monthly"] ?? "—" },
+    { label: "Year 3 Completed (now)", value: m.y3.completed ?? "—" },
+    { label: "Year 4 Completed (now)", value: m.y4.completed ?? "—" },
   ]);
 
   addBullets(slide, [
-    `${m.dropouts.baseline} Baseline year · ${m.dropouts.year2} Second year · ${m.dropouts.year3} Third year · ${m.dropouts.year4} Fourth year dropouts`,
-    `${m.y3.completed ?? "—"} participants completed Year 3 (BD, MRI, CV, NP)`,
-    `${m.y4.completed ?? "—"} participants completed Year 4`,
-    `${m.enrolled} enrolled · ${m.baseline.completed ?? "—"} baseline completed · ${m.y2.completed ?? "—"} Year 2 completed`,
-    `Data synced ${m.generatedAt ? new Date(m.generatedAt).toLocaleString() : "from dashboard"}`,
+    `${MONTH_NAMES[m.month - 1]} activity: ${m.monthlyVisitTotal} total visit events logged across study years`,
+    `${m.y3Visits.mri} MRI · ${m.y3Visits.bloodDraw} BD · ${m.y3Visits.np} NP · ${m.y3Visits.cv} CV (3rd year, ${MONTH_NAMES[m.month - 1]})`,
+    `${m.y4Visits.bloodDraw} BD · ${m.y4Visits.np} NP · ${m.y4Visits.cv} CV (4th year, ${MONTH_NAMES[m.month - 1]})`,
+    `Recruitment leads this month: ${m.recruitmentMonth.total}`,
+    `Total dropouts to date: ${m.dropouts.total} · Active participants: ${m.active}`,
   ], { y: 3.05, fontSize: 15 });
 }
 
 function buildMonthlyVisitsSlide(pptx, m) {
   const slide = pptx.addSlide();
-  addSlideTitle(slide, `Completed Visits in ${MONTH_NAMES[m.month - 1]}`, "Visit counts from scheduling records");
+  addSlideTitle(slide, `Completed Visits in ${MONTH_NAMES[m.month - 1]}`, m.label);
+
+  const y2cv = m.y2Monthly.cv ?? m.trend5?.["CV Monthly"] ?? 0;
+  const y2np = m.y2Monthly.np ?? m.trend5?.["NP Monthly"] ?? 0;
 
   const rows = [
     [
       { text: "Visit Type", options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } },
+      { text: "2nd Year", options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } },
       { text: "3rd Year", options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } },
       { text: "4th Year", options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } },
     ],
-    ["MRI", String(m.y3Visits.mri), "—"],
-    ["Blood Draw", String(m.y3Visits.bloodDraw), String(m.y4Visits.bloodDraw)],
-    ["NP Visit", String(m.y3Visits.np), String(m.y4Visits.np)],
-    ["Clinician Visit", String(m.y3Visits.cv), String(m.y4Visits.cv)],
+    ["Clinician Visit", String(y2cv), String(m.y3Visits.cv), String(m.y4Visits.cv)],
+    ["NP Visit", String(y2np), String(m.y3Visits.np), String(m.y4Visits.np)],
+    ["Blood Draw", "—", String(m.y3Visits.bloodDraw), String(m.y4Visits.bloodDraw)],
+    ["MRI", "—", String(m.y3Visits.mri), "—"],
     [
-      { text: "Total", options: { bold: true } },
-      { text: String(m.y3TotalMonthVisits), options: { bold: true } },
-      { text: String(m.y4TotalMonthVisits), options: { bold: true } },
+      { text: "Completions logged", options: { bold: true } },
+      { text: String(m.y2CompletedMonth), options: { bold: true } },
+      { text: String(m.y3CompletedMonth), options: { bold: true } },
+      { text: String(m.y4CompletedMonth), options: { bold: true } },
     ],
   ];
 
@@ -351,25 +417,26 @@ function buildMonthlyVisitsSlide(pptx, m) {
     x: 0.55,
     y: 1.55,
     w: 8.9,
-    colW: [3.5, 2.7, 2.7],
-    fontSize: 14,
+    colW: [2.5, 2.1, 2.1, 2.1],
+    fontSize: 13,
     border: { type: "solid", color: USC.cardinal, pt: 0.75 },
     fontFace: "Arial",
   });
 
-  const extras = [
-    `3rd year participant completions logged: ${m.y3CompletedMonth}`,
-    `4th year participant completions logged: ${m.y4CompletedMonth}`,
-  ];
-  if (m.trend) {
+  const extras = [];
+  if (m.trend5) {
     extras.push(
-      `2nd year trend (Sheet5): CV ${m.trend["CV Monthly"] ?? 0}, NP ${m.trend["NP Monthly"] ?? 0} this month`
+      `2nd year cumulative through ${MONTH_NAMES[m.month - 1]}: CV ${m.trend5["CV Cumulative"]}, NP ${m.trend5["NP Cumulative"]}`
     );
   }
-  if (m.y2Monthly.cv != null) {
-    extras.push(`2nd year monthly sheet: CV ${m.y2Monthly.cv}, NP ${m.y2Monthly.np}`);
+  if (m.recruitmentMonth.total) {
+    extras.push(`Recruitment leads acquired: ${m.recruitmentMonth.total}`);
   }
-  addBullets(slide, extras, { y: 4.05, h: 1.2, fontSize: 13 });
+  addBullets(slide, extras.length ? extras : ["No cumulative trend data for this month"], {
+    y: 4.2,
+    h: 1,
+    fontSize: 13,
+  });
 }
 
 function buildYear3StatusSlide(pptx, m) {
@@ -377,18 +444,17 @@ function buildYear3StatusSlide(pptx, m) {
   addSlideTitle(slide, "Year 3 Visit Status", `As of ${m.label}`);
 
   addMetricTiles(slide, [
-    { label: "Completed Y3", value: m.y3.completed ?? "—" },
-    { label: "Remaining", value: m.y3.remaining ?? "—" },
-    { label: "% of Active", value: pct(m.y3.pct_completed_active) },
-    { label: "Dropouts", value: m.dropouts.year3 },
+    { label: "Completed Y3 (now)", value: m.y3.completed ?? "—" },
+    { label: "This Month CV", value: m.y3Visits.cv },
+    { label: "This Month NP", value: m.y3Visits.np },
+    { label: "Completions Logged", value: m.y3CompletedMonth },
   ], 1.45);
 
   addBullets(slide, [
-    `${m.y3.completed ?? "—"} participants have completed all required Year 3 visits (BD, MRI, CV, NP)`,
+    `${m.y3.completed ?? "—"} participants have completed all required Year 3 visits (current total)`,
+    `${MONTH_NAMES[m.month - 1]} ${m.year}: ${m.y3Visits.mri} MRI · ${m.y3Visits.bloodDraw} BD · ${m.y3Visits.np} NP · ${m.y3Visits.cv} CV`,
     `${m.y3.remaining ?? "—"} participants expected to complete Year 3`,
-    `${m.dropouts.year3} additional Year 3 dropouts to date`,
-    `Year 3 study period: May 2025 – Jan/Feb 2027`,
-    `${m.y3CompletedMonth} Year 3 completion entries recorded in ${MONTH_NAMES[m.month - 1]}`,
+    `${m.dropouts.year3} Year 3 dropouts to date`,
   ], { y: 3.15, fontSize: 15 });
 }
 
@@ -397,32 +463,33 @@ function buildYear4StatusSlide(pptx, m) {
   addSlideTitle(slide, "Year 4 Visit Status", `As of ${m.label}`);
 
   addMetricTiles(slide, [
-    { label: "Completed Y4", value: m.y4.completed ?? "—" },
-    { label: "Remaining", value: m.y4.remaining ?? "—" },
-    { label: "% of Active", value: pct(m.y4.pct_completed_active) },
-    { label: "Dropouts", value: m.dropouts.year4 },
+    { label: "Completed Y4 (now)", value: m.y4.completed ?? "—" },
+    { label: "This Month BD", value: m.y4Visits.bloodDraw },
+    { label: "This Month NP/CV", value: `${m.y4Visits.np}/${m.y4Visits.cv}` },
+    { label: "Completions Logged", value: m.y4CompletedMonth },
   ], 1.45);
 
   addBullets(slide, [
-    `${m.y4.completed ?? "—"} participants completed Year 4`,
+    `${m.y4.completed ?? "—"} participants completed Year 4 (current total)`,
+    `${MONTH_NAMES[m.month - 1]} ${m.year}: ${m.y4Visits.bloodDraw} BD · ${m.y4Visits.np} NP · ${m.y4Visits.cv} CV`,
     `${m.y4.remaining ?? "—"} participants expected to complete Year 4`,
     `Expected study completion: Dec 2027 / Jan 2028`,
-    `${m.y4CompletedMonth} Year 4 completion entries in ${MONTH_NAMES[m.month - 1]}`,
-    `${m.y4Visits.bloodDraw} BD · ${m.y4Visits.np} NP · ${m.y4Visits.cv} CV scheduled/completed in ${MONTH_NAMES[m.month - 1]}`,
   ], { y: 3.15, fontSize: 15 });
 }
 
 function buildStudyProgressSlide(pptx, m) {
   const slide = pptx.addSlide();
-  addSlideTitle(slide, "Study Progress", `Participant Flow (N = ${m.enrolled})`);
+  addSlideTitle(slide, "Study Progress", `Current snapshot · N = ${m.enrolled}`);
 
   addBullets(slide, [
     `Baseline: ${m.enrolled} enrolled · ${m.baseline.completed ?? "—"} completed · ${m.dropouts.baseline} dropped out`,
     `Year 2: ${m.y2.completed ?? "—"} completed · ${m.dropouts.year2} additional dropouts`,
-    `Year 3 (ongoing): ${m.y3.completed ?? "—"} completed · ${m.dropouts.year3} additional dropouts · ${pct(m.y3.pct_completed_total)} of enrolled`,
-    `Year 4 (ongoing): ${m.y4.completed ?? "—"} completed · ${m.dropouts.year4} additional dropouts · ${pct(m.y4.pct_completed_total)} of enrolled`,
-    `Active participants: ${m.active}`,
-  ], { y: 1.55, fontSize: 17 });
+    `Year 3 (ongoing): ${m.y3.completed ?? "—"} completed · ${m.dropouts.year3} additional dropouts`,
+    `Year 4 (ongoing): ${m.y4.completed ?? "—"} completed · ${m.dropouts.year4} additional dropouts`,
+    m.cumulativeY2AtMonth != null
+      ? `At end of ${MONTH_NAMES[m.month - 1]} ${m.year}: ~${m.cumulativeY2AtMonth} Year 2 CV visits cumulative`
+      : "Historical cumulative not available for this month",
+  ], { y: 1.55, fontSize: 16 });
 
   const rows = [
     [
@@ -430,19 +497,18 @@ function buildStudyProgressSlide(pptx, m) {
       { text: "Completed", options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } },
       { text: "Dropped", options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } },
       { text: "Remaining", options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } },
-      { text: "% Active", options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } },
     ],
-    ["Baseline", m.baseline.completed, m.dropouts.baseline, m.baseline.remaining, pct(m.baseline.pct_completed_active)],
-    ["Year 2", m.y2.completed, m.dropouts.year2, m.y2.remaining, pct(m.y2.pct_completed_active)],
-    ["Year 3", m.y3.completed, m.dropouts.year3, m.y3.remaining, pct(m.y3.pct_completed_active)],
-    ["Year 4", m.y4.completed, m.dropouts.year4, m.y4.remaining, pct(m.y4.pct_completed_active)],
+    ["Baseline", m.baseline.completed, m.dropouts.baseline, m.baseline.remaining],
+    ["Year 2", m.y2.completed, m.dropouts.year2, m.y2.remaining],
+    ["Year 3", m.y3.completed, m.dropouts.year3, m.y3.remaining],
+    ["Year 4", m.y4.completed, m.dropouts.year4, m.y4.remaining],
   ];
 
   slide.addTable(rows, {
     x: 0.55,
     y: 3.55,
     w: 8.9,
-    colW: [1.5, 1.7, 1.5, 1.7, 1.5],
+    colW: [1.8, 2.2, 2.2, 2.2],
     fontSize: 12,
     border: { type: "solid", color: USC.cardinal, pt: 0.75 },
     fontFace: "Arial",
@@ -451,33 +517,45 @@ function buildStudyProgressSlide(pptx, m) {
 
 function buildRecruitmentSlide(pptx, m) {
   const slide = pptx.addSlide();
-  addSlideTitle(slide, "Recruitment Summary", `Total leads: ${m.recruitment.grand_total ?? m.recruitment.summary_n ?? "—"}`);
+  addSlideTitle(
+    slide,
+    "Recruitment Summary",
+    `${MONTH_NAMES[m.month - 1]} leads: ${m.recruitmentMonth.total} · All-time: ${m.recruitment.grand_total ?? "—"}`
+  );
 
-  const sources = (m.recruitment.sources || []).slice(0, 8);
+  const sources = (m.recruitment.sources || []).slice(0, 5);
   const rows = [
     [
       { text: "Source", options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } },
-      { text: "Total Leads", options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } },
+      { text: "All-Time", options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } },
+      { text: "This Month", options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } },
     ],
-    ...sources.map((s) => [s.source, String(s.total_leads ?? "—")]),
+    ...sources.map((s) => {
+      const monthLeads = (m.recruitmentMonth.matchedPeriods || []).reduce(
+        (sum, p) => sum + (Number(s.timeline?.[p]) || 0),
+        0
+      );
+      return [s.source, String(s.total_leads ?? "—"), String(monthLeads)];
+    }),
   ];
 
   slide.addTable(rows, {
     x: 0.55,
     y: 1.55,
-    w: 5.5,
-    colW: [3.5, 2],
+    w: 8.9,
+    colW: [3.5, 2.5, 2.5],
     fontSize: 13,
     border: { type: "solid", color: USC.cardinal, pt: 0.75 },
     fontFace: "Arial",
   });
 
-  addBullets(slide, [
-    `Screening records: ${m.screening}`,
-    `Study partner surveys completed: ${m.studyPartnersComplete}`,
-    `Meeting dropout records: ${m.meetingDropouts}`,
-    `Recruitment periods tracked: ${(m.recruitment.periods || []).length}`,
-  ], { x: 6.3, y: 1.55, w: 3.2, h: 3, fontSize: 13 });
+  addBullets(
+    slide,
+    m.recruitmentMonth.matchedPeriods?.length
+      ? [`Recruitment periods in ${MONTH_NAMES[m.month - 1]}: ${m.recruitmentMonth.matchedPeriods.length}`]
+      : [`No recruitment period overlap for ${MONTH_NAMES[m.month - 1]} ${m.year}`],
+    { y: 4.2, fontSize: 13 }
+  );
 }
 
 function buildGenotypeSlide(pptx, m) {
@@ -492,7 +570,8 @@ function buildGenotypeSlide(pptx, m) {
   ]);
 
   const mriLines = (m.mriOutcomes || []).map(
-    (r) => `${r.Timepoint}: ${r["Did Come Out"] ?? "—"} came out · ${r["Did Not Come Out"] ?? "—"} did not (${pct(r["Failure %"])} failure)`
+    (r) =>
+      `${r.Timepoint}: ${r["Did Come Out"] ?? "—"} came out · ${r["Did Not Come Out"] ?? "—"} did not (${pct(r["Failure %"])} failure)`
   );
   addBullets(slide, mriLines.length ? mriLines : ["MRI outcome data not available"], {
     y: 3.05,
@@ -582,18 +661,29 @@ function availableReportMonths() {
     options.push({ year, month, label: monthLabel(year, month) });
   };
 
-  (DATA.visit_trends_sheet5 || []).forEach((r) => {
-    const d = parseIsoDate(r.Date);
-    if (d) add(d.getFullYear(), d.getMonth() + 1);
+  ["visit_trends_sheet5", "visit_trends_sheet6"].forEach((key) => {
+    (DATA[key] || []).forEach((r) => {
+      const d = parseIsoDate(r.Date);
+      if (d) add(d.getFullYear(), d.getMonth() + 1);
+    });
+  });
+
+  (DATA.second_year_monthly || []).forEach((row) => {
+    Object.keys(row).forEach((k) => {
+      if (["visit_type", "total_completed"].includes(k)) return;
+      const m = k.match(/(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+'(\d{2})/i);
+      if (m) {
+        const abbr = m[1].slice(0, 3).toLowerCase();
+        const idx = MONTH_NAMES.findIndex((n) => n.toLowerCase().startsWith(abbr));
+        if (idx >= 0) add(2000 + Number(m[2]), idx + 1);
+      }
+    });
   });
 
   if (DATA.meta?.generated_at) {
     const d = new Date(DATA.meta.generated_at);
     if (!Number.isNaN(d.getTime())) add(d.getFullYear(), d.getMonth() + 1);
   }
-
-  const now = new Date();
-  add(now.getFullYear(), now.getMonth() + 1);
 
   return options.sort((a, b) => b.year - a.year || b.month - a.month);
 }
@@ -602,26 +692,51 @@ function renderReportPreview(metrics) {
   const el = document.getElementById("report-preview");
   if (!el) return;
 
-  const rows = [
-    ["Report Month", metrics.label],
-    ["Enrolled", metrics.enrolled],
-    ["Active Participants", metrics.active],
-    ["Baseline Completed", metrics.baseline.completed],
-    ["Year 2 Completed", metrics.y2.completed],
-    ["Year 3 Completed", metrics.y3.completed],
-    ["Year 4 Completed", metrics.y4.completed],
-    ["Total Dropouts", metrics.dropouts.total],
-    ["Recruitment Total", metrics.recruitment.grand_total ?? metrics.recruitment.summary_n],
-    ["Y3 Visits This Month (MRI/BD/NP/CV)", `${metrics.y3Visits.mri}/${metrics.y3Visits.bloodDraw}/${metrics.y3Visits.np}/${metrics.y3Visits.cv}`],
-    ["Y4 Visits This Month (BD/NP/CV)", `${metrics.y4Visits.bloodDraw}/${metrics.y4Visits.np}/${metrics.y4Visits.cv}`],
-    ["Diabetics / Non-Diabetic", `${metrics.genotype.total_diabetics ?? "—"} / ${metrics.genotype.total_non_diabetic ?? "—"}`],
+  const y2cv = metrics.y2Monthly.cv ?? metrics.trend5?.["CV Monthly"] ?? "—";
+  const y2np = metrics.y2Monthly.np ?? metrics.trend5?.["NP Monthly"] ?? "—";
+
+  const monthlyRows = [
+    ["2nd Year CV Completed", y2cv],
+    ["2nd Year NP Completed", y2np],
+    ["2nd Year CV Cumulative (end of month)", metrics.trend5?.["CV Cumulative"] ?? metrics.trend6?.["CV Cumulative"] ?? "—"],
+    ["2nd Year Completions Logged", metrics.y2CompletedMonth],
+    ["3rd Year MRI / BD / NP / CV", `${metrics.y3Visits.mri} / ${metrics.y3Visits.bloodDraw} / ${metrics.y3Visits.np} / ${metrics.y3Visits.cv}`],
+    ["4th Year BD / NP / CV", `${metrics.y4Visits.bloodDraw} / ${metrics.y4Visits.np} / ${metrics.y4Visits.cv}`],
+    ["3rd Year Completions Logged", metrics.y3CompletedMonth],
+    ["4th Year Completions Logged", metrics.y4CompletedMonth],
+    ["Recruitment Leads (this month)", metrics.recruitmentMonth.total],
+    ["Total Visit Events (this month)", metrics.monthlyVisitTotal],
   ];
 
-  el.innerHTML = `
-    <table>
-      <thead><tr><th>Metric</th><th>Value</th></tr></thead>
-      <tbody>${rows.map(([k, v]) => `<tr><td>${k}</td><td><strong>${v ?? "—"}</strong></td></tr>`).join("")}</tbody>
-    </table>`;
+  const snapshotRows = [
+    ["Year 3 Completed (current)", metrics.y3.completed],
+    ["Year 4 Completed (current)", metrics.y4.completed],
+    ["Active Participants", metrics.active],
+    ["Total Dropouts", metrics.dropouts.total],
+    ["Recruitment All-Time", metrics.recruitment.grand_total ?? metrics.recruitment.summary_n],
+  ];
+
+  const renderSection = (title, note, rows) => `
+    <div class="report-preview-section">
+      <h4>${title}</h4>
+      ${note ? `<p class="report-preview-note">${note}</p>` : ""}
+      <table>
+        <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+        <tbody>${rows.map(([k, v]) => `<tr><td>${k}</td><td><strong>${v ?? "—"}</strong></td></tr>`).join("")}</tbody>
+      </table>
+    </div>`;
+
+  el.innerHTML =
+    renderSection(
+      `${metrics.label} — This Month's Activity`,
+      "These metrics change when you select a different month.",
+      monthlyRows
+    ) +
+    renderSection(
+      "Current Study Status",
+      "Point-in-time totals from the latest Google Sheets sync (same across all months).",
+      snapshotRows
+    );
 }
 
 function renderReport() {
@@ -629,9 +744,14 @@ function renderReport() {
   const months = availableReportMonths();
   if (!select) return;
 
+  const prev = select.value;
   select.innerHTML = months
-    .map((m, i) => `<option value="${m.year}-${m.month}" ${i === 0 ? "selected" : ""}>${m.label}</option>`)
+    .map((m) => `<option value="${m.year}-${m.month}">${m.label}</option>`)
     .join("");
+
+  if (prev && [...select.options].some((o) => o.value === prev)) {
+    select.value = prev;
+  }
 
   const updatePreview = () => {
     const [year, month] = select.value.split("-").map(Number);

@@ -393,6 +393,31 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 .swatch.cardinal { background: #990000; }
 .swatch.gold { background: #ffcc00; border: 1px solid rgba(0,0,0,0.08); }
 
+.report-preview-section {
+  padding: 0 24px 20px;
+}
+
+.report-preview-section h4 {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.report-preview-section + .report-preview-section {
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+}
+
+.report-preview-note {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.report-preview-section table {
+  width: 100%;
+}
+
 .catalog-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
