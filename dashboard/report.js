@@ -1107,70 +1107,70 @@ function renderReportPreview(metrics) {
   const s = metrics.scheduling;
   const monthName = MONTH_NAMES[metrics.month - 1];
 
-  const slideSections = [
-    {
-      title: "Slide 2 — Executive Summary",
-      rows: [
-        ["Total Dropouts", metrics.dropouts.total],
-        ["Future MRI (next 2 mo)", s.futureVisits.mri],
-        ["Future BD (next 2 mo)", s.futureVisits.bd],
-        ["Future NP (next 2 mo)", s.futureVisits.np],
-        ["Future CV (next 2 mo)", s.futureVisits.cv],
-        ["Year 3 Completed", metrics.y3.completed],
-        ["Y3 MRI / BD / NP / CV", `${s.y3Components["MRI Date"]} / ${s.y3Components["BD Date"]} / ${s.y3Components["NP Date"]} / ${s.y3Components["CV Date"]}`],
-        ["Year 4 Completed", metrics.y4.completed],
-      ],
-    },
-    {
-      title: `Slide 3 — All Completed Visits in ${monthName}`,
-      rows: [
-        ["3rd Year MRI", metrics.y3Visits.mri],
-        ["3rd Year BD / NP / CV", `${metrics.y3Visits.bloodDraw} / ${metrics.y3Visits.np} / ${metrics.y3Visits.cv}`],
-        ["4th Year BD / NP / CV", `${metrics.y4Visits.bloodDraw} / ${metrics.y4Visits.np} / ${metrics.y4Visits.cv}`],
-      ],
-    },
-    {
-      title: "Slide 4 — 3rd Year Study Visits",
-      rows: [
-        [`${monthName} visit total`, s.y3Activity.visitTotal],
-        [`${monthName} due participants`, s.y3Activity.dueCount],
-        [`Next month scheduled`, s.y3Activity.nextVisitTotal],
-      ],
-    },
-    {
-      title: "Slides 6–7 — Year 3 Scheduling",
-      rows: [
-        ["In progress", s.y3InProgress.reduce((n, g) => n + g.count, 0)],
-        ["To be contacted", s.y3ToContact.reduce((n, g) => n + g.count, 0)],
-        ...s.y3InProgress.map((g) => [`  Due ${g.label}`, g.count]),
-        ...s.y3ToContact.map((g) => [`  Contact ${g.label}`, g.count]),
-      ],
-    },
-    {
-      title: "Slide 10 — Study Progress",
-      rows: [
-        ["Enrolled", metrics.enrolled],
-        ["Baseline completed", metrics.baseline.completed],
-        ["Year 2 completed", metrics.y2.completed],
-        ["Year 3 completed", metrics.y3.completed],
-        ["Year 4 completed", metrics.y4.completed],
-        ["Active participants", metrics.active],
-      ],
-    },
+  const monthlyRows = [
+    ["3rd Year MRI", metrics.y3Visits.mri],
+    ["3rd Year Blood Draw", metrics.y3Visits.bloodDraw],
+    ["3rd Year NP Visit", metrics.y3Visits.np],
+    ["3rd Year Clinician Visit", metrics.y3Visits.cv],
+    ["4th Year Blood Draw", metrics.y4Visits.bloodDraw],
+    ["4th Year NP Visit", metrics.y4Visits.np],
+    ["4th Year Clinician Visit", metrics.y4Visits.cv],
+    [`${monthName} 3rd Year visit total`, s.y3Activity.visitTotal],
+    [`${monthName} 4th Year visit total`, s.y4Activity.visitTotal],
+    ["Next month scheduled (3rd year)", s.y3Activity.nextVisitTotal],
+    ["Next month scheduled (4th year)", s.y4Activity.nextVisitTotal],
   ];
 
-  el.innerHTML = slideSections
-    .map(
-      (section) => `
+  const executiveRows = [
+    ["Total Dropouts", metrics.dropouts.total],
+    ["Baseline / Y2 / Y3 / Y4 dropouts", `${metrics.dropouts.baseline} / ${metrics.dropouts.year2} / ${metrics.dropouts.year3} / ${metrics.dropouts.year4}`],
+    ["Future MRI (next 2 mo)", s.futureVisits.mri],
+    ["Future BD (next 2 mo)", s.futureVisits.bd],
+    ["Future NP (next 2 mo)", s.futureVisits.np],
+    ["Future CV (next 2 mo)", s.futureVisits.cv],
+    ["Year 3 completed", metrics.y3.completed],
+    ["Y3 MRI / BD / NP / CV", `${s.y3Components["MRI Date"]} / ${s.y3Components["BD Date"]} / ${s.y3Components["NP Date"]} / ${s.y3Components["CV Date"]}`],
+    ["Year 4 completed", metrics.y4.completed],
+    ["Y3 in progress", s.y3InProgress.reduce((n, g) => n + g.count, 0)],
+    ["Y3 to be contacted", s.y3ToContact.reduce((n, g) => n + g.count, 0)],
+  ];
+
+  const snapshotRows = [
+    ["Enrolled", metrics.enrolled],
+    ["Active participants", metrics.active],
+    ["Baseline completed", metrics.baseline.completed],
+    ["Year 2 completed", metrics.y2.completed],
+    ["Year 3 completed", metrics.y3.completed],
+    ["Year 4 completed", metrics.y4.completed],
+    ["Recruitment all-time", metrics.recruitment.grand_total ?? metrics.recruitment.summary_n],
+  ];
+
+  const renderSection = (title, note, rows) => `
     <div class="report-preview-section">
-      <h4>${section.title}</h4>
+      <h4>${title}</h4>
+      ${note ? `<p class="report-preview-note">${note}</p>` : ""}
       <table>
         <thead><tr><th>Metric</th><th>Value</th></tr></thead>
-        <tbody>${section.rows.map(([k, v]) => `<tr><td>${k}</td><td><strong>${v ?? 0}</strong></td></tr>`).join("")}</tbody>
+        <tbody>${rows.map(([k, v]) => `<tr><td>${k}</td><td><strong>${v ?? 0}</strong></td></tr>`).join("")}</tbody>
       </table>
-    </div>`
-    )
-    .join("");
+    </div>`;
+
+  el.innerHTML =
+    renderSection(
+      `${metrics.label} — This Month's Visits`,
+      "Visit counts and scheduling activity for the selected report month.",
+      monthlyRows
+    ) +
+    renderSection(
+      "Executive Summary (deck slide 2)",
+      "Dropouts, future visits, and completion totals that appear in the PowerPoint.",
+      executiveRows
+    ) +
+    renderSection(
+      "Current Study Status",
+      "Point-in-time totals from the latest sync (same across all report months).",
+      snapshotRows
+    );
 }
 
 function updateReportPreview() {
@@ -1181,7 +1181,7 @@ function updateReportPreview() {
   renderReportPreview(metrics);
   const badge = document.getElementById("report-live-badge");
   if (badge) {
-    badge.textContent = `Live preview · ${metrics.label} · matches August 2026 deck format · Y3: ${metrics.y3Visits.mri}/${metrics.y3Visits.bloodDraw}/${metrics.y3Visits.np}/${metrics.y3Visits.cv} · Y4: ${metrics.y4Visits.bloodDraw}/${metrics.y4Visits.np}/${metrics.y4Visits.cv}`;
+    badge.textContent = `Live preview · ${metrics.label} · Y3: ${metrics.y3Visits.mri}/${metrics.y3Visits.bloodDraw}/${metrics.y3Visits.np}/${metrics.y3Visits.cv} · Y4: ${metrics.y4Visits.bloodDraw}/${metrics.y4Visits.np}/${metrics.y4Visits.cv}`;
   }
 }
 
