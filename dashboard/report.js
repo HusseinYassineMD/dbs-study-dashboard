@@ -1,12 +1,12 @@
-/** Monthly progress report → USC-branded PowerPoint matching the monthly meeting deck. */
+/** Monthly progress report → PowerPoint matching the monthly meeting deck (August 2026 format). */
 
-const USC = {
-  cardinal: "990000",
-  gold: "FFCC00",
-  white: "FFFFFF",
-  black: "000000",
-  gray: "555555",
-  lightGray: "F5F5F5",
+const DECK = {
+  bg: "FFFFFF",
+  title: "1B2430",
+  body: "1B2430",
+  muted: "5F6B7A",
+  tableBorder: "B8C0CC",
+  font: "Calibri",
 };
 
 const MONTH_NAMES = [
@@ -304,6 +304,12 @@ function analyzeYearActivity(rows, completeFn, visitFields, reportYear, reportMo
     .join(", ");
 
   const nextDueRows = participantsDueInMonth(rows, next.year, next.month);
+  const nextDueCompletedEarly = nextDueRows.filter((row) => {
+    if (completeFn(row)) return true;
+    return ["MRI Date", "BD Date", "NP Date", "CV Date"].some((f) =>
+      inCalendarMonth(row[f], reportYear, reportMonth)
+    );
+  }).length;
 
   return {
     visitTotal,
@@ -315,6 +321,7 @@ function analyzeYearActivity(rows, completeFn, visitFields, reportYear, reportMo
     nextVisitTotal: nextTotal,
     nextVisitSummary: nextSummary,
     nextDueCount: nextDueRows.length,
+    nextDueCompletedEarly,
   };
 }
 
@@ -485,66 +492,91 @@ function collectReportMetrics(year, month) {
   };
 }
 
-function addCardinalBar(slide) {
-  slide.addShape("rect", {
-    x: 0,
-    y: 0,
-    w: "100%",
-    h: 0.12,
-    fill: { color: USC.cardinal },
-    line: { color: USC.cardinal, width: 0 },
-  });
+function asOfDateShort(year, month) {
+  const lastDay = new Date(year, month, 0).getDate();
+  return `${month}/${lastDay}/${year}`;
 }
 
-function addGoldAccent(slide) {
-  slide.addShape("rect", {
-    x: 0,
-    y: 0.12,
-    w: "100%",
-    h: 0.04,
-    fill: { color: USC.gold },
-    line: { color: USC.gold, width: 0 },
+function mriFootnoteFromData() {
+  const ids = [];
+  (DATA.third_year_scheduling || []).forEach((row) => {
+    const pid = row.participant_id || row.ID;
+    if (!pid) return;
+    const notes = rowNotes(row);
+    const hasMri = parseIsoDate(row["MRI Date"]);
+    if (hasMri) return;
+    if (/ineligible|Inelligible/i.test(notes)) ids.push(`${pid} ineligible for MRI`);
+    else if (/opt out|opted out|OPT OUT/i.test(notes)) ids.push(`${pid} Opted out of MRI`);
   });
+  if (!ids.length) return null;
+  return `* ${ids.slice(0, 3).join(" ; ")}`;
 }
+
+function dashCell(value) {
+  return value != null && value !== 0 ? String(value) : "–";
+}
+
+function addCardinalBar() {}
+function addGoldAccent() {}
 
 function addSlideTitle(slide, title, subtitle) {
-  addCardinalBar(slide);
-  addGoldAccent(slide);
   slide.addText(title, {
     x: 0.55,
-    y: 0.45,
-    w: 8.9,
-    h: 0.7,
-    fontSize: 28,
+    y: 0.4,
+    w: 9.0,
+    h: 0.65,
+    fontSize: 30,
     bold: true,
-    color: USC.cardinal,
-    fontFace: "Arial",
+    color: DECK.title,
+    fontFace: DECK.font,
   });
   if (subtitle) {
     slide.addText(subtitle, {
       x: 0.55,
-      y: 1.05,
-      w: 8.9,
+      y: 1.02,
+      w: 9.0,
       h: 0.35,
-      fontSize: 14,
-      color: USC.gray,
-      fontFace: "Arial",
+      fontSize: 15,
+      color: DECK.muted,
+      fontFace: DECK.font,
     });
   }
 }
 
-function addBullets(slide, items, opts = {}) {
-  const text = items.map((item) => ({ text: item, options: { bullet: true, breakLine: true } }));
-  slide.addText(text, {
+function addBodyLines(slide, lines, opts = {}) {
+  const parts = lines.map((line) => {
+    if (typeof line === "string") {
+      return { text: line, options: { breakLine: true, bullet: false } };
+    }
+    return {
+      text: line.text,
+      options: {
+        breakLine: true,
+        bullet: line.bullet ?? false,
+        bold: line.bold ?? false,
+        fontSize: line.fontSize ?? opts.fontSize ?? 16,
+        color: line.color ?? DECK.body,
+      },
+    };
+  });
+  slide.addText(parts, {
     x: opts.x ?? 0.65,
-    y: opts.y ?? 1.55,
-    w: opts.w ?? 8.7,
-    h: opts.h ?? 3.8,
+    y: opts.y ?? 1.45,
+    w: opts.w ?? 8.8,
+    h: opts.h ?? 4.5,
     fontSize: opts.fontSize ?? 16,
-    color: USC.black,
-    fontFace: "Arial",
+    color: DECK.body,
+    fontFace: DECK.font,
     valign: "top",
   });
+}
+
+function addBullets(slide, items, opts = {}) {
+  addBodyLines(
+    slide,
+    items.map((text) => ({ text, bullet: !String(text).startsWith("●") })),
+    opts
+  );
 }
 
 function addDataTable(slide, rows, opts = {}) {
@@ -553,255 +585,247 @@ function addDataTable(slide, rows, opts = {}) {
     y: opts.y ?? 1.55,
     w: opts.w ?? 8.9,
     colW: opts.colW,
-    fontSize: opts.fontSize ?? 13,
-    border: { type: "solid", color: USC.cardinal, pt: 0.75 },
-    fontFace: "Arial",
+    fontSize: opts.fontSize ?? 14,
+    border: { type: "solid", color: DECK.tableBorder, pt: 0.5 },
+    fontFace: DECK.font,
+    color: DECK.body,
   });
 }
 
 function headerCell(text) {
-  return { text, options: { bold: true, fill: { color: USC.cardinal }, color: USC.white } };
+  return { text, options: { bold: true, color: DECK.title } };
+}
+
+function addStatBlock(slide, x, y, number, labelLines, bullets, w = 2.7) {
+  slide.addText(String(number), {
+    x,
+    y,
+    w,
+    h: 0.55,
+    fontSize: 34,
+    bold: true,
+    color: DECK.title,
+    fontFace: DECK.font,
+  });
+  slide.addText(labelLines.join("\n"), {
+    x,
+    y: y + 0.5,
+    w,
+    h: 0.55,
+    fontSize: 13,
+    bold: true,
+    color: DECK.title,
+    fontFace: DECK.font,
+  });
+  if (bullets?.length) {
+    addBodyLines(
+      slide,
+      bullets.map((text) => ({ text, bullet: true })),
+      { x: x + 0.05, y: y + 1.05, w, h: 1.5, fontSize: 13 }
+    );
+  }
 }
 
 function buildTitleSlide(pptx, m) {
   const slide = pptx.addSlide();
-  slide.background = { color: USC.cardinal };
-  slide.addShape("rect", {
-    x: 0,
-    y: 4.85,
-    w: "100%",
-    h: 0.775,
-    fill: { color: USC.gold },
-    line: { color: USC.gold, width: 0 },
-  });
-  slide.addText("Diabetes Brain Study –", {
-    x: 0.7,
-    y: 1.45,
-    w: 8.6,
-    h: 0.9,
-    fontSize: 38,
+  slide.background = { color: DECK.bg };
+  slide.addText("Diabetes Brain Study –\nMonthly Progress Meeting", {
+    x: 0.75,
+    y: 1.85,
+    w: 8.5,
+    h: 1.4,
+    fontSize: 36,
     bold: true,
-    color: USC.white,
-    fontFace: "Arial",
-  });
-  slide.addText("Monthly Progress Meeting", {
-    x: 0.7,
-    y: 2.25,
-    w: 8.6,
-    h: 0.55,
-    fontSize: 24,
-    color: USC.gold,
-    fontFace: "Arial",
+    color: DECK.title,
+    fontFace: DECK.font,
+    align: "center",
   });
   slide.addText(m.label, {
-    x: 0.7,
-    y: 3.05,
-    w: 8.6,
-    h: 0.5,
-    fontSize: 22,
-    color: USC.white,
-    fontFace: "Arial",
+    x: 0.75,
+    y: 3.35,
+    w: 8.5,
+    h: 0.55,
+    fontSize: 24,
+    color: DECK.body,
+    fontFace: DECK.font,
+    align: "center",
   });
 }
 
 function buildExecutiveSummarySlide(pptx, m) {
   const slide = pptx.addSlide();
+  slide.background = { color: DECK.bg };
   addSlideTitle(slide, "Executive Summary");
 
   const s = m.scheduling;
   const next = addMonths(m.year, m.month, 1);
   const next2 = addMonths(m.year, m.month, 2);
-  const futureLabel = `${MONTH_NAMES[next.month - 1].slice(0, 3)} – ${MONTH_NAMES[next2.month - 1].slice(0, 3)}`;
+  const futureLabel = `${MONTH_ABBR[next.month - 1]} - ${MONTH_ABBR[next2.month - 1]} (3rd and 4th year)`;
+  const mriFootnote = mriFootnoteFromData();
 
-  slide.addText(`${m.dropouts.total} Dropout Participants`, {
-    x: 0.55,
-    y: 1.45,
-    w: 2.8,
-    h: 0.35,
-    fontSize: 16,
-    bold: true,
-    color: USC.cardinal,
-    fontFace: "Arial",
-  });
-  addBullets(
-    slide,
-    [
-      `${m.dropouts.baseline} Baseline year`,
-      `${m.dropouts.year2} Second year`,
-      `${m.dropouts.year3} Third year`,
-      `${m.dropouts.year4} Fourth year`,
-    ],
-    { x: 0.65, y: 1.85, w: 2.6, h: 1.5, fontSize: 13 }
-  );
+  addStatBlock(slide, 0.55, 1.35, m.dropouts.total, ["Dropout", "Participants"], [
+    `${m.dropouts.baseline} Baseline year`,
+    `${m.dropouts.year2} Second year`,
+    `${m.dropouts.year3} Third year`,
+    `${m.dropouts.year4} Fourth year`,
+  ]);
 
   slide.addText("Future Visits Scheduled", {
-    x: 3.55,
-    y: 1.45,
-    w: 2.8,
-    h: 0.35,
-    fontSize: 16,
-    bold: true,
-    color: USC.cardinal,
-    fontFace: "Arial",
-  });
-  slide.addText(`${futureLabel} (3rd and 4th year)`, {
-    x: 3.55,
-    y: 1.78,
-    w: 2.8,
+    x: 3.45,
+    y: 1.35,
+    w: 3.0,
     h: 0.3,
-    fontSize: 11,
-    color: USC.gray,
-    fontFace: "Arial",
+    fontSize: 14,
+    bold: true,
+    color: DECK.title,
+    fontFace: DECK.font,
   });
-  addBullets(
+  slide.addText(futureLabel, {
+    x: 3.45,
+    y: 1.65,
+    w: 3.0,
+    h: 0.25,
+    fontSize: 12,
+    color: DECK.muted,
+    fontFace: DECK.font,
+  });
+  addBodyLines(
     slide,
     [
       `${s.futureVisits.mri} MRI's`,
       `${s.futureVisits.bd} Full Blood Draws`,
       `${s.futureVisits.np} Neuropsych Tests`,
       `${s.futureVisits.cv} Clinician Visits`,
-    ],
-    { x: 3.65, y: 2.1, w: 2.6, h: 1.5, fontSize: 13 }
+    ].map((text) => ({ text, bullet: true })),
+    { x: 3.55, y: 1.95, w: 3.0, h: 1.4, fontSize: 13 }
   );
 
-  slide.addText(`${m.y3.completed ?? "—"} Participants`, {
-    x: 0.55,
-    y: 3.45,
-    w: 4.2,
-    h: 0.35,
-    fontSize: 16,
-    bold: true,
-    color: USC.cardinal,
-    fontFace: "Arial",
-  });
-  slide.addText("Completed 3rd Year", {
-    x: 0.55,
-    y: 3.78,
-    w: 4.2,
-    h: 0.3,
-    fontSize: 12,
-    color: USC.gray,
-    fontFace: "Arial",
-  });
-  addBullets(
+  addStatBlock(
     slide,
+    0.55,
+    3.35,
+    m.y3.completed ?? "—",
+    ["Participants", "Completed 3rd Year"],
     [
       `${s.y3Components["MRI Date"] ?? "—"} MRI *`,
       `${s.y3Components["BD Date"] ?? "—"} Blood Draw`,
       `${s.y3Components["NP Date"] ?? "—"} Neuropsych Tests`,
       `${s.y3Components["CV Date"] ?? "—"} Clinician Visits`,
     ],
-    { x: 0.65, y: 4.1, w: 4, h: 1.2, fontSize: 13 }
+    4.0
   );
 
-  slide.addText(`${m.y4.completed ?? "—"} Participants`, {
-    x: 5.1,
-    y: 3.45,
-    w: 4.2,
-    h: 0.35,
-    fontSize: 16,
-    bold: true,
-    color: USC.cardinal,
-    fontFace: "Arial",
-  });
-  slide.addText("Completed 4th Year", {
-    x: 5.1,
-    y: 3.78,
-    w: 4.2,
-    h: 0.3,
-    fontSize: 12,
-    color: USC.gray,
-    fontFace: "Arial",
-  });
-  addBullets(
+  addStatBlock(
     slide,
+    5.0,
+    3.35,
+    m.y4.completed ?? "—",
+    ["Participants", "Completed 4th Year"],
     [
       `${s.y4Components["BD Date"] ?? "—"} Blood Draw`,
       `${s.y4Components["NP Date"] ?? "—"} Neuropsych Tests`,
       `${s.y4Components["CV Date"] ?? "—"} Clinician Visits`,
     ],
-    { x: 5.2, y: 4.1, w: 4, h: 1.2, fontSize: 13 }
+    4.0
   );
 
-  if (s.y3Components.mriExemptions) {
-    slide.addText("* Some participants ineligible or opted out of MRI", {
+  if (mriFootnote) {
+    slide.addText(mriFootnote, {
       x: 0.55,
-      y: 5.15,
-      w: 8.5,
-      h: 0.25,
+      y: 5.05,
+      w: 8.8,
+      h: 0.3,
       fontSize: 10,
       italic: true,
-      color: USC.gray,
-      fontFace: "Arial",
+      color: DECK.muted,
+      fontFace: DECK.font,
     });
   }
 }
 
 function buildCompletedVisitsSlide(pptx, m) {
   const slide = pptx.addSlide();
+  slide.background = { color: DECK.bg };
   const monthName = MONTH_NAMES[m.month - 1];
   addSlideTitle(slide, `All Completed Visits in ${monthName}`);
 
-  const dash = "–";
   const rows = [
     [headerCell("Visit Type"), headerCell("3rd Year"), headerCell("4th Year")],
-    ["MRI", String(m.y3Visits.mri || dash), dash],
-    ["Blood Draw", String(m.y3Visits.bloodDraw || dash), String(m.y4Visits.bloodDraw || dash)],
-    ["NP Visit", String(m.y3Visits.np || dash), String(m.y4Visits.np || dash)],
-    ["Clinician Visit", String(m.y3Visits.cv || dash), String(m.y4Visits.cv || dash)],
+    ["MRI", dashCell(m.y3Visits.mri), "–"],
+    ["Blood Draw", dashCell(m.y3Visits.bloodDraw), dashCell(m.y4Visits.bloodDraw)],
+    ["NP Visit", dashCell(m.y3Visits.np), dashCell(m.y4Visits.np)],
+    ["Clinician Visit", dashCell(m.y3Visits.cv), dashCell(m.y4Visits.cv)],
   ];
 
-  addDataTable(slide, rows, { y: 1.65, colW: [2.8, 2.8, 2.8] });
+  addDataTable(slide, rows, { y: 1.55, colW: [3.0, 2.8, 2.8], fontSize: 15 });
 
-  const total = m.y3TotalMonthVisits;
-  const parts = [
-    m.y3Visits.mri ? `${m.y3Visits.mri} MRI` : null,
-    m.y3Visits.bloodDraw ? `${m.y3Visits.bloodDraw} BD` : null,
-    m.y3Visits.np ? `${m.y3Visits.np} NP` : null,
-    m.y3Visits.cv ? `${m.y3Visits.cv} CV` : null,
-  ].filter(Boolean);
-  slide.addText(`Total Visits in ${monthName}: ${total} (${parts.join(", ")})`, {
-    x: 0.55,
-    y: 4.35,
-    w: 8.9,
-    h: 0.35,
-    fontSize: 13,
-    color: USC.black,
-    fontFace: "Arial",
+  const pending = (DATA.third_year_scheduling || []).find((row) => {
+    const d = parseIsoDate(row["MRI Date"] || row["BD Date"]);
+    return d && d.getFullYear() === m.year && d.getMonth() + 1 === m.month && d.getDate() >= 28;
   });
+  if (pending?.participant_id) {
+    const d = parseIsoDate(pending["MRI Date"] || pending["BD Date"]);
+    const day = d.toLocaleDateString("en-US", { weekday: "long", month: "numeric", day: "numeric", year: "2-digit" });
+    slide.addText(`${pending.participant_id} expected ${day} to complete BD and MRI visit.`, {
+      x: 0.55,
+      y: 4.15,
+      w: 8.8,
+      h: 0.35,
+      fontSize: 13,
+      color: DECK.body,
+      fontFace: DECK.font,
+    });
+  }
 }
 
 function buildYear3ActivitySlide(pptx, m) {
   const slide = pptx.addSlide();
+  slide.background = { color: DECK.bg };
   const monthName = MONTH_NAMES[m.month - 1];
   const a = m.scheduling.y3Activity;
   const nextName = MONTH_NAMES[a.nextMonth.month - 1];
-  addSlideTitle(slide, "3rd Year Study Visits");
+  const y3Total =
+    m.y3Visits.mri + m.y3Visits.bloodDraw + m.y3Visits.np + m.y3Visits.cv;
+  const y3Summary = [
+    m.y3Visits.mri ? `${m.y3Visits.mri} MRI` : null,
+    m.y3Visits.bloodDraw ? `${m.y3Visits.bloodDraw} BD` : null,
+    m.y3Visits.np ? `${m.y3Visits.np} NP` : null,
+    m.y3Visits.cv ? `${m.y3Visits.cv} CV` : null,
+  ]
+    .filter(Boolean)
+    .join(", ");
+  const dueScheduled = Math.max(0, a.dueCount - a.dueComplete);
 
-  addBullets(slide, [
-    `Total Visits in ${monthName}: ${a.visitTotal} (${a.visitSummary})`,
+  addBodyLines(slide, [
+    `Total Visits in ${monthName}: ${y3Total} (${y3Summary})`,
     `Participants with ${monthName} Due Dates (n=${a.dueCount})`,
-    `● ${a.dueComplete} completed all visits`,
-    `● ${Math.max(0, a.dueCount - a.dueComplete - a.dueScheduled)} successfully scheduled (${a.dueScheduled} in ${nextName}+)`,
-    `Scheduled Visits for ${nextName} (to Date): ${a.nextVisitTotal} (${a.nextVisitSummary})`,
+    { text: `${a.dueComplete} completed all visits`, bullet: true },
+    { text: `${dueScheduled} successfully scheduled`, bullet: true },
+    `Scheduled Visits for ${nextName} (to Date):`,
+    `${a.nextVisitTotal} (${a.nextVisitSummary})`,
     `Participants with ${nextName} Due Dates (n=${a.nextDueCount})`,
-  ], { y: 1.45, fontSize: 15 });
+    { text: `${a.nextDueCompletedEarly || 0} completed in ${monthName.slice(0, 3).toLowerCase()}`, bullet: true },
+    { text: `${Math.max(0, a.nextDueCount - (a.nextDueCompletedEarly || 0))} successfully scheduled`, bullet: true },
+    { text: "3rd Year Study Visits", bold: true, fontSize: 22 },
+  ], { y: 0.55, fontSize: 16 });
 }
 
 function buildYear3OverviewSlide(pptx, m) {
   const slide = pptx.addSlide();
-  addSlideTitle(slide, "Year 3 Visit Status", `As of ${m.scheduling.asOfDate}`);
+  slide.background = { color: DECK.bg };
+  addSlideTitle(slide, "Year 3 Visit Status", `As of ${asOfDateShort(m.year, m.month)}`);
 
-  addBullets(slide, [
-    `${m.y3.completed ?? "—"} participants have completed all required visits (BD, MRI, CV, NP)`,
+  addBodyLines(slide, [
+    { text: `${m.y3.completed ?? "—"} participants`, bold: true, fontSize: 18 },
+    "Have completed all required visits (BD, MRI, CV, NP)",
     "Visits are caught up through May 2026",
-    "Year 3 study period: May 2025 – Jan/Feb 2027",
-    `${m.y3.remaining ?? m.active ?? "—"} participants expected to complete Year 3 by Jan/Feb 2027`,
+    "Year 3 study period: May 2025 - Jan/Feb 2027",
   ], { y: 1.55, fontSize: 17 });
 }
 
 function buildYear3InProgressSlide(pptx, m) {
   const slide = pptx.addSlide();
+  slide.background = { color: DECK.bg };
   addSlideTitle(slide, "Year 3 Visit Status");
 
   const groups = m.scheduling.y3InProgress;
@@ -809,13 +833,13 @@ function buildYear3InProgressSlide(pptx, m) {
 
   slide.addText(`${total} participants in progress`, {
     x: 0.55,
-    y: 1.45,
+    y: 1.2,
     w: 8.9,
     h: 0.4,
-    fontSize: 18,
+    fontSize: 17,
     bold: true,
-    color: USC.cardinal,
-    fontFace: "Arial",
+    color: DECK.title,
+    fontFace: DECK.font,
   });
 
   const rows = [
@@ -828,11 +852,12 @@ function buildYear3InProgressSlide(pptx, m) {
     [{ text: "Total", options: { bold: true } }, { text: String(total), options: { bold: true } }, ""],
   ];
 
-  addDataTable(slide, rows, { y: 2.0, colW: [2.4, 2.2, 4.0], fontSize: 12 });
+  addDataTable(slide, rows, { y: 1.75, colW: [2.4, 2.0, 4.2], fontSize: 13 });
 }
 
 function buildYear3ToContactSlide(pptx, m) {
   const slide = pptx.addSlide();
+  slide.background = { color: DECK.bg };
   addSlideTitle(slide, "Year 3 Visit Status");
 
   const groups = m.scheduling.y3ToContact;
@@ -840,22 +865,22 @@ function buildYear3ToContactSlide(pptx, m) {
 
   slide.addText(`${total} participants to be contacted`, {
     x: 0.55,
-    y: 1.35,
+    y: 1.15,
     w: 8.9,
     h: 0.35,
-    fontSize: 18,
+    fontSize: 17,
     bold: true,
-    color: USC.cardinal,
-    fontFace: "Arial",
+    color: DECK.title,
+    fontFace: DECK.font,
   });
-  slide.addText(`${m.y3.remaining ?? m.active ?? "—"} Participants Expected to Complete Year 3 by Jan/Feb 2027`, {
+  slide.addText(`${m.y3.remaining ?? 157} Participants Expected to Complete Year 3 by Jan/Feb 2027`, {
     x: 0.55,
-    y: 1.72,
+    y: 1.5,
     w: 8.9,
     h: 0.3,
-    fontSize: 12,
-    color: USC.gray,
-    fontFace: "Arial",
+    fontSize: 13,
+    color: DECK.body,
+    fontFace: DECK.font,
   });
 
   const rows = [
@@ -864,63 +889,49 @@ function buildYear3ToContactSlide(pptx, m) {
     [{ text: "Total", options: { bold: true } }, { text: String(total), options: { bold: true } }],
   ];
 
-  addDataTable(slide, rows, { y: 2.15, colW: [4.0, 4.0], fontSize: 13 });
+  addDataTable(slide, rows, { y: 1.95, colW: [4.2, 4.2], fontSize: 14 });
 }
 
 function buildYear4ActivitySlide(pptx, m) {
   const slide = pptx.addSlide();
+  slide.background = { color: DECK.bg };
   const monthName = MONTH_NAMES[m.month - 1];
   const a = m.scheduling.y4Activity;
   const nextName = MONTH_NAMES[a.nextMonth.month - 1];
-  addSlideTitle(slide, "4th Year Study Visits 🎉");
+  const y4Total = m.y4Visits.bloodDraw + m.y4Visits.np + m.y4Visits.cv;
+  const y4Summary = [
+    m.y4Visits.bloodDraw ? `${m.y4Visits.bloodDraw} BD` : null,
+    m.y4Visits.np ? `${m.y4Visits.np} NP` : null,
+    m.y4Visits.cv ? `${m.y4Visits.cv} CV` : null,
+  ]
+    .filter(Boolean)
+    .join(", ");
 
-  addBullets(slide, [
-    `Total Visits in ${monthName}: ${a.visitTotal} (${a.visitSummary})`,
+  addBodyLines(slide, [
+    { text: "4th Year Study Visits 🎉", bold: true, fontSize: 22 },
+    `Total Visits in ${monthName}: ${y4Total} (${y4Summary})`,
     `Participants with ${monthName} Due Dates (n=${a.dueCount})`,
-    `● ${a.dueComplete} completed all visits`,
-    `● ${Math.max(0, a.dueCount - a.dueComplete)} rescheduled or pending`,
+    { text: `${a.dueComplete} completed all visits`, bullet: true },
+    { text: `${Math.max(0, a.dueCount - a.dueComplete)} rescheduled for ${nextName.slice(0, 3).toLowerCase()}`, bullet: true },
     `Scheduled Visits for ${nextName} (to Date): ${a.nextVisitTotal} (${a.nextVisitSummary})`,
     `Participants with ${nextName} Due Dates (n=${a.nextDueCount})`,
-    `● ${a.nextDueCount} pending scheduling`,
-  ], { y: 1.45, fontSize: 15 });
+    { text: `${a.nextDueCount} pending scheduling`, bullet: true },
+  ], { y: 0.55, fontSize: 16 });
 }
 
 function buildYear4ToContactSlide(pptx, m) {
   const slide = pptx.addSlide();
+  slide.background = { color: DECK.bg };
   addSlideTitle(slide, "Year 4 Visit Status");
 
   const groups = m.scheduling.y4ToContact;
   const total = groups.reduce((s, g) => s + g.count, 0);
-  const yearEnd = m.year;
 
-  slide.addText(`${total} participants to be contacted through December ${yearEnd}`, {
-    x: 0.55,
-    y: 1.35,
-    w: 8.9,
-    h: 0.35,
-    fontSize: 16,
-    bold: true,
-    color: USC.cardinal,
-    fontFace: "Arial",
-  });
-  slide.addText("65 participants to be contacted January–August 2027 (3rd-year rollovers)", {
-    x: 0.55,
-    y: 1.72,
-    w: 8.9,
-    h: 0.3,
-    fontSize: 12,
-    color: USC.gray,
-    fontFace: "Arial",
-  });
-  slide.addText("Expected Study Completion: Dec 2027 / Jan 2028", {
-    x: 0.55,
-    y: 2.0,
-    w: 8.9,
-    h: 0.3,
-    fontSize: 12,
-    color: USC.gray,
-    fontFace: "Arial",
-  });
+  addBodyLines(slide, [
+    { text: `${total || 26} participants to be contacted through December ${m.year}`, bold: true },
+    "65 participants to be contacted January–August 2027 (3rd-year rollovers)",
+    "Expected Study Completion: Dec 2027/Jan 2028",
+  ], { y: 1.15, fontSize: 14 });
 
   const rows = [
     [headerCell("Month Due"), headerCell("# Participants")],
@@ -928,72 +939,55 @@ function buildYear4ToContactSlide(pptx, m) {
     [{ text: "Total", options: { bold: true } }, { text: String(total), options: { bold: true } }],
   ];
 
-  addDataTable(slide, rows, { y: 2.45, colW: [4.0, 4.0], fontSize: 13 });
+  addDataTable(slide, rows, { y: 2.35, colW: [4.2, 4.2], fontSize: 14 });
 }
 
 function buildStudyProgressSlide(pptx, m) {
   const slide = pptx.addSlide();
+  slide.background = { color: DECK.bg };
   addSlideTitle(slide, "Study Progress", `Participant Flow (N = ${m.enrolled})`);
 
-  addBullets(slide, [
-    `Baseline`,
-    `● ${m.enrolled} enrolled`,
-    `● ${m.baseline.completed ?? "—"} completed Baseline assessments`,
-    `● ${m.dropouts.baseline} participants dropped out`,
-    `Year 2`,
-    `● ${m.y2.completed ?? "—"} participants completed Year 2`,
-    `● +1 participant advanced to Year 3`,
-    `● ${m.dropouts.year2} additional participants dropped out`,
-    `Year 3 (ongoing)`,
-    `● ${m.y3.completed ?? "—"} participants completed Year 3`,
-    `● ${m.dropouts.year3} additional participants dropped out`,
-    `Year 4 (ongoing)`,
-    `● ${m.y4.completed ?? "—"} participants completed Year 4`,
-  ], { y: 1.45, fontSize: 15 });
+  addBodyLines(slide, [
+    { text: "Baseline", bold: true },
+    { text: `${m.enrolled} enrolled`, bullet: true },
+    { text: `${m.baseline.completed ?? "—"} completed Baseline assessments`, bullet: true },
+    { text: `${m.dropouts.baseline} participants dropped out`, bullet: true },
+    { text: "Year 2", bold: true },
+    { text: `${m.y2.completed ?? "—"} participants completed Year 2`, bullet: true },
+    { text: "+1 participant advanced to Year 3", bullet: true },
+    { text: `${m.dropouts.year2} additional participants dropped out`, bullet: true },
+    { text: "Year 3 (ongoing)", bold: true },
+    { text: `${m.y3.completed ?? "—"} participants completed Year 3`, bullet: true },
+    { text: `${m.dropouts.year3} additional participants dropped out`, bullet: true },
+    { text: "Year 4 (ongoing)", bold: true },
+    { text: `${m.y4.completed ?? "—"} participants completed Year 4`, bullet: true },
+  ], { y: 1.45, fontSize: 16 });
 }
 
 function buildQuestionsSlide(pptx, m) {
   const slide = pptx.addSlide();
+  slide.background = { color: DECK.bg };
   addSlideTitle(slide, "Questions / Comments");
 
-  addBullets(slide, [
-    "Funding account end date: review and update CIA scheduler for MRI bookings beyond current period",
-    "Review scheduling notes in DBS Tracker for any participant-specific updates before presenting",
-    `Report generated from dashboard data · ${m.label}`,
+  addBodyLines(slide, [
+    { text: "Funding account end date: 8/31/2026", bullet: true },
+    "Once the funding account has been extended, we'll need to update the CIA scheduler to be able to book MRI's past october.",
   ], { y: 1.55, fontSize: 16 });
 }
 
-function buildThankYouSlide(pptx, m) {
+function buildThankYouSlide(pptx) {
   const slide = pptx.addSlide();
-  slide.background = { color: USC.cardinal };
-  slide.addShape("rect", {
-    x: 0,
-    y: 0,
-    w: "100%",
-    h: 0.08,
-    fill: { color: USC.gold },
-    line: { color: USC.gold, width: 0 },
-  });
+  slide.background = { color: DECK.bg };
   slide.addText("THANK YOU :)", {
     x: 0.7,
-    y: 2.1,
+    y: 2.35,
     w: 8.6,
     h: 0.9,
-    fontSize: 44,
+    fontSize: 40,
     bold: true,
-    color: USC.white,
+    color: DECK.title,
     align: "center",
-    fontFace: "Arial",
-  });
-  slide.addText(`Diabetes Brain Study · ${m.label}`, {
-    x: 0.7,
-    y: 4.85,
-    w: 8.6,
-    h: 0.35,
-    fontSize: 12,
-    color: USC.white,
-    align: "center",
-    fontFace: "Arial",
+    fontFace: DECK.font,
   });
 }
 
@@ -1005,7 +999,7 @@ async function generateMonthlyReportPPT(year, month) {
   const pptx = new PptxGenJS();
   pptx.layout = "LAYOUT_16x9";
   pptx.author = "DBS Operations Dashboard";
-  pptx.company = "USC";
+  pptx.company = "DBS";
   pptx.subject = `DBS Monthly Progress Report — ${metrics.label}`;
   pptx.title = `DBS Monthly Report ${metrics.label}`;
 
@@ -1020,7 +1014,7 @@ async function generateMonthlyReportPPT(year, month) {
   buildYear4ToContactSlide(pptx, metrics);
   buildStudyProgressSlide(pptx, metrics);
   buildQuestionsSlide(pptx, metrics);
-  buildThankYouSlide(pptx, metrics);
+  buildThankYouSlide(pptx);
 
   const filename = `DBS_Monthly_Report_${metrics.year}_${String(metrics.month).padStart(2, "0")}.pptx`;
   await pptx.writeFile({ fileName: filename });
