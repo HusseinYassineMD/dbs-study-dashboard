@@ -1,0 +1,139 @@
+{
+  "source": [
+    "DBS Tracker.xlsx",
+    "Monthly Meeting Updates.xlsx"
+  ],
+  "syncedAt": "2026-09-04T23:50:52.394Z",
+  "month": "August 2026",
+  "slide6_year3InProgress": {
+    "total": 15,
+    "byMonth": [
+      {
+        "month": "June 2026",
+        "count": 1,
+        "ids": [
+          "DBS-1202"
+        ]
+      },
+      {
+        "month": "July 2026",
+        "count": 2,
+        "ids": [
+          "DBS-1156",
+          "DBS-1347"
+        ]
+      },
+      {
+        "month": "August 2026",
+        "count": 3,
+        "ids": [
+          "DBS-1455",
+          "DBS-1187",
+          "DBS-1063"
+        ]
+      },
+      {
+        "month": "September 2026",
+        "count": 7,
+        "ids": [
+          "DBS-1523",
+          "DBS-1491",
+          "DBS-1368",
+          "DBS-1396",
+          "DBS-1480",
+          "DBS-1418",
+          "DBS-1530"
+        ]
+      },
+      {
+        "month": "October 2026",
+        "count": 2,
+        "ids": [
+          "DBS-1508",
+          "DBS-1521"
+        ]
+      }
+    ]
+  },
+  "slide7_year3ToContact": {
+    "total": 22,
+    "byMonth": [
+      {
+        "month": "November 2026",
+        "count": 8
+      },
+      {
+        "month": "December 2026",
+        "count": 3
+      },
+      {
+        "month": "January 2027",
+        "count": 6
+      },
+      {
+        "month": "February 2027",
+        "count": 5
+      }
+    ]
+  },
+  "slide8_year4Activity": {
+    "dueCount": 12,
+    "dueComplete": 11,
+    "dueScheduled": 1
+  },
+  "slide9_year4ToContact": {
+    "total": 26,
+    "byMonth": [
+      {
+        "month": "September 2026",
+        "count": 3,
+        "ids": [
+          "DBS-0676",
+          "DBS-0772",
+          "DBS-0830"
+        ]
+      },
+      {
+        "month": "October 2026",
+        "count": 8,
+        "ids": [
+          "DBS-0613",
+          "DBS-0620",
+          "DBS-0055",
+          "DBS-0569",
+          "DBS-0745",
+          "DBS-0587",
+          "DBS-0599",
+          "DBS-0657"
+        ]
+      },
+      {
+        "month": "November 2026",
+        "count": 8,
+        "ids": [
+          "DBS-0741",
+          "DBS-0216",
+          "DBS-0693",
+          "DBS-0418",
+          "DBS-0790",
+          "DBS-0658",
+          "DBS-0652",
+          "DBS-0855"
+        ]
+      },
+      {
+        "month": "December 2026",
+        "count": 7,
+        "ids": [
+          "DBS-0805",
+          "DBS-0824",
+          "DBS-0818",
+          "DBS-0614",
+          "DBS-0653",
+          "DBS-0800",
+          "DBS-0884"
+        ]
+      }
+    ]
+  }
+}

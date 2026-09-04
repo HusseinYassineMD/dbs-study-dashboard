@@ -2,7 +2,7 @@
   "meta": {
     "title": "Diabetes Brain Study (DBS) Operations Dashboard",
     "subtitle": "Unified view of participant tracking, recruitment, and visit progress",
-    "generated_at": "2026-09-04T14:01:32.046200",
+    "generated_at": "2026-09-04T16:38:50.356857",
     "sources": [
       "DBS Tracker.xlsx",
       "Monthly Meeting Updates.xlsx"
@@ -112,6 +112,164 @@
       "notes": null
     }
   ],
+  "study_details_visit_totals": {
+    "year3": {
+      "mri": 119,
+      "bd": 122,
+      "np": 121,
+      "cv": 122,
+      "monthly": {
+        "2025-05": {
+          "mri": 3,
+          "bd": 6,
+          "np": 6,
+          "cv": 6
+        },
+        "2025-06": {
+          "mri": 9,
+          "bd": 9,
+          "np": 9,
+          "cv": 9
+        },
+        "2025-07": {
+          "mri": 5,
+          "bd": 3,
+          "np": 3,
+          "cv": 3
+        },
+        "2025-08": {
+          "mri": 9,
+          "bd": 12,
+          "np": 12,
+          "cv": 12
+        },
+        "2025-09": {
+          "mri": 1,
+          "bd": 2,
+          "np": 3,
+          "cv": 2
+        },
+        "2025-10": {
+          "mri": 7,
+          "bd": 9,
+          "np": 8,
+          "cv": 9
+        },
+        "2025-11": {
+          "mri": 13,
+          "bd": 6,
+          "np": 8,
+          "cv": 8
+        },
+        "2025-12": {
+          "mri": 9,
+          "bd": 7,
+          "np": 7,
+          "cv": 7
+        },
+        "2026-01": {
+          "mri": 12,
+          "bd": 13,
+          "np": 12,
+          "cv": 13
+        },
+        "2026-02": {
+          "mri": 12,
+          "bd": 12,
+          "np": 9,
+          "cv": 8
+        },
+        "2026-03": {
+          "mri": 4,
+          "bd": 5,
+          "np": 7,
+          "cv": 7
+        },
+        "2026-04": {
+          "mri": 7,
+          "bd": 9,
+          "np": 12,
+          "cv": 12
+        },
+        "2026-05": {
+          "mri": 13,
+          "bd": 13,
+          "np": 12,
+          "cv": 12
+        },
+        "2026-06": {
+          "mri": 9,
+          "bd": 9,
+          "np": 5,
+          "cv": 5
+        },
+        "2026-07": {
+          "mri": 1,
+          "bd": 2,
+          "np": 1,
+          "cv": 2
+        },
+        "2026-08": {
+          "mri": 5,
+          "bd": 5,
+          "np": 7,
+          "cv": 7
+        },
+        "2026-09": {
+          "mri": 8,
+          "bd": 8,
+          "np": 10,
+          "cv": 9
+        },
+        "2026-10": {
+          "mri": 3,
+          "bd": 3,
+          "np": 2,
+          "cv": 2
+        }
+      },
+      "participants_completed": 120,
+      "mri_note": "*Note: 3 opted out of MRI",
+      "mri_exemptions": 3
+    },
+    "year4": {
+      "bd": 28,
+      "np": 28,
+      "cv": 28,
+      "monthly": {
+        "2026-05": {
+          "bd": 5,
+          "np": 5,
+          "cv": 5
+        },
+        "2026-06": {
+          "bd": 9,
+          "np": 9,
+          "cv": 9
+        },
+        "2026-07": {
+          "bd": 4,
+          "np": 4,
+          "cv": 5
+        },
+        "2026-08": {
+          "bd": 10,
+          "np": 10,
+          "cv": 9
+        },
+        "2026-09": {
+          "bd": 2,
+          "np": 2,
+          "cv": 2
+        },
+        "2026-10": {
+          "bd": 0,
+          "np": 0,
+          "cv": 0
+        }
+      }
+    }
+  },
   "recruitment": {
     "summary_n": 1735,
     "grand_total": 1735,

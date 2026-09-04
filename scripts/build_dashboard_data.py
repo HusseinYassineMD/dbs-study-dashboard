@@ -125,6 +125,149 @@ def parse_study_progress(path: Path, sheet: str = "Study Progress") -> list[dict
     return rows
 
 
+def _parse_visit_total(value: Any) -> int | None:
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return None
+    try:
+        return int(float(value))
+    except (TypeError, ValueError):
+        return None
+
+
+def _normalize_visit_label(value: Any) -> str:
+    return re.sub(r"\s+", " ", str(value or "").strip().lower())
+
+
+def _parse_month_header(value: Any) -> str | None:
+    """Parse column header like \"September '26 (expected)\" → \"2026-09\"."""
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return None
+    text = str(value).strip()
+    if not text:
+        return None
+    lowered = text.lower().replace("agust", "august")
+    month_names = [
+        "january",
+        "february",
+        "march",
+        "april",
+        "may",
+        "june",
+        "july",
+        "august",
+        "september",
+        "october",
+        "november",
+        "december",
+    ]
+    month_num = None
+    for idx, name in enumerate(month_names, start=1):
+        if name in lowered or name[:3] in lowered or name[:4] in lowered:
+            month_num = idx
+            break
+    if month_num is None:
+        return None
+    year = None
+    match = re.search(r"'(\d{2})\b", text)
+    if match:
+        year = 2000 + int(match.group(1))
+    else:
+        match = re.search(r"(20\d{2})", text)
+        if match:
+            year = int(match.group(1))
+    if year is None:
+        return None
+    return f"{year}-{month_num:02d}"
+
+
+def parse_study_details_visit_totals(path: Path) -> dict[str, Any]:
+    """Visit totals and monthly grids from Study Details (Third/Fourth Year Visits)."""
+    df = pd.read_excel(path, sheet_name="Study Details", header=None)
+    sections: dict[str, dict[str, int]] = {"year3": {}, "year4": {}}
+    monthly: dict[str, dict[str, dict[str, int]]] = {"year3": {}, "year4": {}}
+    column_maps: dict[str, dict[int, str]] = {"year3": {}, "year4": {}}
+    current: str | None = None
+    extras: dict[str, Any] = {}
+
+    label_map = {
+        "mri": "mri",
+        "bd": "bd",
+        "np": "np",
+        "clinician visit": "cv",
+        "cv": "cv",
+    }
+
+    for idx in range(len(df)):
+        label_raw = df.iloc[idx, 0]
+        total_raw = df.iloc[idx, 1] if df.shape[1] > 1 else None
+        label = _normalize_visit_label(label_raw)
+
+        if label == "third year visits":
+            current = "year3"
+            column_maps["year3"] = {}
+            for col_i in range(2, df.shape[1]):
+                month_key = _parse_month_header(df.iloc[idx, col_i])
+                if month_key:
+                    column_maps["year3"][col_i] = month_key
+            continue
+        if label == "fourth year visits":
+            current = "year4"
+            column_maps["year4"] = {}
+            for col_i in range(2, df.shape[1]):
+                month_key = _parse_month_header(df.iloc[idx, col_i])
+                if month_key:
+                    column_maps["year4"][col_i] = month_key
+            continue
+        if label in {"dropped", "second year visits"} or label.startswith("fifth"):
+            current = None
+            continue
+        if current is None:
+            continue
+
+        if "complete" in label:
+            match = re.search(r"(\d+)", str(label_raw or ""))
+            if match and current == "year3":
+                extras["year3_participants_completed"] = int(match.group(1))
+            continue
+
+        if label.startswith("*note") and "mri" in label:
+            extras["year3_mri_note"] = serialize(label_raw)
+            match = re.search(r"(\d+)\s+opted out", label, re.I)
+            if match:
+                extras["year3_mri_exemptions"] = int(match.group(1))
+            continue
+
+        key = label_map.get(label)
+        if not key:
+            continue
+        total = _parse_visit_total(total_raw)
+        if total is not None:
+            sections[current][key] = total
+        for col_i, month_key in column_maps.get(current, {}).items():
+            cell = _parse_visit_total(df.iloc[idx, col_i])
+            if cell is not None:
+                monthly[current].setdefault(month_key, {})[key] = cell
+
+    return {
+        "year3": {
+            "mri": sections["year3"].get("mri"),
+            "bd": sections["year3"].get("bd"),
+            "np": sections["year3"].get("np"),
+            "cv": sections["year3"].get("cv"),
+            "monthly": monthly["year3"],
+            "participants_completed": extras.get("year3_participants_completed"),
+            "mri_note": extras.get("year3_mri_note"),
+            "mri_exemptions": extras.get("year3_mri_exemptions"),
+        },
+        "year4": {
+            "bd": sections["year4"].get("bd"),
+            "np": sections["year4"].get("np"),
+            "cv": sections["year4"].get("cv"),
+            "monthly": monthly["year4"],
+        },
+    }
+
+
 def parse_recruitment(path: Path) -> dict[str, Any]:
     df = pd.read_excel(path, sheet_name="Study Details", header=None)
     header_row = df.iloc[2].tolist()
@@ -748,6 +891,7 @@ def main() -> None:
         },
         "study_progress_tracker": parse_study_progress(TRACKER),
         "study_progress_meeting": parse_study_progress(MEETING),
+        "study_details_visit_totals": parse_study_details_visit_totals(MEETING),
         "recruitment": parse_recruitment(MEETING),
         "active_participants": parse_active_ids(TRACKER),
         "id_location": parse_id_location(TRACKER),

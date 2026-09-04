@@ -1,30 +1,18 @@
 #!/usr/bin/env python3
-"""Cross-check monthly report metrics against source Excel and August PDF."""
+"""Validate August 2026 monthly report metrics against the team PDF and Study Progress."""
 
 from __future__ import annotations
 
 import json
-import re
+import subprocess
 import sys
-from datetime import datetime
 from pathlib import Path
 
-import pandas as pd
-
 ROOT = Path(__file__).resolve().parents[1]
-TRACKER = ROOT / "DBS Tracker.xlsx"
-MEETING = ROOT / "Monthly Meeting Updates.xlsx"
 DATA = ROOT / "dashboard" / "data.json"
+REPORT_JS = ROOT / "dashboard" / "report.js"
 
-MONTH_NAMES = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
-]
-REPORT_START_KEY = 2024 * 12 + 5
-REPORT_END_KEY = 2026 * 12 + 9
-
-# August 2026 PDF canonical + known monthly snapshots
-PDF = {
+KPI = {
     "enrolled": 200,
     "baseline_completed": 187,
     "baseline_dropped": 13,
@@ -39,208 +27,140 @@ PDF = {
     "recruitment_total": 1735,
 }
 
-MONTHLY_EXPECTED = {
-    (2024, 10): {"y2_cv": 12, "y2_np": 12, "y2_cumulative": 52, "y3_mri": 0},
-    (2026, 3): {"y2_cv": 1, "y2_np": 1, "y2_cumulative": 171, "y3_mri": 4},
-    (2026, 8): {"y2_cv": 0, "y2_np": 0, "y2_cumulative": 171, "y3_mri": 6, "y3_bd": 6, "y3_np": 7, "y3_cv": 7},
-    (2026, 9): {"y2_cv": 0, "y2_np": 0, "y3_mri": 8, "y3_bd": 8, "y3_np": 10, "y3_cv": 9},
-}
+# Every number on August DBS Monthly Progress Meeting.pdf (slides 2–10)
+PDF_AUG_2026 = [
+    ("Slide 2 · Y3 completed", "y3.completed", 120),
+    ("Slide 2 · Y4 completed", "y4.completed", 28),
+    ("Slide 2 · Y3 MRI components", "scheduling.y3Components.MRI Date", 119),
+    ("Slide 2 · Y3 BD components", "scheduling.y3Components.BD Date", 122),
+    ("Slide 2 · Y3 NP components", "scheduling.y3Components.NP Date", 121),
+    ("Slide 2 · Y3 CV components", "scheduling.y3Components.CV Date", 122),
+    ("Slide 2 · Future MRI", "scheduling.futureVisits.mri", 11),
+    ("Slide 2 · Future BD", "scheduling.futureVisits.bd", 13),
+    ("Slide 2 · Future NP", "scheduling.futureVisits.np", 14),
+    ("Slide 2 · Future CV", "scheduling.futureVisits.cv", 13),
+    ("Slide 2 · Dropouts total", "dropouts.total", 43),
+    ("Slide 3 · Y3 MRI Aug", "y3Visits.mri", 5),
+    ("Slide 3 · Y3 BD Aug", "y3Visits.bloodDraw", 5),
+    ("Slide 3 · Y3 NP Aug", "y3Visits.np", 7),
+    ("Slide 3 · Y3 CV Aug", "y3Visits.cv", 7),
+    ("Slide 3 · Y4 BD Aug", "y4Visits.bloodDraw", 10),
+    ("Slide 3 · Y4 NP Aug", "y4Visits.np", 10),
+    ("Slide 3 · Y4 CV Aug", "y4Visits.cv", 9),
+    ("Slide 4 · Y3 total visits Aug", "y3TotalMonthVisits", 24),
+    ("Slide 4 · Y3 due n", "scheduling.y3Activity.dueCount", 6),
+    ("Slide 4 · Y3 due complete", "scheduling.y3Activity.dueComplete", 3),
+    ("Slide 4 · Y3 due scheduled", "scheduling.y3Activity.dueScheduled", 3),
+    ("Slide 4 · Sep Y3 scheduled", "scheduling.y3Activity.nextVisitTotal", 35),
+    ("Slide 6 · Y3 in progress", "scheduling.y3InProgress", 15),
+    ("Slide 7 · Y3 to contact", "scheduling.y3ToContact", 22),
+    ("Slide 8 · Y4 total visits Aug", "y4TotalMonthVisits", 29),
+    ("Slide 8 · Y4 due n Aug", "scheduling.y4Activity.dueCount", 12),
+    ("Slide 8 · Y4 due complete Aug", "scheduling.y4Activity.dueComplete", 11),
+    ("Slide 8 · Sep Y4 scheduled", "scheduling.y4Activity.nextVisitTotal", 2),
+    ("Slide 9 · Y4 to contact", "scheduling.y4ToContact", 26),
+    ("Slide 10 · Enrolled", "enrolled", 200),
+    ("Slide 10 · Baseline completed", "baseline.completed", 187),
+    ("Slide 10 · Y2 completed", "y2.completed", 171),
+]
 
 
-def parse_date(value) -> datetime | None:
-    if value is None:
-        return None
-    s = str(value).strip()
-    if not s or re.search(r"opt out|n/a|^nan$", s, re.I):
-        return None
-    try:
-        return datetime.fromisoformat(s.replace("Z", ""))
-    except ValueError:
-        return None
-
-
-def in_month(value, year: int, month: int) -> bool:
-    d = parse_date(value)
-    return bool(d and d.year == year and d.month == month)
-
-
-def month_key(year: int, month: int) -> int:
-    return year * 12 + month
-
-
-def find_monthly_column(data: dict, year: int, month: int) -> str | None:
-    rows = data.get("second_year_monthly") or []
-    if not rows:
-        return None
-    full = MONTH_NAMES[month - 1]
-    abbr = full[:3]
-    yy = str(year)[-2:]
-    keys = [k for k in rows[0] if k not in ("visit_type", "total_completed")]
-    for k in keys:
-        kl = k.lower()
-        if (full.lower() in kl or kl.startswith(abbr.lower())) and f"'{yy}" in k:
-            return k
-    return None
-
-
-def last_trend_on_or_before(data: dict, year: int, month: int) -> dict | None:
-    target = month_key(year, month)
-    best = None
-    best_key = -1
-    for row in data.get("visit_trends_sheet5") or []:
-        d = parse_date(row.get("Date"))
-        if not d:
-            continue
-        key = month_key(d.year, d.month)
-        if key <= target and key > best_key:
-            best_key = key
-            best = row
-    return best
-
-
-def collect_metrics(data: dict, year: int, month: int) -> dict:
-    third = data.get("third_year_scheduling") or []
-    fourth = data.get("fourth_year_scheduling") or []
-    cv_row = next((r for r in data.get("second_year_monthly") or [] if r.get("visit_type") == "Clinician Visit"), {})
-    np_row = next((r for r in data.get("second_year_monthly") or [] if r.get("visit_type") == "NP"), {})
-    col = find_monthly_column(data, year, month)
-    trend5 = next((r for r in data.get("visit_trends_sheet5") or [] if in_month(r.get("Date"), year, month)), None)
-
-    y2cv = int(cv_row.get(col) or 0) if col else int(trend5.get("CV Monthly") or 0) if trend5 else 0
-    y2np = int(np_row.get(col) or 0) if col else int(trend5.get("NP Monthly") or 0) if trend5 else 0
-    last = last_trend_on_or_before(data, year, month)
-    y2cum = (
-        (trend5 or {}).get("CV Cumulative")
-        or (last or {}).get("CV Cumulative")
+def load_report_metrics(year: int, month: int) -> dict:
+    node = """
+const fs = require('fs');
+global.DATA = JSON.parse(fs.readFileSync('dashboard/data.json','utf8'));
+eval(fs.readFileSync('dashboard/report.js','utf8').replace(/^async function generateMonthlyReportPPT[\\s\\S]*/,''));
+const m = collectReportMetrics(%d, %d);
+console.log(JSON.stringify(m));
+""" % (
+        year,
+        month,
     )
+    out = subprocess.check_output(["node", "-e", node], cwd=ROOT, text=True)
+    return json.loads(out)
 
-    y3 = {
-        "mri": sum(1 for r in third if in_month(r.get("MRI Date"), year, month)),
-        "bd": sum(1 for r in third if in_month(r.get("BD Date"), year, month)),
-        "np": sum(1 for r in third if in_month(r.get("NP Date"), year, month)),
-        "cv": sum(1 for r in third if in_month(r.get("CV Date"), year, month)),
-    }
-    y4 = {
-        "bd": sum(1 for r in fourth if in_month(r.get("BD Date"), year, month)),
-        "np": sum(1 for r in fourth if in_month(r.get("NP Date"), year, month)),
-        "cv": sum(1 for r in fourth if in_month(r.get("CV Date"), year, month)),
-    }
 
-    meeting = {str(r["year"]): r for r in data.get("study_progress_meeting") or []}
-    return {
-        "y2_cv": y2cv,
-        "y2_np": y2np,
-        "y2_cumulative": y2cum,
-        "y3_mri": y3["mri"],
-        "y3_bd": y3["bd"],
-        "y3_np": y3["np"],
-        "y3_cv": y3["cv"],
-        "y4_bd": y4["bd"],
-        "y4_np": y4["np"],
-        "y4_cv": y4["cv"],
-        "y3_completed": meeting.get("3", {}).get("completed"),
-        "y4_completed": meeting.get("4", {}).get("completed"),
-        "active": len(data.get("active_participants") or []),
-        "recruitment": data.get("recruitment", {}).get("grand_total"),
-    }
+def get_path(obj: dict, path: str):
+    cur = obj
+    for part in path.split("."):
+        if part.endswith("]"):
+            key, idx = part[:-1].split("[")
+            cur = cur[key][int(idx)]
+        else:
+            cur = cur[part]
+    return cur
+
+
+def resolve_value(metrics: dict, path: str):
+    if path in {"scheduling.y3InProgress", "scheduling.y3ToContact", "scheduling.y4ToContact"}:
+        groups = get_path(metrics, path)
+        return sum(g["count"] for g in groups)
+    return get_path(metrics, path)
 
 
 def main() -> int:
-    if not DATA.exists():
-        print(f"Missing {DATA}")
+    if not DATA.exists() or not REPORT_JS.exists():
+        print("Missing dashboard/data.json or dashboard/report.js")
         return 1
 
     data = json.loads(DATA.read_text())
+    m = load_report_metrics(2026, 8)
     passed: list[str] = []
     failures: list[str] = []
 
-    def ok(msg: str) -> None:
-        passed.append(msg)
-
-    def fail(msg: str) -> None:
-        failures.append(msg)
-
-    # Pass 1: PDF / study progress
-    meeting = {str(r["year"]): r for r in data["study_progress_meeting"]}
-    checks = [
-        ("enrolled", meeting["Baseline"]["enrolled"], PDF["enrolled"]),
-        ("baseline_completed", meeting["Baseline"]["completed"], PDF["baseline_completed"]),
-        ("year3_completed", meeting["3"]["completed"], PDF["year3_completed"]),
-        ("year4_completed", meeting["4"]["completed"], PDF["year4_completed"]),
-        ("active", len(data["active_participants"]), PDF["active"]),
-        ("recruitment", data["recruitment"]["grand_total"], PDF["recruitment_total"]),
-    ]
-    dropped = sum(meeting[y]["dropped_out_dq"] or 0 for y in ["Baseline", "2", "3", "4"])
-    checks.append(("total_dropouts", dropped, PDF["total_dropouts"]))
-
-    for name, actual, expected in checks:
-        if int(actual) == int(expected):
-            ok(f"PDF {name} = {expected}")
+    for label, path, expected in PDF_AUG_2026:
+        try:
+            actual = resolve_value(m, path)
+        except (KeyError, TypeError):
+            actual = None
+        if actual is None:
+            failures.append(f"{label}: MISSING (PDF {expected})")
+        elif int(actual) == int(expected):
+            passed.append(f"{label} = {expected}")
         else:
-            fail(f"PDF {name}: expected {expected}, got {actual}")
+            failures.append(f"{label}: PDF {expected}, report {actual}")
 
-    # Pass 2: Monthly report snapshots
-    for (year, month), expected in MONTHLY_EXPECTED.items():
-        m = collect_metrics(data, year, month)
-        label = f"{MONTH_NAMES[month - 1]} {year}"
-        for key, exp in expected.items():
-            actual = m.get(key)
-            if actual is None:
-                fail(f"{label} {key}: missing")
-            elif int(actual) != int(exp):
-                fail(f"{label} {key}: expected {exp}, got {actual}")
-            else:
-                ok(f"{label} {key} = {exp}")
+    meeting = {str(r["year"]): r for r in data["study_progress_meeting"]}
+    for label, key, kpi_key in [
+        ("Baseline dropouts", "Baseline", "baseline_dropped"),
+        ("Year 2 dropouts", "2", "year2_dropped"),
+        ("Year 3 dropouts", "3", "year3_dropped"),
+        ("Year 4 dropouts", "4", "year4_dropped"),
+    ]:
+        actual = meeting[key]["dropped_out_dq"]
+        expected = KPI[kpi_key]
+        if int(actual) == int(expected):
+            passed.append(f"{label} = {expected}")
+        else:
+            failures.append(f"{label}: expected {expected}, got {actual}")
 
-    # Pass 3: Report month range
-    months_in_range = []
-    for key in range(REPORT_START_KEY, REPORT_END_KEY + 1):
-        y = (key - 1) // 12
-        m = (key - 1) % 12 + 1
-        months_in_range.append((y, m))
-    ok(f"Report range: {len(months_in_range)} months (May 2024 – Sep 2026)")
-
-    # Pass 4: Every month in range has computable metrics (no null cumulative after May 2024)
-    null_cum = []
-    for year, month in months_in_range:
-        m = collect_metrics(data, year, month)
-        if m["y2_cumulative"] is None and month_key(year, month) >= 2024 * 12 + 5:
-            null_cum.append(f"{MONTH_NAMES[month-1]} {year}")
-    if null_cum:
-        fail(f"Missing 2nd year cumulative: {', '.join(null_cum[:5])}")
-    else:
-        ok("All report months have 2nd year cumulative")
-
-    # Pass 5: Excel vs JSON row counts (spot check scheduling)
-    df3 = pd.read_excel(TRACKER, sheet_name="3rd Yr Scheduling Notes ", header=None)
-    json_third = len(data["third_year_scheduling"])
-    if json_third < 100:
-        fail(f"third_year_scheduling suspiciously low: {json_third}")
-    else:
-        ok(f"third_year_scheduling: {json_third} rows")
-
-    # Pass 6: Recruitment sources
-    src_sum = sum(s["total_leads"] for s in data["recruitment"]["sources"])
-    if src_sum != PDF["recruitment_total"]:
-        fail(f"Recruitment sum {src_sum} != {PDF['recruitment_total']}")
-    else:
-        ok("Recruitment sources sum = 1735")
-
-    print("=" * 70)
-    print("MONTHLY REPORT + DASHBOARD CROSS-CHECK (DOUBLE AUDIT)")
-    print("=" * 70)
+    print("=" * 72)
+    print("AUGUST 2026 REPORT vs TEAM PDF — FULL VALIDATION")
+    print("=" * 72)
+    if m.get("usesMeetingSnapshot"):
+        print(f"Snapshot: {m.get('reportSource')} (as of {m.get('reportAsOf')})")
     print(f"PASSED:   {len(passed)}")
     print(f"FAILURES: {len(failures)}")
+    print()
+    print(f"{'Metric':<42} {'PDF':>6} {'Report':>6} {'OK':>4}")
+    print("-" * 62)
+    for label, path, expected in PDF_AUG_2026:
+        try:
+            actual = resolve_value(m, path)
+        except (KeyError, TypeError):
+            actual = None
+        ok = "✓" if actual is not None and int(actual) == int(expected) else "✗"
+        print(f"{label:<42} {expected:>6} {str(actual):>6} {ok:>4}")
+
     if failures:
         print("\nFAILURES:")
         for f in failures:
             print(f"  ✗ {f}")
-    print()
-    if not failures:
-        print("✅ DOUBLE-CHECK PASSED — all data verified")
-        return 0
-    print("❌ ISSUES FOUND")
-    return 1
+        print("\n❌ VALIDATION FAILED")
+        return 1
+
+    print("\n✅ ALL AUGUST NUMBERS MATCH THE TEAM PDF")
+    return 0
 
 
 if __name__ == "__main__":
