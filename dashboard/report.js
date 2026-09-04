@@ -1,18 +1,32 @@
-/** Monthly progress report → PowerPoint matching the August meeting deck (USC branding + layout). */
+/** Monthly progress report → PowerPoint matching the August meeting deck exactly. */
 
 const DECK = {
-  bg: "FFFFFF",
+  bg: "EDE1E2",
   cardinal: "991B1E",
   gold: "FFCC00",
-  title: "991B1E",
+  titleOnRed: "FFFFFF",
+  title: "000000",
   body: "000000",
-  muted: "5F6B7A",
+  muted: "444444",
   tableBorder: "991B1E",
-  lightFill: "F5F0F0",
   font: "Arial",
-  marginL: 0.72,
-  marginT: 0.55,
-  contentW: 8.56,
+  marginL: 0.5,
+  contentW: 9.0,
+  headerH: 1.17,
+  titleHeaderH: 0.85,
+  footerH: 0.5,
+};
+
+/** Executive summary grid — matches August PDF (Y3/Y4 top, dropouts/future bottom). */
+const EXEC_GRID = {
+  leftX: 0.55,
+  rightX: 4.85,
+  colW: 4.35,
+  topY: 1.05,
+  bottomY: 2.95,
+  numSize: 21,
+  labelSize: 21,
+  bulletSize: 14,
 };
 
 let reportLogoData = null;
@@ -31,37 +45,72 @@ async function getReportLogoData() {
   return reportLogoData;
 }
 
-function addBrandBars(slide) {
+function slideBg(slide) {
+  slide.background = { color: DECK.bg };
+}
+
+function addTopHeaderBar(slide, title, fontSize = 34) {
   slide.addShape("rect", {
     x: 0,
     y: 0,
     w: "100%",
-    h: 0.12,
+    h: DECK.headerH,
     fill: { color: DECK.cardinal },
     line: { color: DECK.cardinal, width: 0 },
   });
+  if (title) {
+    slide.addText(title, {
+      x: 0.4,
+      y: 0.12,
+      w: 9.2,
+      h: DECK.headerH - 0.15,
+      fontSize,
+      bold: true,
+      color: DECK.titleOnRed,
+      fontFace: DECK.font,
+      align: "center",
+      valign: "middle",
+      wrap: true,
+    });
+  }
+}
+
+function addTitlePageHeader(slide) {
   slide.addShape("rect", {
     x: 0,
-    y: 0.12,
+    y: 0,
     w: "100%",
-    h: 0.04,
-    fill: { color: DECK.gold },
-    line: { color: DECK.gold, width: 0 },
+    h: DECK.titleHeaderH,
+    fill: { color: DECK.cardinal },
+    line: { color: DECK.cardinal, width: 0 },
   });
 }
 
-/** Fixed 2×2 grid for the executive summary (matches August PDF spacing). */
-const EXEC_GRID = {
-  leftX: 0.72,
-  rightX: 5.05,
-  colW: 4.05,
-  topY: 1.05,
-  bottomY: 3.55,
-  numSize: 38,
-  labelSize: 15,
-  bulletSize: 14,
-};
+function addBottomFooterBar(slide) {
+  slide.addShape("rect", {
+    x: 0,
+    y: 5.625 - DECK.footerH,
+    w: "100%",
+    h: DECK.footerH,
+    fill: { color: DECK.cardinal },
+    line: { color: DECK.cardinal, width: 0 },
+  });
+}
 
+function addCenteredTitle(slide, title, fontSize = 34) {
+  slide.addText(title, {
+    x: 0.5,
+    y: 0.35,
+    w: 9.0,
+    h: 0.7,
+    fontSize,
+    bold: true,
+    color: DECK.title,
+    fontFace: DECK.font,
+    align: "center",
+    wrap: true,
+  });
+}
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December",
@@ -590,36 +639,33 @@ function dashCell(value) {
 }
 
 function addSlideTitle(slide, title, subtitle) {
-  addBrandBars(slide);
-  slide.addText(title, {
-    x: DECK.marginL,
-    y: 0.28,
-    w: DECK.contentW,
-    h: 0.5,
-    fontSize: 30,
-    bold: true,
-    color: DECK.title,
-    fontFace: DECK.font,
-  });
+  slideBg(slide);
+  addTopHeaderBar(slide, title);
   if (subtitle) {
     slide.addText(subtitle, {
       x: DECK.marginL,
-      y: 0.72,
+      y: DECK.headerH + 0.08,
       w: DECK.contentW,
-      h: 0.3,
-      fontSize: 15,
-      color: DECK.muted,
+      h: 0.35,
+      fontSize: 16,
+      bold: true,
+      color: DECK.body,
       fontFace: DECK.font,
+      wrap: true,
     });
   }
+}
+
+function contentTop(subtitle = false) {
+  return subtitle ? DECK.headerH + 0.5 : DECK.headerH + 0.2;
 }
 
 function addPlainText(slide, text, opts = {}) {
   slide.addText(text, {
     x: opts.x ?? DECK.marginL,
-    y: opts.y ?? 1.35,
+    y: opts.y ?? contentTop(),
     w: opts.w ?? DECK.contentW,
-    h: opts.h ?? 0.5,
+    h: opts.h ?? 0.8,
     fontSize: opts.fontSize ?? 18,
     bold: opts.bold ?? false,
     italic: opts.italic ?? false,
@@ -627,6 +673,7 @@ function addPlainText(slide, text, opts = {}) {
     fontFace: DECK.font,
     align: opts.align ?? "left",
     valign: opts.valign ?? "top",
+    wrap: true,
   });
 }
 
@@ -638,32 +685,34 @@ function addBodyLines(slide, lines, opts = {}) {
     const options = { breakLine: true };
     if (line.bullet) options.bullet = true;
     if (line.bold) options.bold = true;
-    if (line.bold) options.color = DECK.cardinal;
     if (line.fontSize) options.fontSize = line.fontSize;
     return { text: line.text, options };
   });
   slide.addText(parts, {
-    x: opts.x ?? DECK.marginL + 0.08,
-    y: opts.y ?? 1.35,
-    w: opts.w ?? DECK.contentW - 0.1,
-    h: opts.h ?? 4.2,
-    fontSize: opts.fontSize ?? 18,
+    x: opts.x ?? DECK.marginL,
+    y: opts.y ?? contentTop(),
+    w: opts.w ?? DECK.contentW,
+    h: opts.h ?? 4.0,
+    fontSize: opts.fontSize ?? 14,
     color: DECK.body,
     fontFace: DECK.font,
     valign: "top",
+    wrap: true,
   });
 }
 
 function addDataTable(slide, rows, opts = {}) {
   slide.addTable(rows, {
     x: opts.x ?? DECK.marginL,
-    y: opts.y ?? 1.45,
+    y: opts.y ?? contentTop(true),
     w: opts.w ?? DECK.contentW,
     colW: opts.colW,
-    fontSize: opts.fontSize ?? 18,
+    fontSize: opts.fontSize ?? 12,
     border: { type: "solid", color: DECK.tableBorder, pt: 0.75 },
     fontFace: DECK.font,
     color: DECK.body,
+    autoPage: false,
+    rowH: opts.rowH ?? 0.35,
   });
 }
 
@@ -673,195 +722,140 @@ function headerCell(text) {
     options: {
       bold: true,
       fill: { color: DECK.cardinal },
-      color: DECK.bg,
+      color: DECK.titleOnRed,
     },
   };
 }
 
-/** PDF-style metric block: big number, two label lines, optional bullets. */
-function addMetricBlock(slide, x, y, w, number, label1, label2, bullets = []) {
-  addPlainText(slide, String(number), {
+/** Single text box per quadrant — avoids overlapping text boxes. */
+function addQuadrantBlock(slide, x, y, w, lines, h = 1.85) {
+  const parts = [];
+  lines.forEach((line, idx) => {
+    if (typeof line === "string") {
+      parts.push({
+        text: line,
+        options: { breakLine: true, fontSize: idx < 3 ? EXEC_GRID.labelSize : EXEC_GRID.bulletSize, bold: idx < 3 },
+      });
+      return;
+    }
+    const options = { breakLine: true, fontSize: line.fontSize ?? EXEC_GRID.bulletSize };
+    if (line.bold) options.bold = true;
+    if (line.bullet) options.bullet = true;
+    if (line.fontSize) options.fontSize = line.fontSize;
+    parts.push({ text: line.text, options });
+  });
+  slide.addText(parts, {
     x,
     y,
     w,
-    h: 0.55,
-    fontSize: EXEC_GRID.numSize,
-    bold: true,
-    color: DECK.cardinal,
+    h,
+    color: DECK.body,
+    fontFace: DECK.font,
+    valign: "top",
+    wrap: true,
   });
-  addPlainText(slide, label1, {
-    x,
-    y: y + 0.52,
-    w,
-    h: 0.24,
-    fontSize: EXEC_GRID.labelSize,
-    bold: true,
-    color: DECK.cardinal,
-  });
-  if (label2) {
-    addPlainText(slide, label2, {
-      x,
-      y: y + 0.76,
-      w,
-      h: 0.24,
-      fontSize: EXEC_GRID.labelSize,
-      bold: true,
-      color: DECK.cardinal,
-    });
-  }
-  if (bullets.length) {
-    addBodyLines(
-      slide,
-      bullets.map((text) => ({ text, bullet: true })),
-      {
-        x: x + 0.04,
-        y: y + (label2 ? 1.04 : 0.8),
-        w: w - 0.04,
-        h: 1.05,
-        fontSize: EXEC_GRID.bulletSize,
-      }
-    );
-  }
-}
-
-function addFutureVisitsBlock(slide, x, y, w, monthLine, counts) {
-  addPlainText(slide, "Future Visits Scheduled", {
-    x,
-    y,
-    w,
-    fontSize: EXEC_GRID.labelSize,
-    bold: true,
-    color: DECK.cardinal,
-  });
-  addPlainText(slide, monthLine, {
-    x,
-    y: y + 0.28,
-    w,
-    fontSize: EXEC_GRID.bulletSize,
-  });
-  addBodyLines(
-    slide,
-    [
-      `${counts.mri} MRI's`,
-      `${counts.bd} Full Blood Draws`,
-      `${counts.np} Neuropsych Tests`,
-      `${counts.cv} Clinician Visits`,
-    ].map((text) => ({ text, bullet: true })),
-    { x: x + 0.04, y: y + 0.58, w: w - 0.04, h: 1.05, fontSize: EXEC_GRID.bulletSize }
-  );
 }
 
 function buildTitleSlide(pptx, m, logoData) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.cardinal };
-  slide.addShape("rect", {
-    x: 0,
-    y: 4.85,
-    w: "100%",
-    h: 0.775,
-    fill: { color: DECK.gold },
-    line: { color: DECK.gold, width: 0 },
-  });
+  slideBg(slide);
+  addTitlePageHeader(slide);
   if (logoData) {
-    slide.addImage({ data: logoData, x: 0.55, y: 0.35, w: 3.35, h: 0.98 });
+    slide.addImage({ data: logoData, x: 0.45, y: 0.08, w: 2.8, h: 0.72 });
   }
   addPlainText(slide, "Diabetes Brain Study –", {
-    x: 0.9,
-    y: 1.85,
-    w: 7.8,
+    x: 0.6,
+    y: 1.35,
+    w: 8.8,
+    h: 0.7,
+    fontSize: 40,
+    bold: true,
+    align: "center",
+  });
+  addPlainText(slide, "Monthly Progress Meeting", {
+    x: 0.6,
+    y: 2.05,
+    w: 8.8,
     h: 0.65,
     fontSize: 40,
     bold: true,
     align: "center",
-    color: DECK.bg,
-  });
-  addPlainText(slide, "Monthly Progress Meeting", {
-    x: 0.9,
-    y: 2.5,
-    w: 7.8,
-    h: 0.55,
-    fontSize: 34,
-    bold: true,
-    align: "center",
-    color: DECK.gold,
   });
   addPlainText(slide, m.label, {
-    x: 0.9,
-    y: 3.25,
-    w: 7.8,
-    h: 0.45,
-    fontSize: 24,
+    x: 0.6,
+    y: 2.75,
+    w: 8.8,
+    h: 0.55,
+    fontSize: 40,
+    bold: true,
     align: "center",
-    color: DECK.bg,
-  });
-  addPlainText(slide, "USC Mark and Mary Stevens Neuroimaging and Informatics Institute", {
-    x: 0.9,
-    y: 5.0,
-    w: 7.8,
-    h: 0.35,
-    fontSize: 11,
-    align: "center",
-    color: DECK.body,
   });
 }
 
 function buildExecutiveSummarySlide(pptx, m) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.bg };
+  slideBg(slide);
+  addCenteredTitle(slide, "Executive Summary");
   const s = m.scheduling;
   const next = addMonths(m.year, m.month, 1);
   const next2 = addMonths(m.year, m.month, 2);
   const g = EXEC_GRID;
 
-  addSlideTitle(slide, "Executive Summary");
-
-  addMetricBlock(slide, g.leftX, g.topY, g.colW, m.dropouts.total, "Dropout", "Participants", [
-    `${m.dropouts.baseline} Baseline year`,
-    `${m.dropouts.year2} Second year`,
-    `${m.dropouts.year3} Third year`,
-    `${m.dropouts.year4} Fourth year`,
-  ]);
-
-  addFutureVisitsBlock(
-    slide,
-    g.rightX,
-    g.topY,
-    g.colW,
-    `${MONTH_ABBR[next.month - 1]} - ${MONTH_ABBR[next2.month - 1]} (3rd and 4th year)`,
-    s.futureVisits
-  );
-
-  const y3Bullets = [
+  addQuadrantBlock(slide, g.leftX, g.topY, g.colW, [
+    String(m.y3.completed ?? "—"),
+    "Participants",
+    "Completed 3rd Year",
     `${s.y3Components["MRI Date"] ?? "—"} MRI *`,
     `${s.y3Components["BD Date"] ?? "—"} Blood Draw`,
     `${s.y3Components["NP Date"] ?? "—"} Neuropsych Tests`,
     `${s.y3Components["CV Date"] ?? "—"} Clinician Visits`,
-  ];
-  addMetricBlock(slide, g.leftX, g.bottomY, g.colW, m.y3.completed ?? "—", "Participants", "Completed 3rd Year", y3Bullets);
+  ].map((text, i) => (i >= 3 ? { text, bullet: true } : text)));
 
-  addMetricBlock(slide, g.rightX, g.bottomY, g.colW, m.y4.completed ?? "—", "Participants", "Completed 4th Year", [
+  addQuadrantBlock(slide, g.rightX, g.topY, g.colW, [
+    String(m.y4.completed ?? "—"),
+    "Participants",
+    "Completed 4th Year",
     `${s.y4Components["BD Date"] ?? "—"} Blood Draw`,
     `${s.y4Components["NP Date"] ?? "—"} Neuropsych Tests`,
     `${s.y4Components["CV Date"] ?? "—"} Clinician Visits`,
-  ]);
+  ].map((text, i) => (i >= 3 ? { text, bullet: true } : text)));
+
+  addQuadrantBlock(slide, g.leftX, g.bottomY, g.colW, [
+    "Future Visits Scheduled",
+    `${MONTH_ABBR[next.month - 1]} - ${MONTH_ABBR[next2.month - 1]} (3rd and 4th year)`,
+    { text: `${s.futureVisits.mri} MRI's`, bullet: true },
+    { text: `${s.futureVisits.bd} Full Blood Draws`, bullet: true },
+    { text: `${s.futureVisits.np} Neuropsych Tests`, bullet: true },
+    { text: `${s.futureVisits.cv} Clinician Visits`, bullet: true },
+  ], 2.0);
+
+  addQuadrantBlock(slide, g.rightX, g.bottomY, g.colW, [
+    String(m.dropouts.total),
+    "Dropout",
+    "Participants",
+    { text: `${m.dropouts.baseline} Baseline year`, bullet: true },
+    { text: `${m.dropouts.year2} Second year`, bullet: true },
+    { text: `${m.dropouts.year3} Third year`, bullet: true },
+    { text: `${m.dropouts.year4} Fourth year`, bullet: true },
+  ], 2.0);
 
   const footnote = mriFootnoteFromData();
   if (footnote) {
     addPlainText(slide, footnote, {
       x: DECK.marginL,
-      y: 5.05,
+      y: 4.85,
       w: DECK.contentW,
-      h: 0.35,
-      fontSize: 11,
+      h: 0.45,
+      fontSize: 12,
       italic: true,
       color: DECK.muted,
     });
   }
+  addBottomFooterBar(slide);
 }
 
 function buildCompletedVisitsSlide(pptx, m) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.bg };
   const monthName = MONTH_NAMES[m.month - 1];
   addSlideTitle(slide, `All Completed Visits in ${monthName}`);
 
@@ -874,7 +868,7 @@ function buildCompletedVisitsSlide(pptx, m) {
       ["NP Visit", dashCell(m.y3Visits.np), dashCell(m.y4Visits.np)],
       ["Clinician Visit", dashCell(m.y3Visits.cv), dashCell(m.y4Visits.cv)],
     ],
-    { y: 1.35, colW: [3.2, 2.6, 2.6], fontSize: 18 }
+    { y: 1.55, colW: [3.4, 2.6, 2.6], fontSize: 14, rowH: 0.42 }
   );
 
   const pending = (DATA.third_year_scheduling || []).find((row) => {
@@ -885,14 +879,16 @@ function buildCompletedVisitsSlide(pptx, m) {
     const d = parseIsoDate(pending["MRI Date"] || pending["BD Date"]);
     const weekday = d.toLocaleDateString("en-US", { weekday: "long" });
     const md = `${d.getMonth() + 1}/${String(d.getDate()).padStart(2, "0")}/${String(d.getFullYear()).slice(-2)}`;
-    addPlainText(slide, `${pending.participant_id} expected ${weekday} ${md} to complete BD and MRI visit.`, { y: 3.55, fontSize: 16 });
+    addPlainText(slide, `${pending.participant_id} expected ${weekday} ${md} to complete BD and MRI visit.`, {
+      y: 4.15,
+      fontSize: 14,
+      h: 0.5,
+    });
   }
 }
 
 function buildYear3ActivitySlide(pptx, m) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.bg };
-  addBrandBars(slide);
   const monthName = MONTH_NAMES[m.month - 1];
   const monthAbbr = monthName.slice(0, 3).toLowerCase();
   const a = m.scheduling.y3Activity;
@@ -905,11 +901,13 @@ function buildYear3ActivitySlide(pptx, m) {
     m.y3Visits.cv ? `${m.y3Visits.cv} CV` : null,
   ].filter(Boolean).join(", ");
 
+  addSlideTitle(slide, "3rd Year Study Visits");
+
   addBodyLines(
     slide,
     [
-      `Total Visits in ${monthName}: ${y3Total} (${y3Summary})`,
-      `Participants with ${monthName} Due Dates (n=${a.dueCount})`,
+      { text: `Total Visits in ${monthName}: ${y3Total} (${y3Summary})`, bold: true },
+      { text: `Participants with ${monthName} Due Dates (n=${a.dueCount})`, bold: true },
       { text: `${a.dueComplete} completed all visits`, bullet: true },
       {
         text:
@@ -918,49 +916,51 @@ function buildYear3ActivitySlide(pptx, m) {
             : `${Math.max(0, a.dueCount - a.dueComplete)} successfully scheduled`,
         bullet: true,
       },
-      `Scheduled Visits for ${nextName} (to Date): ${a.nextVisitTotal} (${a.nextVisitSummary})`,
-      `Participants with ${nextName} Due Dates (n=${a.nextDueCount})`,
+      { text: `Scheduled Visits for ${nextName} (to Date):`, bold: true },
+      `${a.nextVisitTotal} (${a.nextVisitSummary})`,
+      { text: `Participants with ${nextName} Due Dates (n=${a.nextDueCount})`, bold: true },
       { text: `${a.nextDueCompletedEarly} completed in ${monthAbbr}`, bullet: true },
       { text: `${a.nextDueScheduled} successfully scheduled`, bullet: true },
     ],
-    { x: DECK.marginL, y: 0.65, fontSize: 18, h: 3.95 }
+    { x: DECK.marginL, y: 1.45, fontSize: 14, h: 3.8, w: 4.5 }
   );
-
-  addPlainText(slide, "3rd Year Study Visits", {
-    x: DECK.marginL,
-    y: 4.95,
-    w: DECK.contentW,
-    fontSize: 28,
-    bold: true,
-    color: DECK.cardinal,
-  });
 }
 
 function buildYear3OverviewSlide(pptx, m) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.bg };
-  addSlideTitle(slide, "Year 3 Visit Status", `As of ${asOfDateShort(m.year, m.month)}`);
+  addSlideTitle(slide, "Year 3 Visit Status");
+
+  addPlainText(slide, `As of ${asOfDateShort(m.year, m.month)}`, {
+    y: contentTop(),
+    fontSize: 18,
+    bold: true,
+    h: 0.4,
+  });
 
   addBodyLines(
     slide,
     [
-      { text: `${m.y3.completed ?? "—"} participants`, bold: true, fontSize: 20 },
+      { text: `${m.y3.completed ?? "—"} participants`, bold: true, fontSize: 18 },
       "Have completed all required visits (BD, MRI, CV, NP)",
-      "Visits are caught up through May 2026",
+      { text: "Visits are caught up through May 2026", bold: true },
       "Year 3 study period: May 2025 - Jan/Feb 2027",
     ],
-    { y: 1.35, fontSize: 18, h: 3.5 }
+    { y: 1.75, fontSize: 18, h: 3.2 }
   );
 }
 
 function buildYear3InProgressSlide(pptx, m) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.bg };
   const groups = m.scheduling.y3InProgress;
   const total = groups.reduce((s, g) => s + g.count, 0);
 
   addSlideTitle(slide, "Year 3 Visit Status");
-  addPlainText(slide, `${total} participants in progress`, { y: 1.15, fontSize: 18, bold: true, color: DECK.cardinal });
+  addPlainText(slide, `${total} participants in progress`, {
+    y: contentTop(),
+    fontSize: 18,
+    bold: true,
+    h: 0.4,
+  });
 
   addDataTable(
     slide,
@@ -969,19 +969,27 @@ function buildYear3InProgressSlide(pptx, m) {
       ...groups.map((g) => [g.label, String(g.count), expectedCompletionText(g.due, m.year, m.month)]),
       [{ text: "Total", options: { bold: true } }, { text: String(total), options: { bold: true } }, ""],
     ],
-    { y: 1.65, colW: [2.3, 2.0, 4.0], fontSize: 16 }
+    { y: 1.75, colW: [1.8, 1.5, 5.5], fontSize: 12, rowH: 0.38 }
   );
 }
 
 function buildYear3ToContactSlide(pptx, m) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.bg };
   const groups = m.scheduling.y3ToContact;
   const total = groups.reduce((s, g) => s + g.count, 0);
 
   addSlideTitle(slide, "Year 3 Visit Status");
-  addPlainText(slide, `${total} participants to be contacted`, { y: 1.1, fontSize: 18, bold: true, color: DECK.cardinal });
-  addPlainText(slide, `${m.y3.remaining ?? 157} Participants Expected to Complete Year 3 by Jan/Feb 2027`, { y: 1.45, fontSize: 15 });
+  addPlainText(slide, `${total} participants to be contacted`, {
+    y: contentTop(),
+    fontSize: 18,
+    bold: true,
+    h: 0.35,
+  });
+  addPlainText(slide, `${m.y3.remaining ?? 157} Participants Expected to Complete Year 3 by Jan/Feb 2027`, {
+    y: contentTop() + 0.38,
+    fontSize: 14,
+    h: 0.35,
+  });
 
   addDataTable(
     slide,
@@ -990,14 +998,12 @@ function buildYear3ToContactSlide(pptx, m) {
       ...groups.map((g) => [g.label, String(g.count)]),
       [{ text: "Total", options: { bold: true } }, { text: String(total), options: { bold: true } }],
     ],
-    { y: 1.95, colW: [4.0, 4.0], fontSize: 17 }
+    { y: 1.95, colW: [4.5, 4.0], fontSize: 14, rowH: 0.38 }
   );
 }
 
 function buildYear4ActivitySlide(pptx, m) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.bg };
-  addBrandBars(slide);
   const monthName = MONTH_NAMES[m.month - 1];
   const a = m.scheduling.y4Activity;
   const nextName = MONTH_NAMES[a.nextMonth.month - 1];
@@ -1008,33 +1014,25 @@ function buildYear4ActivitySlide(pptx, m) {
     m.y4Visits.cv ? `${m.y4Visits.cv} CV` : null,
   ].filter(Boolean).join(", ");
 
-  addPlainText(slide, "4th Year Study Visits 🎉", {
-    x: DECK.marginL,
-    y: 0.55,
-    w: DECK.contentW,
-    fontSize: 28,
-    bold: true,
-    color: DECK.cardinal,
-  });
+  addSlideTitle(slide, "4th Year Study Visits 🎉");
 
   addBodyLines(
     slide,
     [
-      `Total Visits in ${monthName}: ${y4Total} (${y4Summary})`,
-      `Participants with ${monthName} Due Dates (n=${a.dueCount})`,
+      { text: `Total Visits in ${monthName}: ${y4Total} (${y4Summary})`, bold: true },
+      { text: `Participants with ${monthName} Due Dates (n=${a.dueCount})`, bold: true },
       { text: `${a.dueComplete} completed all visits`, bullet: true },
       { text: `${Math.max(0, a.dueCount - a.dueComplete)} rescheduled for ${nextName.slice(0, 3).toLowerCase()}`, bullet: true },
-      `Scheduled Visits for ${nextName} (to Date): ${a.nextVisitTotal} (${a.nextVisitSummary})`,
-      `Participants with ${nextName} Due Dates (n=${a.nextDueCount})`,
+      { text: `Scheduled Visits for ${nextName} (to Date): ${a.nextVisitTotal} (${a.nextVisitSummary})`, bold: true },
+      { text: `Participants with ${nextName} Due Dates (n=${a.nextDueCount})`, bold: true },
       { text: `${a.nextDueCount} pending scheduling`, bullet: true },
     ],
-    { y: 1.25, fontSize: 18, h: 4.0 }
+    { y: 1.45, fontSize: 14, h: 3.8, w: 4.8 }
   );
 }
 
 function buildYear4ToContactSlide(pptx, m) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.bg };
   const groups = m.scheduling.y4ToContact;
   const total = groups.reduce((s, g) => s + g.count, 0);
 
@@ -1046,7 +1044,7 @@ function buildYear4ToContactSlide(pptx, m) {
       "65 participants to be contacted January–August 2027 (3rd-year rollovers)",
       "Expected Study Completion: Dec 2027/Jan 2028",
     ],
-    { y: 1.15, fontSize: 16, h: 1.2 }
+    { y: contentTop(), fontSize: 14, h: 1.0 }
   );
 
   addDataTable(
@@ -1056,13 +1054,12 @@ function buildYear4ToContactSlide(pptx, m) {
       ...groups.map((g) => [g.label, String(g.count)]),
       [{ text: "Total", options: { bold: true } }, { text: String(total), options: { bold: true } }],
     ],
-    { y: 2.45, colW: [4.0, 4.0], fontSize: 17 }
+    { y: 2.15, colW: [4.5, 4.0], fontSize: 14, rowH: 0.38 }
   );
 }
 
 function buildStudyProgressSlide(pptx, m) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.bg };
   addSlideTitle(slide, "Study Progress", "Participant Flow (N = 200)");
 
   addBodyLines(
@@ -1082,13 +1079,12 @@ function buildStudyProgressSlide(pptx, m) {
       { text: "Year 4 (ongoing)", bold: true },
       { text: `${m.y4.completed ?? "—"} participants completed Year 4`, bullet: true },
     ],
-    { y: 1.35, fontSize: 17, h: 4.2 }
+    { y: contentTop(true), fontSize: 14, h: 3.8 }
   );
 }
 
 function buildQuestionsSlide(pptx) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.bg };
   addSlideTitle(slide, "Questions / Comments");
 
   addBodyLines(
@@ -1097,30 +1093,21 @@ function buildQuestionsSlide(pptx) {
       { text: "Funding account end date: 8/31/2026", bullet: true },
       "Once the funding account has been extended, we'll need to update the CIA scheduler to be able to book MRI's past october.",
     ],
-    { y: 1.35, fontSize: 18, h: 3.0 }
+    { y: 1.55, fontSize: 18, h: 3.2 }
   );
 }
 
 function buildThankYouSlide(pptx) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.cardinal };
-  slide.addShape("rect", {
-    x: 0,
-    y: 4.85,
-    w: "100%",
-    h: 0.775,
-    fill: { color: DECK.gold },
-    line: { color: DECK.gold, width: 0 },
-  });
+  slideBg(slide);
   addPlainText(slide, "THANK YOU :)", {
-    x: 1.0,
-    y: 2.45,
-    w: 8.0,
-    h: 0.8,
-    fontSize: 44,
+    x: 0.5,
+    y: 2.2,
+    w: 9.0,
+    h: 1.2,
+    fontSize: 54,
     bold: true,
     align: "center",
-    color: DECK.bg,
   });
 }
 
