@@ -163,6 +163,10 @@ body {
 .card-header h3 {
   margin: 0;
   font-size: 1.05rem;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .card-header p {
@@ -222,7 +226,15 @@ body {
 
 .chart-card canvas {
   width: 100% !important;
-  max-height: 320px;
+  height: 380px !important;
+  max-height: 380px;
+}
+
+.funnel-leads-count {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: -0.02em;
 }
 
 .table-wrap {

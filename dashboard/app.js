@@ -181,29 +181,42 @@ function renderOverview() {
     )
     .join("");
 
+  const recruitmentLeads = DATA.recruitment.grand_total || 1735;
+  const funnelLeadsEl = document.getElementById("funnel-leads-count");
+  if (funnelLeadsEl) {
+    funnelLeadsEl.textContent = recruitmentLeads.toLocaleString();
+    funnelLeadsEl.title = "Recruitment leads";
+  }
+
   destroyChart("funnel-chart");
   charts["funnel-chart"] = new Chart(document.getElementById("funnel-chart"), {
     type: "bar",
     data: {
-      labels: ["Recruitment Leads", "Enrolled", "Active", "Year 2 Complete", "Year 3 Complete"],
+      labels: ["Enrolled", "Active", "Year 2 Complete", "Year 3 Complete"],
       datasets: [
         {
           label: "Count",
           data: [
-            DATA.recruitment.grand_total || 1735,
             baseline.enrolled || 200,
             active,
             year2.completed || 0,
             year3.completed || 0,
           ],
-          backgroundColor: ["#d8dee8", "#c45c26", "#1f6f78", "#3d8b93", "#7eb4ba"],
+          backgroundColor: ["#c45c26", "#1f6f78", "#3d8b93", "#7eb4ba"],
           borderRadius: 10,
+          barThickness: 52,
         },
       ],
     },
     options: {
       plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true } },
+      scales: {
+        y: {
+          beginAtZero: true,
+          suggestedMax: 220,
+          ticks: { stepSize: 50 },
+        },
+      },
     },
   });
 
