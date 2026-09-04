@@ -12,6 +12,18 @@ const DECK = {
   contentW: 8.56,
 };
 
+/** Fixed 2×2 grid for the executive summary (matches August PDF spacing). */
+const EXEC_GRID = {
+  leftX: 0.72,
+  rightX: 5.05,
+  colW: 4.05,
+  topY: 1.05,
+  bottomY: 3.55,
+  numSize: 38,
+  labelSize: 15,
+  bulletSize: 14,
+};
+
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December",
@@ -142,7 +154,7 @@ function rowNotes(row) {
 }
 
 function isDroppedRow(row) {
-  return /\bDROPPED\b/i.test(rowNotes(row));
+  return /\bDROPP+ED\b/i.test(rowNotes(row));
 }
 
 function hasMriExemption(row) {
@@ -283,7 +295,18 @@ function hasScheduledInOrAfter(row, fields, year, month) {
   });
 }
 
-function analyzeYearActivity(rows, completeFn, visitFields, reportYear, reportMonth) {
+function completedParticipantIds(rows, completeFn, cap) {
+  const ids = new Set();
+  if (!cap) return ids;
+  rows
+    .filter(completeFn)
+    .sort((a, b) => completionSortKey(a) - completionSortKey(b))
+    .slice(0, cap)
+    .forEach((row) => ids.add(row.participant_id));
+  return ids;
+}
+
+function analyzeYearActivity(rows, completeFn, visitFields, reportYear, reportMonth, completedCap = 0) {
   const monthVisits = countFieldsInMonth(rows, visitFields, reportYear, reportMonth);
   const visitTotal = visitFields.reduce((s, f) => s + (monthVisits[f] || 0), 0);
   const visitSummary = visitFields
@@ -293,10 +316,17 @@ function analyzeYearActivity(rows, completeFn, visitFields, reportYear, reportMo
     })
     .join(", ");
 
-  const dueRows = participantsDueInMonth(rows, reportYear, reportMonth);
-  const dueComplete = dueRows.filter(completeFn).length;
+  const completedIds = completedParticipantIds(rows, completeFn, completedCap);
+  const dueRows = participantsDueInMonth(rows, reportYear, reportMonth).filter(
+    (row) => !completedIds.has(row.participant_id)
+  );
+  const dueComplete = dueRows.filter((row) =>
+    visitFields.every((field) => inCalendarMonth(row[field], reportYear, reportMonth))
+  ).length;
   const dueScheduled = dueRows.filter(
-    (r) => !completeFn(r) && hasScheduledInOrAfter(r, visitFields, reportYear, reportMonth + 1)
+    (row) =>
+      !visitFields.every((field) => inCalendarMonth(row[field], reportYear, reportMonth)) &&
+      hasScheduledInOrAfter(row, visitFields, reportYear, reportMonth + 1)
   ).length;
 
   const next = addMonths(reportYear, reportMonth, 1);
@@ -306,13 +336,13 @@ function analyzeYearActivity(rows, completeFn, visitFields, reportYear, reportMo
     .map((f) => `${nextVisits[f] || 0} ${f.replace(" Date", "")}`)
     .join(", ");
 
-  const nextDueRows = participantsDueInMonth(rows, next.year, next.month);
-  const nextDueCompletedEarly = nextDueRows.filter((row) => {
-    if (completeFn(row)) return true;
-    return ["MRI Date", "BD Date", "NP Date", "CV Date"].some((f) =>
-      inCalendarMonth(row[f], reportYear, reportMonth)
-    );
-  }).length;
+  const nextDueRows = participantsDueInMonth(rows, next.year, next.month).filter(
+    (row) => !completedIds.has(row.participant_id)
+  );
+  const nextDueCompletedEarly = nextDueRows.filter((row) =>
+    visitFields.some((field) => inCalendarMonth(row[field], reportYear, reportMonth))
+  ).length;
+  const nextDueScheduled = Math.max(0, nextDueRows.length - nextDueCompletedEarly);
 
   return {
     visitTotal,
@@ -325,6 +355,7 @@ function analyzeYearActivity(rows, completeFn, visitFields, reportYear, reportMo
     nextVisitSummary: nextSummary,
     nextDueCount: nextDueRows.length,
     nextDueCompletedEarly,
+    nextDueScheduled,
   };
 }
 
@@ -384,8 +415,8 @@ function collectSchedulingReportData(reportYear, reportMonth, y3Completed, y4Com
   const y4Components = completedVisitComponents(fourth, isYear4Complete, y4Fields, y4Completed);
 
   return {
-    y3Activity: analyzeYearActivity(third, isYear3Complete, y3Fields, reportYear, reportMonth),
-    y4Activity: analyzeYearActivity(fourth, isYear4Complete, y4Fields, reportYear, reportMonth),
+    y3Activity: analyzeYearActivity(third, isYear3Complete, y3Fields, reportYear, reportMonth, y3Completed),
+    y4Activity: analyzeYearActivity(fourth, isYear4Complete, y4Fields, reportYear, reportMonth, y4Completed),
     y3InProgress,
     y3ToContact: y3Groups.toContact,
     y4ToContact,
@@ -602,18 +633,71 @@ function headerCell(text) {
 
 /** PDF-style metric block: big number, two label lines, optional bullets. */
 function addMetricBlock(slide, x, y, w, number, label1, label2, bullets = []) {
-  addPlainText(slide, String(number), { x, y, w, h: 0.48, fontSize: 34, bold: true });
-  addPlainText(slide, label1, { x, y: y + 0.46, w, h: 0.28, fontSize: 15, bold: true });
+  addPlainText(slide, String(number), {
+    x,
+    y,
+    w,
+    h: 0.55,
+    fontSize: EXEC_GRID.numSize,
+    bold: true,
+  });
+  addPlainText(slide, label1, {
+    x,
+    y: y + 0.52,
+    w,
+    h: 0.24,
+    fontSize: EXEC_GRID.labelSize,
+    bold: true,
+  });
   if (label2) {
-    addPlainText(slide, label2, { x, y: y + 0.72, w, h: 0.28, fontSize: 15, bold: true });
+    addPlainText(slide, label2, {
+      x,
+      y: y + 0.76,
+      w,
+      h: 0.24,
+      fontSize: EXEC_GRID.labelSize,
+      bold: true,
+    });
   }
   if (bullets.length) {
     addBodyLines(
       slide,
       bullets.map((text) => ({ text, bullet: true })),
-      { x: x + 0.05, y: y + (label2 ? 1.02 : 0.78), w: w - 0.05, h: 1.35, fontSize: 15 }
+      {
+        x: x + 0.04,
+        y: y + (label2 ? 1.04 : 0.8),
+        w: w - 0.04,
+        h: 1.05,
+        fontSize: EXEC_GRID.bulletSize,
+      }
     );
   }
+}
+
+function addFutureVisitsBlock(slide, x, y, w, monthLine, counts) {
+  addPlainText(slide, "Future Visits Scheduled", {
+    x,
+    y,
+    w,
+    fontSize: EXEC_GRID.labelSize,
+    bold: true,
+  });
+  addPlainText(slide, monthLine, {
+    x,
+    y: y + 0.28,
+    w,
+    fontSize: EXEC_GRID.bulletSize,
+  });
+  addBodyLines(
+    slide,
+    [
+      `${counts.mri} MRI's`,
+      `${counts.bd} Full Blood Draws`,
+      `${counts.np} Neuropsych Tests`,
+      `${counts.cv} Clinician Visits`,
+    ].map((text) => ({ text, bullet: true })),
+    { x: x + 0.04, y: y + 0.58, w: w - 0.04, h: 1.05, fontSize: EXEC_GRID.bulletSize }
+  );
 }
 
 function buildTitleSlide(pptx, m) {
@@ -630,42 +714,35 @@ function buildExecutiveSummarySlide(pptx, m) {
   const s = m.scheduling;
   const next = addMonths(m.year, m.month, 1);
   const next2 = addMonths(m.year, m.month, 2);
-  const colW = 4.0;
-  const leftX = DECK.marginL;
-  const rightX = 5.15;
+  const g = EXEC_GRID;
 
   addSlideTitle(slide, "Executive Summary");
 
-  addMetricBlock(slide, leftX, 1.15, colW, m.dropouts.total, "Dropout", "Participants", [
+  addMetricBlock(slide, g.leftX, g.topY, g.colW, m.dropouts.total, "Dropout", "Participants", [
     `${m.dropouts.baseline} Baseline year`,
     `${m.dropouts.year2} Second year`,
     `${m.dropouts.year3} Third year`,
     `${m.dropouts.year4} Fourth year`,
   ]);
 
-  addPlainText(slide, "Future Visits Scheduled", { x: rightX, y: 1.15, w: colW, fontSize: 15, bold: true });
-  addPlainText(slide, `${MONTH_ABBR[next.month - 1]} - ${MONTH_ABBR[next2.month - 1]} (3rd and 4th year)`, {
-    x: rightX, y: 1.42, w: colW, fontSize: 14,
-  });
-  addBodyLines(
+  addFutureVisitsBlock(
     slide,
-    [
-      `${s.futureVisits.mri} MRI's`,
-      `${s.futureVisits.bd} Full Blood Draws`,
-      `${s.futureVisits.np} Neuropsych Tests`,
-      `${s.futureVisits.cv} Clinician Visits`,
-    ].map((text) => ({ text, bullet: true })),
-    { x: rightX + 0.05, y: 1.72, w: colW, h: 1.2, fontSize: 15 }
+    g.rightX,
+    g.topY,
+    g.colW,
+    `${MONTH_ABBR[next.month - 1]} - ${MONTH_ABBR[next2.month - 1]} (3rd and 4th year)`,
+    s.futureVisits
   );
 
-  addMetricBlock(slide, leftX, 3.05, colW, m.y3.completed ?? "—", "Participants", "Completed 3rd Year", [
+  const y3Bullets = [
     `${s.y3Components["MRI Date"] ?? "—"} MRI *`,
     `${s.y3Components["BD Date"] ?? "—"} Blood Draw`,
     `${s.y3Components["NP Date"] ?? "—"} Neuropsych Tests`,
     `${s.y3Components["CV Date"] ?? "—"} Clinician Visits`,
-  ]);
+  ];
+  addMetricBlock(slide, g.leftX, g.bottomY, g.colW, m.y3.completed ?? "—", "Participants", "Completed 3rd Year", y3Bullets);
 
-  addMetricBlock(slide, rightX, 3.05, colW, m.y4.completed ?? "—", "Participants", "Completed 4th Year", [
+  addMetricBlock(slide, g.rightX, g.bottomY, g.colW, m.y4.completed ?? "—", "Participants", "Completed 4th Year", [
     `${s.y4Components["BD Date"] ?? "—"} Blood Draw`,
     `${s.y4Components["NP Date"] ?? "—"} Neuropsych Tests`,
     `${s.y4Components["CV Date"] ?? "—"} Clinician Visits`,
@@ -673,7 +750,15 @@ function buildExecutiveSummarySlide(pptx, m) {
 
   const footnote = mriFootnoteFromData();
   if (footnote) {
-    addPlainText(slide, footnote, { x: DECK.marginL, y: 4.95, w: DECK.contentW, h: 0.35, fontSize: 11, italic: true, color: DECK.muted });
+    addPlainText(slide, footnote, {
+      x: DECK.marginL,
+      y: 5.05,
+      w: DECK.contentW,
+      h: 0.35,
+      fontSize: 11,
+      italic: true,
+      color: DECK.muted,
+    });
   }
 }
 
@@ -721,8 +806,6 @@ function buildYear3ActivitySlide(pptx, m) {
     m.y3Visits.np ? `${m.y3Visits.np} NP` : null,
     m.y3Visits.cv ? `${m.y3Visits.cv} CV` : null,
   ].filter(Boolean).join(", ");
-  const dueScheduled = Math.max(0, a.dueCount - a.dueComplete);
-  const nextScheduled = Math.max(0, a.nextDueCount - (a.nextDueCompletedEarly || 0));
 
   addBodyLines(
     slide,
@@ -730,17 +813,28 @@ function buildYear3ActivitySlide(pptx, m) {
       `Total Visits in ${monthName}: ${y3Total} (${y3Summary})`,
       `Participants with ${monthName} Due Dates (n=${a.dueCount})`,
       { text: `${a.dueComplete} completed all visits`, bullet: true },
-      { text: `${dueScheduled} successfully scheduled`, bullet: true },
-      `Scheduled Visits for ${nextName} (to Date):`,
-      `${a.nextVisitTotal} (${a.nextVisitSummary})`,
+      {
+        text:
+          a.dueScheduled > 0
+            ? `${a.dueScheduled} successfully scheduled`
+            : `${Math.max(0, a.dueCount - a.dueComplete)} successfully scheduled`,
+        bullet: true,
+      },
+      `Scheduled Visits for ${nextName} (to Date): ${a.nextVisitTotal} (${a.nextVisitSummary})`,
       `Participants with ${nextName} Due Dates (n=${a.nextDueCount})`,
-      { text: `${a.nextDueCompletedEarly || 0} completed in ${monthAbbr}`, bullet: true },
-      { text: `${nextScheduled} successfully scheduled`, bullet: true },
+      { text: `${a.nextDueCompletedEarly} completed in ${monthAbbr}`, bullet: true },
+      { text: `${a.nextDueScheduled} successfully scheduled`, bullet: true },
     ],
-    { x: DECK.marginL, y: 0.65, fontSize: 18, h: 4.0 }
+    { x: DECK.marginL, y: 0.65, fontSize: 18, h: 3.95 }
   );
 
-  addPlainText(slide, "3rd Year Study Visits", { x: DECK.marginL, y: 4.85, w: DECK.contentW, fontSize: 28, bold: true });
+  addPlainText(slide, "3rd Year Study Visits", {
+    x: DECK.marginL,
+    y: 4.95,
+    w: DECK.contentW,
+    fontSize: 28,
+    bold: true,
+  });
 }
 
 function buildYear3OverviewSlide(pptx, m) {
