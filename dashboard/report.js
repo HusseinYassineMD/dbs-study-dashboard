@@ -1,16 +1,54 @@
-/** Monthly progress report → PowerPoint matching the monthly meeting deck (August 2026 format). */
+/** Monthly progress report → PowerPoint matching the August meeting deck (USC branding + layout). */
 
 const DECK = {
   bg: "FFFFFF",
-  title: "000000",
+  cardinal: "991B1E",
+  gold: "FFCC00",
+  title: "991B1E",
   body: "000000",
-  muted: "444444",
-  tableBorder: "999999",
+  muted: "5F6B7A",
+  tableBorder: "991B1E",
+  lightFill: "F5F0F0",
   font: "Arial",
   marginL: 0.72,
   marginT: 0.55,
   contentW: 8.56,
 };
+
+let reportLogoData = null;
+
+async function getReportLogoData() {
+  if (reportLogoData) return reportLogoData;
+  const res = await fetch("assets/usc-logo.jpg");
+  if (!res.ok) return null;
+  const blob = await res.blob();
+  reportLogoData = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+  return reportLogoData;
+}
+
+function addBrandBars(slide) {
+  slide.addShape("rect", {
+    x: 0,
+    y: 0,
+    w: "100%",
+    h: 0.12,
+    fill: { color: DECK.cardinal },
+    line: { color: DECK.cardinal, width: 0 },
+  });
+  slide.addShape("rect", {
+    x: 0,
+    y: 0.12,
+    w: "100%",
+    h: 0.04,
+    fill: { color: DECK.gold },
+    line: { color: DECK.gold, width: 0 },
+  });
+}
 
 /** Fixed 2×2 grid for the executive summary (matches August PDF spacing). */
 const EXEC_GRID = {
@@ -552,12 +590,13 @@ function dashCell(value) {
 }
 
 function addSlideTitle(slide, title, subtitle) {
+  addBrandBars(slide);
   slide.addText(title, {
     x: DECK.marginL,
-    y: DECK.marginT,
+    y: 0.28,
     w: DECK.contentW,
-    h: 0.55,
-    fontSize: 32,
+    h: 0.5,
+    fontSize: 30,
     bold: true,
     color: DECK.title,
     fontFace: DECK.font,
@@ -565,11 +604,11 @@ function addSlideTitle(slide, title, subtitle) {
   if (subtitle) {
     slide.addText(subtitle, {
       x: DECK.marginL,
-      y: DECK.marginT + 0.48,
+      y: 0.72,
       w: DECK.contentW,
-      h: 0.32,
-      fontSize: 16,
-      color: DECK.body,
+      h: 0.3,
+      fontSize: 15,
+      color: DECK.muted,
       fontFace: DECK.font,
     });
   }
@@ -599,6 +638,7 @@ function addBodyLines(slide, lines, opts = {}) {
     const options = { breakLine: true };
     if (line.bullet) options.bullet = true;
     if (line.bold) options.bold = true;
+    if (line.bold) options.color = DECK.cardinal;
     if (line.fontSize) options.fontSize = line.fontSize;
     return { text: line.text, options };
   });
@@ -628,7 +668,14 @@ function addDataTable(slide, rows, opts = {}) {
 }
 
 function headerCell(text) {
-  return { text, options: { bold: true, color: DECK.title } };
+  return {
+    text,
+    options: {
+      bold: true,
+      fill: { color: DECK.cardinal },
+      color: DECK.bg,
+    },
+  };
 }
 
 /** PDF-style metric block: big number, two label lines, optional bullets. */
@@ -640,6 +687,7 @@ function addMetricBlock(slide, x, y, w, number, label1, label2, bullets = []) {
     h: 0.55,
     fontSize: EXEC_GRID.numSize,
     bold: true,
+    color: DECK.cardinal,
   });
   addPlainText(slide, label1, {
     x,
@@ -648,6 +696,7 @@ function addMetricBlock(slide, x, y, w, number, label1, label2, bullets = []) {
     h: 0.24,
     fontSize: EXEC_GRID.labelSize,
     bold: true,
+    color: DECK.cardinal,
   });
   if (label2) {
     addPlainText(slide, label2, {
@@ -657,6 +706,7 @@ function addMetricBlock(slide, x, y, w, number, label1, label2, bullets = []) {
       h: 0.24,
       fontSize: EXEC_GRID.labelSize,
       bold: true,
+      color: DECK.cardinal,
     });
   }
   if (bullets.length) {
@@ -681,6 +731,7 @@ function addFutureVisitsBlock(slide, x, y, w, monthLine, counts) {
     w,
     fontSize: EXEC_GRID.labelSize,
     bold: true,
+    color: DECK.cardinal,
   });
   addPlainText(slide, monthLine, {
     x,
@@ -700,12 +751,58 @@ function addFutureVisitsBlock(slide, x, y, w, monthLine, counts) {
   );
 }
 
-function buildTitleSlide(pptx, m) {
+function buildTitleSlide(pptx, m, logoData) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.bg };
-  addPlainText(slide, "Diabetes Brain Study –", { x: 1.0, y: 2.0, w: 8.0, h: 0.65, fontSize: 40, bold: true, align: "center" });
-  addPlainText(slide, "Monthly Progress Meeting", { x: 1.0, y: 2.65, w: 8.0, h: 0.55, fontSize: 40, bold: true, align: "center" });
-  addPlainText(slide, m.label, { x: 1.0, y: 3.45, w: 8.0, h: 0.45, fontSize: 22, align: "center" });
+  slide.background = { color: DECK.cardinal };
+  slide.addShape("rect", {
+    x: 0,
+    y: 4.85,
+    w: "100%",
+    h: 0.775,
+    fill: { color: DECK.gold },
+    line: { color: DECK.gold, width: 0 },
+  });
+  if (logoData) {
+    slide.addImage({ data: logoData, x: 0.55, y: 0.35, w: 3.35, h: 0.98 });
+  }
+  addPlainText(slide, "Diabetes Brain Study –", {
+    x: 0.9,
+    y: 1.85,
+    w: 7.8,
+    h: 0.65,
+    fontSize: 40,
+    bold: true,
+    align: "center",
+    color: DECK.bg,
+  });
+  addPlainText(slide, "Monthly Progress Meeting", {
+    x: 0.9,
+    y: 2.5,
+    w: 7.8,
+    h: 0.55,
+    fontSize: 34,
+    bold: true,
+    align: "center",
+    color: DECK.gold,
+  });
+  addPlainText(slide, m.label, {
+    x: 0.9,
+    y: 3.25,
+    w: 7.8,
+    h: 0.45,
+    fontSize: 24,
+    align: "center",
+    color: DECK.bg,
+  });
+  addPlainText(slide, "USC Mark and Mary Stevens Neuroimaging and Informatics Institute", {
+    x: 0.9,
+    y: 5.0,
+    w: 7.8,
+    h: 0.35,
+    fontSize: 11,
+    align: "center",
+    color: DECK.body,
+  });
 }
 
 function buildExecutiveSummarySlide(pptx, m) {
@@ -795,6 +892,7 @@ function buildCompletedVisitsSlide(pptx, m) {
 function buildYear3ActivitySlide(pptx, m) {
   const slide = pptx.addSlide();
   slide.background = { color: DECK.bg };
+  addBrandBars(slide);
   const monthName = MONTH_NAMES[m.month - 1];
   const monthAbbr = monthName.slice(0, 3).toLowerCase();
   const a = m.scheduling.y3Activity;
@@ -834,6 +932,7 @@ function buildYear3ActivitySlide(pptx, m) {
     w: DECK.contentW,
     fontSize: 28,
     bold: true,
+    color: DECK.cardinal,
   });
 }
 
@@ -861,7 +960,7 @@ function buildYear3InProgressSlide(pptx, m) {
   const total = groups.reduce((s, g) => s + g.count, 0);
 
   addSlideTitle(slide, "Year 3 Visit Status");
-  addPlainText(slide, `${total} participants in progress`, { y: 1.15, fontSize: 18, bold: true });
+  addPlainText(slide, `${total} participants in progress`, { y: 1.15, fontSize: 18, bold: true, color: DECK.cardinal });
 
   addDataTable(
     slide,
@@ -881,7 +980,7 @@ function buildYear3ToContactSlide(pptx, m) {
   const total = groups.reduce((s, g) => s + g.count, 0);
 
   addSlideTitle(slide, "Year 3 Visit Status");
-  addPlainText(slide, `${total} participants to be contacted`, { y: 1.1, fontSize: 18, bold: true });
+  addPlainText(slide, `${total} participants to be contacted`, { y: 1.1, fontSize: 18, bold: true, color: DECK.cardinal });
   addPlainText(slide, `${m.y3.remaining ?? 157} Participants Expected to Complete Year 3 by Jan/Feb 2027`, { y: 1.45, fontSize: 15 });
 
   addDataTable(
@@ -898,6 +997,7 @@ function buildYear3ToContactSlide(pptx, m) {
 function buildYear4ActivitySlide(pptx, m) {
   const slide = pptx.addSlide();
   slide.background = { color: DECK.bg };
+  addBrandBars(slide);
   const monthName = MONTH_NAMES[m.month - 1];
   const a = m.scheduling.y4Activity;
   const nextName = MONTH_NAMES[a.nextMonth.month - 1];
@@ -908,7 +1008,14 @@ function buildYear4ActivitySlide(pptx, m) {
     m.y4Visits.cv ? `${m.y4Visits.cv} CV` : null,
   ].filter(Boolean).join(", ");
 
-  addPlainText(slide, "4th Year Study Visits 🎉", { x: DECK.marginL, y: 0.55, w: DECK.contentW, fontSize: 28, bold: true });
+  addPlainText(slide, "4th Year Study Visits 🎉", {
+    x: DECK.marginL,
+    y: 0.55,
+    w: DECK.contentW,
+    fontSize: 28,
+    bold: true,
+    color: DECK.cardinal,
+  });
 
   addBodyLines(
     slide,
@@ -996,8 +1103,25 @@ function buildQuestionsSlide(pptx) {
 
 function buildThankYouSlide(pptx) {
   const slide = pptx.addSlide();
-  slide.background = { color: DECK.bg };
-  addPlainText(slide, "THANK YOU :)", { x: 1.0, y: 2.45, w: 8.0, h: 0.8, fontSize: 44, bold: true, align: "center" });
+  slide.background = { color: DECK.cardinal };
+  slide.addShape("rect", {
+    x: 0,
+    y: 4.85,
+    w: "100%",
+    h: 0.775,
+    fill: { color: DECK.gold },
+    line: { color: DECK.gold, width: 0 },
+  });
+  addPlainText(slide, "THANK YOU :)", {
+    x: 1.0,
+    y: 2.45,
+    w: 8.0,
+    h: 0.8,
+    fontSize: 44,
+    bold: true,
+    align: "center",
+    color: DECK.bg,
+  });
 }
 
 async function generateMonthlyReportPPT(year, month) {
@@ -1005,14 +1129,15 @@ async function generateMonthlyReportPPT(year, month) {
     throw new Error("PptxGenJS library not loaded.");
   }
   const metrics = collectReportMetrics(year, month);
+  const logoData = await getReportLogoData();
   const pptx = new PptxGenJS();
   pptx.layout = "LAYOUT_16x9";
   pptx.author = "DBS Operations Dashboard";
-  pptx.company = "DBS";
+  pptx.company = "USC INI";
   pptx.subject = `DBS Monthly Progress Report — ${metrics.label}`;
   pptx.title = `DBS Monthly Report ${metrics.label}`;
 
-  buildTitleSlide(pptx, metrics);
+  buildTitleSlide(pptx, metrics, logoData);
   buildExecutiveSummarySlide(pptx, metrics);
   buildCompletedVisitsSlide(pptx, metrics);
   buildYear3ActivitySlide(pptx, metrics);
