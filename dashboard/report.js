@@ -1,4 +1,4 @@
-/** Monthly progress report → PowerPoint matching the August meeting deck exactly. */
+/** Monthly progress report → PowerPoint generated from live sheet data for any report month. */
 
 const DECK = {
   bg: "EDE1E2",
@@ -43,6 +43,264 @@ async function getReportLogoData() {
     reader.readAsDataURL(blob);
   });
   return reportLogoData;
+}
+
+const CHART = {
+  y3: { mri: "#4472C4", bd: "#C00000", np: "#FFC000", cv: "#70AD47" },
+  y4: { bd: "#4472C4", np: "#C00000", cv: "#FFC000" },
+  progress: {
+    baseline: "#006400",
+    y2: "#006400",
+    y3: "#92D050",
+    y4: "#E57373",
+  },
+};
+
+const barValueLabelPlugin = {
+  id: "barValueLabels",
+  afterDatasetsDraw(chart, _args, opts) {
+    const { ctx } = chart;
+    const color = opts?.color || "#000000";
+    const offset = opts?.offset ?? 4;
+    const formatter = opts?.formatter || ((v) => String(v));
+    chart.data.datasets.forEach((_dataset, i) => {
+      const meta = chart.getDatasetMeta(i);
+      if (meta.hidden) return;
+      meta.data.forEach((bar, index) => {
+        const value = chart.data.datasets[i].data[index];
+        if (value == null || value === 0) return;
+        ctx.save();
+        ctx.fillStyle = color;
+        ctx.font = `bold ${opts?.fontSize || 11}px Arial`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+        ctx.fillText(formatter(value), bar.x, bar.y - offset);
+        ctx.restore();
+      });
+    });
+  },
+};
+
+function chartMonthAxisLabel(year, month, { expected = false } = {}) {
+  const label = `${MONTH_NAMES[month - 1]} '${String(year).slice(-2)}`;
+  return expected ? `${label} (expected)` : label;
+}
+
+function groupedBarYMax(values) {
+  const max = Math.max(0, ...values.filter((v) => v != null));
+  return Math.max(10, Math.ceil(max / 2) * 2);
+}
+
+function renderChartToDataUrl(config, width = 680, height = 440) {
+  return new Promise((resolve, reject) => {
+    if (typeof Chart === "undefined") {
+      reject(new Error("Chart.js not loaded."));
+      return;
+    }
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    canvas.style.position = "fixed";
+    canvas.style.left = "-9999px";
+    document.body.appendChild(canvas);
+    try {
+      const chart = new Chart(canvas.getContext("2d"), {
+        ...config,
+        options: {
+          ...config.options,
+          responsive: false,
+          animation: false,
+          maintainAspectRatio: false,
+        },
+      });
+      requestAnimationFrame(() => {
+        const dataUrl = canvas.toDataURL("image/png");
+        chart.destroy();
+        canvas.remove();
+        resolve(dataUrl);
+      });
+    } catch (err) {
+      canvas.remove();
+      reject(err);
+    }
+  });
+}
+
+function studyProgressChartPercents(m) {
+  const y2Eligible = m.baseline.completed - m.dropouts.year2;
+  const y3Eligible = y2Eligible - m.dropouts.year3;
+  const pctOf = (num, denom) => (denom > 0 ? (num / denom) * 100 : 0);
+  return {
+    baseline: 100,
+    y2: pctOf(m.y2.completed, y2Eligible),
+    y3: pctOf(m.y3.completed, y3Eligible),
+    y4: pctOf(m.y4.completed, y3Eligible),
+  };
+}
+
+function monthlyVisitSeries(reportYear, reportMonth, offsets, yearKey, fields) {
+  const totals = DATA.study_details_visit_totals?.[yearKey]?.monthly || {};
+  const labels = [];
+  const series = Object.fromEntries(fields.map((f) => [f.key, []]));
+
+  offsets.forEach((offset) => {
+    const { year, month } = addMonths(reportYear, reportMonth, offset);
+    const row = totals[studyDetailsMonthKey(year, month)] || {};
+    const expected = offset === 1;
+    labels.push(chartMonthAxisLabel(year, month, { expected }));
+    fields.forEach(({ key, field }) => {
+      series[key].push(row[field] ?? 0);
+    });
+  });
+
+  return { labels, series };
+}
+
+async function buildYear3VisitsChartImage(reportYear, reportMonth) {
+  const { labels, series } = monthlyVisitSeries(reportYear, reportMonth, [-1, 0, 1, 2], "year3", [
+    { key: "mri", field: "mri" },
+    { key: "bd", field: "bd" },
+    { key: "np", field: "np" },
+    { key: "cv", field: "cv" },
+  ]);
+  const datasets = [
+    { label: "MRI", data: series.mri, backgroundColor: CHART.y3.mri },
+    { label: "BD", data: series.bd, backgroundColor: CHART.y3.bd },
+    { label: "NP", data: series.np, backgroundColor: CHART.y3.np },
+    { label: "Clinician Visit", data: series.cv, backgroundColor: CHART.y3.cv },
+  ];
+  const yMax = groupedBarYMax(datasets.flatMap((d) => d.data));
+
+  return renderChartToDataUrl({
+    type: "bar",
+    data: { labels, datasets },
+    plugins: [barValueLabelPlugin],
+    options: {
+      plugins: {
+        barValueLabels: { color: "#000000", fontSize: 11, offset: 4 },
+        legend: { position: "top", labels: { boxWidth: 14, font: { size: 11 } } },
+        title: {
+          display: true,
+          text: "Third Year Visits",
+          font: { size: 13, weight: "normal" },
+          color: "#666666",
+          align: "start",
+        },
+      },
+      layout: { padding: { top: 16 } },
+      scales: {
+        x: { ticks: { font: { size: 10 }, maxRotation: 0, autoSkip: false } },
+        y: {
+          beginAtZero: true,
+          max: yMax,
+          grace: "8%",
+          ticks: { stepSize: 2, font: { size: 10 } },
+          title: { display: true, text: "Number of visits", font: { size: 11 } },
+        },
+      },
+    },
+  });
+}
+
+async function buildYear4VisitsChartImage(reportYear, reportMonth) {
+  const { labels, series } = monthlyVisitSeries(reportYear, reportMonth, [-1, 0, 1], "year4", [
+    { key: "bd", field: "bd" },
+    { key: "np", field: "np" },
+    { key: "cv", field: "cv" },
+  ]);
+  const datasets = [
+    { label: "BD", data: series.bd, backgroundColor: CHART.y4.bd },
+    { label: "NP", data: series.np, backgroundColor: CHART.y4.np },
+    { label: "CV", data: series.cv, backgroundColor: CHART.y4.cv },
+  ];
+  const yMax = groupedBarYMax(datasets.flatMap((d) => d.data));
+
+  return renderChartToDataUrl({
+    type: "bar",
+    data: { labels, datasets },
+    plugins: [barValueLabelPlugin],
+    options: {
+      plugins: {
+        barValueLabels: { color: "#000000", fontSize: 11, offset: 4 },
+        legend: { position: "top", labels: { boxWidth: 14, font: { size: 11 } } },
+        title: {
+          display: true,
+          text: "Fourth Year Visits",
+          font: { size: 13, weight: "normal" },
+          color: "#666666",
+          align: "start",
+        },
+      },
+      layout: { padding: { top: 16 } },
+      scales: {
+        x: { ticks: { font: { size: 10 }, maxRotation: 0, autoSkip: false } },
+        y: {
+          beginAtZero: true,
+          max: yMax,
+          grace: "8%",
+          ticks: { stepSize: 2, font: { size: 10 } },
+          title: { display: true, text: "Number of visits", font: { size: 11 } },
+        },
+      },
+    },
+  });
+}
+
+async function buildStudyProgressChartImage(m) {
+  const p = studyProgressChartPercents(m);
+  const values = [p.baseline, p.y2, p.y3, p.y4];
+  const colors = [CHART.progress.baseline, CHART.progress.y2, CHART.progress.y3, CHART.progress.y4];
+  const fmtPct = (v) => `${v.toFixed(2)}%`;
+
+  return renderChartToDataUrl({
+    type: "bar",
+    data: {
+      labels: ["Baseline", "2", "3", "4"],
+      datasets: [{ data: values, backgroundColor: colors, barPercentage: 0.55 }],
+    },
+    plugins: [barValueLabelPlugin],
+    options: {
+      plugins: {
+        barValueLabels: {
+          color: "#000000",
+          fontSize: 10,
+          offset: 4,
+          formatter: fmtPct,
+        },
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "Study Progress",
+          font: { size: 13, weight: "normal" },
+          color: "#666666",
+          align: "start",
+        },
+      },
+      layout: { padding: { top: 16 } },
+      scales: {
+        x: {
+          title: { display: true, text: "Year", font: { size: 11 } },
+          ticks: { font: { size: 11 } },
+        },
+        y: {
+          beginAtZero: true,
+          max: 100,
+          grace: "8%",
+          ticks: {
+            stepSize: 25,
+            callback: (v) => `${v.toFixed(2)}%`,
+            font: { size: 10 },
+          },
+          title: { display: true, text: "% Completed (of Active)", font: { size: 11 } },
+        },
+      },
+    },
+  });
+}
+
+function addSlideChartImage(slide, dataUrl, { x = 5.05, y = 1.1, w = 4.55, h = 4.2 } = {}) {
+  if (!dataUrl) return;
+  slide.addImage({ data: dataUrl, x, y, w, h });
 }
 
 function slideBg(slide) {
@@ -118,9 +376,37 @@ const MONTH_NAMES = [
 
 const MONTH_ABBR = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-/** Report range: May 2024 through September 2026 */
+/** Earliest report month (study start). End month is derived from sheet data. */
 const REPORT_START_KEY = 2024 * 12 + 5;
-const REPORT_END_KEY = 2026 * 12 + 9;
+
+function reportEndKey() {
+  const keys = [];
+  ["year3", "year4"].forEach((yearKey) => {
+    Object.keys(DATA.study_details_visit_totals?.[yearKey]?.monthly || {}).forEach((key) => {
+      const [year, month] = key.split("-").map(Number);
+      keys.push(monthKey(year, month));
+    });
+  });
+  [DATA.third_year_scheduling, DATA.fourth_year_scheduling].forEach((rows) => {
+    (rows || []).forEach((row) => {
+      const due = parseDueMonth(row.Month, null, null);
+      const key = dueMonthKey(due);
+      if (key != null) keys.push(key);
+    });
+  });
+  ["second_year", "third_year", "fourth_year"].forEach((key) => {
+    (DATA.completed_visits?.[key] || []).forEach((row) => {
+      const due = parseDueMonth(row.scheduling_month, null, null);
+      const keyVal = dueMonthKey(due);
+      if (keyVal != null) keys.push(keyVal);
+    });
+  });
+  if (DATA.meta?.generated_at) {
+    const d = new Date(DATA.meta.generated_at);
+    if (!Number.isNaN(d.getTime())) keys.push(monthKey(d.getFullYear(), d.getMonth() + 1));
+  }
+  return keys.length ? Math.max(...keys) : monthKey(2026, 9);
+}
 
 function monthKey(year, month) {
   return year * 12 + month;
@@ -465,6 +751,184 @@ function expectedCompletionText(due, reportYear, reportMonth) {
   return `${MONTH_NAMES[due.month - 1]}–early ${MONTH_NAMES[early.month - 1]} ${early.year}`;
 }
 
+function dueKeysFromRows(rows, refYear, refMonth, { year4 = false } = {}) {
+  const keys = [];
+  const visitFields = year4
+    ? ["BD Date", "NP Date", "CV Date"]
+    : ["MRI Date", "BD Date", "NP Date", "CV Date"];
+  (rows || []).forEach((row) => {
+    let due = null;
+    const iso = parseIsoDate(row.Month);
+    if (iso) {
+      due = adjustDueMonthYear(
+        { year: iso.getFullYear(), month: iso.getMonth() + 1, day: iso.getDate() },
+        refYear,
+        refMonth
+      );
+    } else if (refYear != null) {
+      due = resolveSchedulingDue(row, refYear, refMonth, visitFields, { year4 });
+    }
+    const key = dueMonthKey(due);
+    if (key != null && due.year >= 2024) keys.push(key);
+  });
+  return keys;
+}
+
+function dueKeysFromCompletedVisits(yearKey) {
+  const keys = [];
+  (DATA.completed_visits?.[yearKey] || []).forEach((row) => {
+    const due = parseDueMonth(row.scheduling_month, null, null);
+    if (due?.year >= 2024) {
+      const key = dueMonthKey(due);
+      if (key != null) keys.push(key);
+    }
+  });
+  return keys;
+}
+
+function formatMonthYearFromKey(key) {
+  const year = Math.floor((key - 1) / 12);
+  const month = ((key - 1) % 12) + 1;
+  return `${MONTH_NAMES[month - 1]} ${year}`;
+}
+
+function formatPeriodEndLabel(keys) {
+  if (!keys.length) return null;
+  const maxKey = Math.max(...keys);
+  const maxYear = Math.floor((maxKey - 1) / 12);
+  const maxMonth = ((maxKey - 1) % 12) + 1;
+  const hasJan = keys.some((k) => Math.floor((k - 1) / 12) === maxYear && ((k - 1) % 12) + 1 === 1);
+  const hasFeb = keys.some((k) => Math.floor((k - 1) / 12) === maxYear && ((k - 1) % 12) + 1 === 2);
+  if (hasJan && hasFeb && maxMonth <= 2) return `Jan/Feb ${maxYear}`;
+  return formatMonthYearFromKey(maxKey);
+}
+
+function formatStudyCompletionLabel(keys) {
+  if (!keys.length) return null;
+  const maxKey = Math.max(...keys);
+  const maxYear = Math.floor((maxKey - 1) / 12);
+  const decKey = monthKey(maxYear, 12);
+  const janKey = monthKey(maxYear + 1, 1);
+  const hasDec = keys.includes(decKey);
+  const hasJan = keys.includes(janKey);
+  if (hasDec && hasJan) return `Dec ${maxYear}/Jan ${maxYear + 1}`;
+  return formatMonthYearFromKey(maxKey);
+}
+
+function maxY3ContactDueKey() {
+  const keys = dueKeysFromRows(DATA.third_year_scheduling || [], null, null);
+  return keys.length ? Math.max(...keys) : null;
+}
+
+function computeY3CaughtUpThrough(reportYear, reportMonth) {
+  const third = DATA.third_year_scheduling || [];
+  const y3Fields = ["MRI Date", "BD Date", "NP Date", "CV Date"];
+  let earliestIncompleteKey = null;
+
+  third.forEach((row) => {
+    if (isDroppedRow(row)) return;
+    if (schedulingCompleteAsOf(row, y3Fields, reportYear, reportMonth)) return;
+    const due = resolveSchedulingDue(row, reportYear, reportMonth, y3Fields);
+    const key = dueMonthKey(due);
+    if (key == null) return;
+    if (earliestIncompleteKey == null || key < earliestIncompleteKey) earliestIncompleteKey = key;
+  });
+
+  if (earliestIncompleteKey == null) {
+    return formatMonthYearFromKey(monthKey(reportYear, reportMonth));
+  }
+  const dueYear = Math.floor((earliestIncompleteKey - 1) / 12);
+  const dueMonth = ((earliestIncompleteKey - 1) % 12) + 1;
+  const caught = addMonths(dueYear, dueMonth, -1);
+  return formatMonthYearFromKey(monthKey(caught.year, caught.month));
+}
+
+function computeY3StudyPeriod() {
+  const keys = dueKeysFromRows(DATA.third_year_scheduling || [], null, null);
+  if (!keys.length) return null;
+  const minKey = Math.min(...keys);
+  return `${formatMonthYearFromKey(minKey)} - ${formatPeriodEndLabel(keys)}`;
+}
+
+function computeY3CompletionDeadline() {
+  const keys = dueKeysFromRows(DATA.third_year_scheduling || [], null, null);
+  return formatPeriodEndLabel(keys);
+}
+
+function computeExpectedStudyCompletion() {
+  const keys = [
+    ...dueKeysFromRows(DATA.fourth_year_scheduling || [], null, null, { year4: true }),
+    ...dueKeysFromCompletedVisits("fourth_year"),
+  ];
+  return formatStudyCompletionLabel(keys);
+}
+
+function countAdvancedToYear3(baseline, y2) {
+  const activeAfterBaseline = (baseline.completed ?? 0) - (y2.dropped_out_dq ?? 0);
+  const activeCohort = y2.remaining ?? activeAfterBaseline;
+  return Math.max(0, activeCohort - (y2.completed ?? 0));
+}
+
+function collectY4RolloverContacts(reportYear, reportMonth) {
+  const nextYear = reportYear + 1;
+  const y4Fields = ["BD Date", "NP Date", "CV Date"];
+  const fourth = DATA.fourth_year_scheduling || [];
+  const fourthById = new Map(fourth.map((row) => [row.participant_id, row]));
+  const seen = new Set();
+  const dueMonths = [];
+
+  const consider = (participantId, dueValue) => {
+    if (!participantId || seen.has(participantId)) return;
+    if (isDroppedRow({ participant_id: participantId, ID: participantId })) return;
+    const sched = fourthById.get(participantId);
+    if (sched && schedulingCompleteAsOf(sched, y4Fields, reportYear, reportMonth)) return;
+    const due = parseDueMonth(dueValue, reportYear, reportMonth);
+    if (!due || due.year !== nextYear) return;
+    seen.add(participantId);
+    dueMonths.push(due.month);
+  };
+
+  (DATA.completed_visits?.fourth_year || []).forEach((row) => {
+    consider(row.participant_id, row.scheduling_month);
+  });
+  fourth.forEach((row) => {
+    if (isDroppedRow(row)) return;
+    if (schedulingCompleteAsOf(row, y4Fields, reportYear, reportMonth)) return;
+    consider(row.participant_id, row.Month);
+  });
+
+  if (!seen.size) return null;
+  dueMonths.sort((a, b) => a - b);
+  const start = MONTH_NAMES[dueMonths[0] - 1];
+  const end = MONTH_NAMES[dueMonths[dueMonths.length - 1] - 1];
+  const rangeLabel =
+    dueMonths[0] === dueMonths[dueMonths.length - 1]
+      ? `${start} ${nextYear}`
+      : `${start}–${end} ${nextYear}`;
+  return { count: seen.size, rangeLabel, nextYear };
+}
+
+function collectReportNarrative(reportYear, reportMonth, baseline, y2, y3) {
+  const advancedToY3 = countAdvancedToYear3(baseline, y2);
+  const y4Rollovers = collectY4RolloverContacts(reportYear, reportMonth);
+  return {
+    y3CaughtUpThrough: computeY3CaughtUpThrough(reportYear, reportMonth),
+    y3StudyPeriod: computeY3StudyPeriod(),
+    y3CompletionDeadline: computeY3CompletionDeadline(),
+    y3RemainingExpected: y3.remaining ?? null,
+    expectedStudyCompletion: computeExpectedStudyCompletion(),
+    advancedToY3,
+    advancedToY3Text:
+      advancedToY3 === 1
+        ? "+1 participant advanced to Year 3"
+        : advancedToY3 > 1
+          ? `+${advancedToY3} participants advanced to Year 3`
+          : null,
+    y4Rollovers,
+    questions: DATA.meta?.report_questions || [],
+  };
+}
+
 function groupIncompleteByDue(rows, visitFields, refYear, refMonth, { inProgressMaxKey, contactMinKey, contactMaxKey, year4 = false }) {
   const inProgress = new Map();
   const toContact = new Map();
@@ -601,7 +1065,7 @@ function collectSchedulingReportData(reportYear, reportMonth, y3Completed, y4Com
   const inProgressMaxKey = monthKey(inProgressMax.year, inProgressMax.month);
   const contactMin = addMonths(reportYear, reportMonth, 3);
   const contactMinKey = monthKey(contactMin.year, contactMin.month);
-  const contactMaxKey = monthKey(2027, 2);
+  const contactMaxKey = maxY3ContactDueKey();
 
   const y3Groups = groupIncompleteByDue(third, y3Fields, reportYear, reportMonth, {
     inProgressMaxKey,
@@ -612,7 +1076,8 @@ function collectSchedulingReportData(reportYear, reportMonth, y3Completed, y4Com
     (g) => dueMonthKey(g.due) >= inProgressMinKey && dueMonthKey(g.due) <= inProgressMaxKey
   );
 
-  const y4ContactStart = monthKey(reportYear, reportMonth + 1);
+  const contactWindowStart = addMonths(reportYear, reportMonth, 1);
+  const y4ContactStart = monthKey(contactWindowStart.year, contactWindowStart.month);
   const y4ContactEnd = monthKey(reportYear, 12);
   const y4ToContactMap = new Map();
   const fourthById = new Map(fourth.map((row) => [row.participant_id, row]));
@@ -632,9 +1097,13 @@ function collectSchedulingReportData(reportYear, reportMonth, y3Completed, y4Com
     entry.count += 1;
     entry.rows.push(sched || { participant_id: participantId, ID: participantId });
   };
-  // Completed Visits → 4th year column is the deck source for Sep–Dec to-contact (see team PDF).
   (DATA.completed_visits?.fourth_year || []).forEach((row) => {
     addY4ToContact(row.participant_id, row.scheduling_month);
+  });
+  fourth.forEach((row) => {
+    if (isDroppedRow(row)) return;
+    if (schedulingCompleteAsOf(row, y4Fields, reportYear, reportMonth)) return;
+    addY4ToContact(row.participant_id, row.Month);
   });
   const y4ToContact = [...y4ToContactMap.values()].sort(
     (a, b) => dueMonthKey(a.due) - dueMonthKey(b.due)
@@ -717,6 +1186,7 @@ function collectSchedulingReportData(reportYear, reportMonth, y3Completed, y4Com
     y3InProgress,
     y3ToContact: y3Groups.toContact,
     y4ToContact,
+    y4Rollovers: collectY4RolloverContacts(reportYear, reportMonth),
     futureVisits,
     y3Components,
     y4Components,
@@ -792,6 +1262,7 @@ function collectReportMetrics(year, month) {
     (y4Visits["BD Date"] || 0) + (y4Visits["NP Date"] || 0) + (y4Visits["CV Date"] || 0);
 
   const scheduling = collectSchedulingReportData(year, month, y3.completed ?? 0, y4.completed ?? 0);
+  const narrative = collectReportNarrative(year, month, baseline, y2, y3);
 
   const metrics = {
     label: monthLabel(year, month),
@@ -803,8 +1274,9 @@ function collectReportMetrics(year, month) {
     y3,
     y4,
     active: DATA.active_participants?.length ?? 0,
-    enrolled: baseline.enrolled ?? 200,
+    enrolled: baseline.enrolled ?? 0,
     dropouts,
+    narrative,
     y3Visits: {
       mri: y3Visits["MRI Date"] || 0,
       bloodDraw: y3Visits["BD Date"] || 0,
@@ -1122,7 +1594,7 @@ function buildCompletedVisitsSlide(pptx, m) {
   }
 }
 
-function buildYear3ActivitySlide(pptx, m) {
+function buildYear3ActivitySlide(pptx, m, chartDataUrl) {
   const slide = pptx.addSlide();
   const monthName = MONTH_NAMES[m.month - 1];
   const monthAbbr = monthName.slice(0, 3).toLowerCase();
@@ -1159,10 +1631,12 @@ function buildYear3ActivitySlide(pptx, m) {
     ],
     { x: DECK.marginL, y: 1.45, fontSize: 14, h: 3.8, w: 4.5 }
   );
+  addSlideChartImage(slide, chartDataUrl);
 }
 
 function buildYear3OverviewSlide(pptx, m) {
   const slide = pptx.addSlide();
+  const n = m.narrative || {};
   addSlideTitle(slide, "Year 3 Visit Status");
 
   addPlainText(slide, `As of ${asOfDateShort(m.year, m.month)}`, {
@@ -1172,16 +1646,18 @@ function buildYear3OverviewSlide(pptx, m) {
     h: 0.4,
   });
 
-  addBodyLines(
-    slide,
-    [
-      { text: `${m.y3.completed ?? "—"} participants`, bold: true, fontSize: 18 },
-      "Have completed all required visits (BD, MRI, CV, NP)",
-      { text: "Visits are caught up through May 2026", bold: true },
-      "Year 3 study period: May 2025 - Jan/Feb 2027",
-    ],
-    { y: 1.75, fontSize: 18, h: 3.2 }
-  );
+  const body = [
+    { text: `${m.y3.completed ?? "—"} participants`, bold: true, fontSize: 18 },
+    "Have completed all required visits (BD, MRI, CV, NP)",
+  ];
+  if (n.y3CaughtUpThrough) {
+    body.push({ text: `Visits are caught up through ${n.y3CaughtUpThrough}`, bold: true });
+  }
+  if (n.y3StudyPeriod) {
+    body.push(`Year 3 study period: ${n.y3StudyPeriod}`);
+  }
+
+  addBodyLines(slide, body, { y: 1.75, fontSize: 18, h: 3.2 });
 }
 
 function buildYear3InProgressSlide(pptx, m) {
@@ -1212,6 +1688,7 @@ function buildYear3ToContactSlide(pptx, m) {
   const slide = pptx.addSlide();
   const groups = m.scheduling.y3ToContact;
   const total = groups.reduce((s, g) => s + g.count, 0);
+  const n = m.narrative || {};
 
   addSlideTitle(slide, "Year 3 Visit Status");
   addPlainText(slide, `${total} participants to be contacted`, {
@@ -1220,11 +1697,17 @@ function buildYear3ToContactSlide(pptx, m) {
     bold: true,
     h: 0.35,
   });
-  addPlainText(slide, `${m.y3.remaining ?? 157} Participants Expected to Complete Year 3 by Jan/Feb 2027`, {
-    y: contentTop() + 0.38,
-    fontSize: 14,
-    h: 0.35,
-  });
+  if (n.y3RemainingExpected != null && n.y3CompletionDeadline) {
+    addPlainText(
+      slide,
+      `${n.y3RemainingExpected} Participants Expected to Complete Year 3 by ${n.y3CompletionDeadline}`,
+      {
+        y: contentTop() + 0.38,
+        fontSize: 14,
+        h: 0.35,
+      }
+    );
+  }
 
   addDataTable(
     slide,
@@ -1237,7 +1720,7 @@ function buildYear3ToContactSlide(pptx, m) {
   );
 }
 
-function buildYear4ActivitySlide(pptx, m) {
+function buildYear4ActivitySlide(pptx, m, chartDataUrl) {
   const slide = pptx.addSlide();
   const monthName = MONTH_NAMES[m.month - 1];
   const a = m.scheduling.y4Activity;
@@ -1264,23 +1747,27 @@ function buildYear4ActivitySlide(pptx, m) {
     ],
     { y: 1.45, fontSize: 14, h: 3.8, w: 4.8 }
   );
+  addSlideChartImage(slide, chartDataUrl);
 }
 
 function buildYear4ToContactSlide(pptx, m) {
   const slide = pptx.addSlide();
   const groups = m.scheduling.y4ToContact;
   const total = groups.reduce((s, g) => s + g.count, 0);
+  const n = m.narrative || {};
+  const rollover = m.scheduling.y4Rollovers || n.y4Rollovers;
 
   addSlideTitle(slide, "Year 4 Visit Status");
-  addBodyLines(
-    slide,
-    [
-      { text: `${total} participants to be contacted through December ${m.year}`, bold: true },
-      "65 participants to be contacted January–August 2027 (3rd-year rollovers)",
-      "Expected Study Completion: Dec 2027/Jan 2028",
-    ],
-    { y: contentTop(), fontSize: 14, h: 1.0 }
-  );
+  const intro = [{ text: `${total} participants to be contacted through December ${m.year}`, bold: true }];
+  if (rollover?.count) {
+    intro.push(
+      `${rollover.count} participants to be contacted ${rollover.rangeLabel} (3rd-year rollovers)`
+    );
+  }
+  if (n.expectedStudyCompletion) {
+    intro.push(`Expected Study Completion: ${n.expectedStudyCompletion}`);
+  }
+  addBodyLines(slide, intro, { y: contentTop(), fontSize: 14, h: 1.0 });
 
   addDataTable(
     slide,
@@ -1293,9 +1780,19 @@ function buildYear4ToContactSlide(pptx, m) {
   );
 }
 
-function buildStudyProgressSlide(pptx, m) {
+function buildStudyProgressSlide(pptx, m, chartDataUrl) {
   const slide = pptx.addSlide();
-  addSlideTitle(slide, "Study Progress", "Participant Flow (N = 200)");
+  const n = m.narrative || {};
+  addSlideTitle(slide, "Study Progress", `Participant Flow (N = ${m.enrolled ?? "—"})`);
+
+  const y2Lines = [
+    { text: "Year 2", bold: true },
+    { text: `${m.y2.completed ?? "—"} participants completed Year 2`, bullet: true },
+  ];
+  if (n.advancedToY3Text) {
+    y2Lines.push({ text: n.advancedToY3Text, bullet: true });
+  }
+  y2Lines.push({ text: `${m.dropouts.year2} additional participants dropped out`, bullet: true });
 
   addBodyLines(
     slide,
@@ -1304,32 +1801,27 @@ function buildStudyProgressSlide(pptx, m) {
       { text: `${m.enrolled} enrolled`, bullet: true },
       { text: `${m.baseline.completed ?? "—"} completed Baseline assessments`, bullet: true },
       { text: `${m.dropouts.baseline} participants dropped out`, bullet: true },
-      { text: "Year 2", bold: true },
-      { text: `${m.y2.completed ?? "—"} participants completed Year 2`, bullet: true },
-      { text: "+1 participant advanced to Year 3", bullet: true },
-      { text: `${m.dropouts.year2} additional participants dropped out`, bullet: true },
+      ...y2Lines,
       { text: "Year 3 (ongoing)", bold: true },
       { text: `${m.y3.completed ?? "—"} participants completed Year 3`, bullet: true },
       { text: `${m.dropouts.year3} additional participants dropped out`, bullet: true },
       { text: "Year 4 (ongoing)", bold: true },
       { text: `${m.y4.completed ?? "—"} participants completed Year 4`, bullet: true },
     ],
-    { y: contentTop(true), fontSize: 14, h: 3.8 }
+    { x: DECK.marginL, y: contentTop(true), fontSize: 14, h: 3.8, w: 4.4 }
   );
+  addSlideChartImage(slide, chartDataUrl);
 }
 
-function buildQuestionsSlide(pptx) {
+function buildQuestionsSlide(pptx, m) {
   const slide = pptx.addSlide();
   addSlideTitle(slide, "Questions / Comments");
 
-  addBodyLines(
-    slide,
-    [
-      { text: "Funding account end date: 8/31/2026", bullet: true },
-      "Once the funding account has been extended, we'll need to update the CIA scheduler to be able to book MRI's past october.",
-    ],
-    { y: 1.55, fontSize: 18, h: 3.2 }
-  );
+  const items = m.narrative?.questions?.length
+    ? m.narrative.questions.map((text) => ({ text, bullet: true }))
+    : [{ text: "Open discussion", bullet: false }];
+
+  addBodyLines(slide, items, { y: 1.55, fontSize: 18, h: 3.2 });
 }
 
 function buildThankYouSlide(pptx) {
@@ -1352,6 +1844,11 @@ async function generateMonthlyReportPPT(year, month) {
   }
   const metrics = collectReportMetrics(year, month);
   const logoData = await getReportLogoData();
+  const [y3Chart, y4Chart, progressChart] = await Promise.all([
+    buildYear3VisitsChartImage(metrics.year, metrics.month),
+    buildYear4VisitsChartImage(metrics.year, metrics.month),
+    buildStudyProgressChartImage(metrics),
+  ]);
   const pptx = new PptxGenJS();
   pptx.layout = "LAYOUT_16x9";
   pptx.author = "DBS Operations Dashboard";
@@ -1362,14 +1859,14 @@ async function generateMonthlyReportPPT(year, month) {
   buildTitleSlide(pptx, metrics, logoData);
   buildExecutiveSummarySlide(pptx, metrics);
   buildCompletedVisitsSlide(pptx, metrics);
-  buildYear3ActivitySlide(pptx, metrics);
+  buildYear3ActivitySlide(pptx, metrics, y3Chart);
   buildYear3OverviewSlide(pptx, metrics);
   buildYear3InProgressSlide(pptx, metrics);
   buildYear3ToContactSlide(pptx, metrics);
-  buildYear4ActivitySlide(pptx, metrics);
+  buildYear4ActivitySlide(pptx, metrics, y4Chart);
   buildYear4ToContactSlide(pptx, metrics);
-  buildStudyProgressSlide(pptx, metrics);
-  buildQuestionsSlide(pptx);
+  buildStudyProgressSlide(pptx, metrics, progressChart);
+  buildQuestionsSlide(pptx, metrics);
   buildThankYouSlide(pptx);
 
   const filename = `DBS_Monthly_Report_${metrics.year}_${String(metrics.month).padStart(2, "0")}.pptx`;
@@ -1438,8 +1935,9 @@ function availableReportMonths() {
     return monthKey(y, m);
   });
   if (parsed.length) {
+    const endKey = reportEndKey();
     const min = Math.max(Math.min(...parsed), REPORT_START_KEY);
-    const max = Math.min(Math.max(...parsed), REPORT_END_KEY);
+    const max = Math.max(Math.min(Math.max(...parsed), endKey), min);
     for (let cursor = min; cursor <= max; cursor += 1) {
       const year = Math.floor((cursor - 1) / 12);
       const month = ((cursor - 1) % 12) + 1;
@@ -1447,12 +1945,13 @@ function availableReportMonths() {
     }
   }
 
+  const endKey = reportEndKey();
   return [...seen]
     .map((k) => {
       const [year, month] = k.split("-").map(Number);
       return { year, month, label: monthLabel(year, month), key: monthKey(year, month) };
     })
-    .filter((m) => m.key >= REPORT_START_KEY && m.key <= REPORT_END_KEY)
+    .filter((m) => m.key >= REPORT_START_KEY && m.key <= endKey)
     .sort((a, b) => b.key - a.key);
 }
 

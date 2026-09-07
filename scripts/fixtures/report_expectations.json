@@ -1,0 +1,68 @@
+{
+  "august_2026": {
+    "year": 2026,
+    "month": 8,
+    "label": "August 2026",
+    "metrics": [
+      ["Slide 2 · Y3 completed", "y3.completed", 120],
+      ["Slide 2 · Y4 completed", "y4.completed", 28],
+      ["Slide 2 · Y3 MRI components", "scheduling.y3Components.MRI Date", 119],
+      ["Slide 2 · Y3 BD components", "scheduling.y3Components.BD Date", 122],
+      ["Slide 2 · Y3 NP components", "scheduling.y3Components.NP Date", 121],
+      ["Slide 2 · Y3 CV components", "scheduling.y3Components.CV Date", 122],
+      ["Slide 2 · Future MRI", "scheduling.futureVisits.mri", 11],
+      ["Slide 2 · Future BD", "scheduling.futureVisits.bd", 13],
+      ["Slide 2 · Future NP", "scheduling.futureVisits.np", 14],
+      ["Slide 2 · Future CV", "scheduling.futureVisits.cv", 13],
+      ["Slide 2 · Dropouts total", "dropouts.total", 43],
+      ["Slide 3 · Y3 MRI Aug", "y3Visits.mri", 5],
+      ["Slide 3 · Y3 BD Aug", "y3Visits.bloodDraw", 5],
+      ["Slide 3 · Y3 NP Aug", "y3Visits.np", 7],
+      ["Slide 3 · Y3 CV Aug", "y3Visits.cv", 7],
+      ["Slide 3 · Y4 BD Aug", "y4Visits.bloodDraw", 10],
+      ["Slide 3 · Y4 NP Aug", "y4Visits.np", 10],
+      ["Slide 3 · Y4 CV Aug", "y4Visits.cv", 9],
+      ["Slide 4 · Y3 total visits Aug", "y3TotalMonthVisits", 24],
+      ["Slide 4 · Y3 due n", "scheduling.y3Activity.dueCount", 6],
+      ["Slide 4 · Y3 due complete", "scheduling.y3Activity.dueComplete", 3],
+      ["Slide 4 · Y3 due scheduled", "scheduling.y3Activity.dueScheduled", 3],
+      ["Slide 4 · Sep Y3 scheduled", "scheduling.y3Activity.nextVisitTotal", 35],
+      ["Slide 6 · Y3 in progress", "scheduling.y3InProgress", 15],
+      ["Slide 7 · Y3 to contact", "scheduling.y3ToContact", 22],
+      ["Slide 8 · Y4 total visits Aug", "y4TotalMonthVisits", 29],
+      ["Slide 8 · Y4 due n Aug", "scheduling.y4Activity.dueCount", 12],
+      ["Slide 8 · Y4 due complete Aug", "scheduling.y4Activity.dueComplete", 11],
+      ["Slide 8 · Sep Y4 scheduled", "scheduling.y4Activity.nextVisitTotal", 2],
+      ["Slide 9 · Y4 to contact", "scheduling.y4ToContact", 26],
+      ["Slide 10 · Enrolled", "enrolled", 200],
+      ["Slide 10 · Baseline completed", "baseline.completed", 187],
+      ["Slide 10 · Y2 completed", "y2.completed", 171]
+    ],
+    "dropouts": {
+      "Baseline": 13,
+      "2": 15,
+      "3": 15,
+      "4": 0
+    },
+    "narrative": {
+      "y3CaughtUpThrough": "May 2026",
+      "y3CompletionDeadline": "Jan/Feb 2027",
+      "y3RemainingExpected": 157,
+      "advancedToY3": 1,
+      "y4RolloverCountMin": 65
+    },
+    "chart_monthly": {
+      "year3": {
+        "2026-07": { "mri": 1, "bd": 2, "np": 1, "cv": 2 },
+        "2026-08": { "mri": 5, "bd": 5, "np": 7, "cv": 7 },
+        "2026-09": { "mri": 8, "bd": 8, "np": 10, "cv": 9 },
+        "2026-10": { "mri": 3, "bd": 3, "np": 2, "cv": 2 }
+      },
+      "year4": {
+        "2026-07": { "bd": 4, "np": 4, "cv": 5 },
+        "2026-08": { "bd": 10, "np": 10, "cv": 9 },
+        "2026-09": { "bd": 2, "np": 2, "cv": 2 }
+      }
+    }
+  }
+}
