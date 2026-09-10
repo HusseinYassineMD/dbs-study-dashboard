@@ -720,6 +720,62 @@ function studyDetailsFutureVisits(reportYear, reportMonth) {
   };
 }
 
+/** Sum Study Details monthly visit columns through the report month (Monthly Meeting Updates). */
+function studyDetailsCumulativeThrough(reportYear, reportMonth) {
+  const totals = DATA.study_details_visit_totals;
+  if (!totals?.year3?.monthly) return null;
+  const endKey = studyDetailsMonthKey(reportYear, reportMonth);
+
+  const sumMonthly = (monthly, fields) => {
+    const out = {};
+    Object.keys(monthly || {})
+      .filter((key) => key <= endKey)
+      .forEach((key) => {
+        fields.forEach((field) => {
+          out[field] = (out[field] || 0) + (monthly[key][field] || 0);
+        });
+      });
+    return out;
+  };
+
+  return {
+    y3: sumMonthly(totals.year3.monthly, ["mri", "bd", "np", "cv"]),
+    y4: sumMonthly(totals.year4?.monthly, ["bd", "np", "cv"]),
+  };
+}
+
+function studyDetailsComponentMaps(reportYear, reportMonth) {
+  const cumulative = studyDetailsCumulativeThrough(reportYear, reportMonth);
+  if (!cumulative?.y3 || cumulative.y3.mri == null) return null;
+  const totals = DATA.study_details_visit_totals;
+  return {
+    y3: {
+      "MRI Date": cumulative.y3.mri ?? 0,
+      "BD Date": cumulative.y3.bd ?? 0,
+      "NP Date": cumulative.y3.np ?? 0,
+      "CV Date": cumulative.y3.cv ?? 0,
+      mriExemptions: totals?.year3?.mri_exemptions ?? null,
+    },
+    y4: {
+      "BD Date": cumulative.y4?.bd ?? 0,
+      "NP Date": cumulative.y4?.np ?? 0,
+      "CV Date": cumulative.y4?.cv ?? 0,
+    },
+  };
+}
+
+function yearCompletedFromStudyDetails(reportYear, reportMonth) {
+  const cumulative = studyDetailsCumulativeThrough(reportYear, reportMonth);
+  if (!cumulative?.y3) return null;
+  const y3Values = [cumulative.y3.mri, cumulative.y3.bd, cumulative.y3.np, cumulative.y3.cv];
+  const y4Values = [cumulative.y4?.bd, cumulative.y4?.np, cumulative.y4?.cv];
+  if (y3Values.some((v) => v == null) || y4Values.some((v) => v == null)) return null;
+  return {
+    y3: Math.min(...y3Values),
+    y4: Math.min(...y4Values),
+  };
+}
+
 /** Participant finished all required visits on or before the report month end (excludes dropouts). */
 function yearSchedulingCompleteAsOf(row, visitFields, reportYear, reportMonth) {
   if (isDroppedRow(row)) return false;
@@ -1120,9 +1176,13 @@ function collectSchedulingReportData(reportYear, reportMonth, y3Completed, y4Com
   const y3Future = countFieldsInMonths(third, y3Fields, futureMonths);
   const y4Future = countFieldsInMonths(fourth, y4Fields, futureMonths);
   const fromStudyDetailsFuture = studyDetailsFutureVisits(reportYear, reportMonth);
-  const completeAsOf = (row, fields) => yearSchedulingCompleteAsOf(row, fields, reportYear, reportMonth);
-  const y3Components = completedVisitComponents(third, (row) => completeAsOf(row, y3Fields), y3Fields, y3Completed);
-  const y4Components = completedVisitComponents(fourth, (row) => completeAsOf(row, y4Fields), y4Fields, y4Completed);
+  const fromStudyDetailsComponents = studyDetailsComponentMaps(reportYear, reportMonth);
+  const y3Components =
+    fromStudyDetailsComponents?.y3 ??
+    completedVisitComponents(third, isYear3Complete, y3Fields, y3Completed);
+  const y4Components =
+    fromStudyDetailsComponents?.y4 ??
+    completedVisitComponents(fourth, isYear4Complete, y4Fields, y4Completed);
 
   const futureVisits = fromStudyDetailsFuture ?? {
     mri: y3Future["MRI Date"] || 0,
@@ -1200,8 +1260,11 @@ function collectReportMetrics(year, month) {
   const fourthSched = DATA.fourth_year_scheduling || [];
   const y3Fields = ["MRI Date", "BD Date", "NP Date", "CV Date"];
   const y4Fields = ["BD Date", "NP Date", "CV Date"];
-  const y3CompletedAsOf = countYearCompletedAsOf(thirdSched, y3Fields, year, month);
-  const y4CompletedAsOf = countYearCompletedAsOf(fourthSched, y4Fields, year, month);
+  const sdCompleted = yearCompletedFromStudyDetails(year, month);
+  const y3CompletedAsOf =
+    sdCompleted?.y3 ?? countYearCompletedAsOf(thirdSched, y3Fields, year, month);
+  const y4CompletedAsOf =
+    sdCompleted?.y4 ?? countYearCompletedAsOf(fourthSched, y4Fields, year, month);
   const y3 = { ...progressRow("3"), completed: y3CompletedAsOf };
   const y4 = { ...progressRow("4"), completed: y4CompletedAsOf };
 

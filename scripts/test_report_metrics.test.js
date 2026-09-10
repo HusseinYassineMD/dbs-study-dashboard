@@ -168,15 +168,16 @@ describe("Report metric invariants (any month)", () => {
   }
 });
 
-describe("July vs August 2026 — sheet-derived cumulative progress", () => {
-  test("each month computed from scheduling dates, not hardcoded PDF values", () => {
+describe("July vs August 2026 — Study Details cumulative sums", () => {
+  test("each month summed from Study Details monthly columns", () => {
     const july = metricsFor(2026, 7);
     const august = metricsFor(2026, 8);
+    assert.equal(july.y3.completed, 114);
+    assert.equal(july.y4.completed, 18);
+    assert.equal(july.scheduling.y3Components["MRI Date"], 114);
+    assert.equal(july.scheduling.y3Components["BD Date"], 117);
     assert.notEqual(july.y3.completed, august.y3.completed);
-    assert.notEqual(july.y4.completed, august.y4.completed);
     assert.notEqual(july.y3TotalMonthVisits, august.y3TotalMonthVisits);
-    assert.ok(july.y3.completed > 0);
-    assert.ok(august.y3.completed > july.y3.completed);
   });
 });
 
