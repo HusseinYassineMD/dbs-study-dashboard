@@ -1,5 +1,5 @@
 {
-  "_notes": "Golden metrics from team meeting PDFs (Jimena). Meetings were typically held on the last Friday of the month; visit totals may differ slightly from end-of-month Study Details.",
+  "_notes": "VALIDATION REFERENCE ONLY — not used to generate reports. Reports always use live Excel/sheet data. These PDF numbers prove the calculation logic; month-level visits/activity are checked for every month. Cumulative Study Progress is checked against PDF for August 2026 only. Meetings were on the last Friday; ±1–2 on visit counts is normal.",
   "months": {
     "2026-01": {
       "year": 2026,

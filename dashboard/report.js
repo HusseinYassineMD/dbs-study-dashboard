@@ -462,40 +462,6 @@ function progressRow(year) {
   return getMeetingProgress().find((r) => String(r.year).toLowerCase() === String(year).toLowerCase()) || {};
 }
 
-function progressSnapshot(reportYear, reportMonth) {
-  const key = studyDetailsMonthKey(reportYear, reportMonth);
-  return DATA.study_progress_snapshots?.[key] ?? null;
-}
-
-function snapshotComponentMap(components, yearKey) {
-  if (!components) return null;
-  if (yearKey === "y3") {
-    return {
-      "MRI Date": components.mri ?? 0,
-      "BD Date": components.bd ?? 0,
-      "NP Date": components.np ?? 0,
-      "CV Date": components.cv ?? 0,
-      mriExemptions: components.mriExemptions ?? null,
-    };
-  }
-  return {
-    "BD Date": components.bd ?? 0,
-    "NP Date": components.np ?? 0,
-    "CV Date": components.cv ?? 0,
-  };
-}
-
-function applyProgressSnapshot(scheduling, snap) {
-  if (!snap) return scheduling;
-  const next = { ...scheduling };
-  const y3Map = snapshotComponentMap(snap.y3Components, "y3");
-  const y4Map = snapshotComponentMap(snap.y4Components, "y4");
-  if (y3Map) next.y3Components = y3Map;
-  if (y4Map) next.y4Components = y4Map;
-  if (snap.futureVisits) next.futureVisits = { ...snap.futureVisits };
-  return next;
-}
-
 function countFieldInMonth(rows, field, year, month) {
   return rows.filter((r) => inCalendarMonth(r[field], year, month)).length;
 }
@@ -1229,11 +1195,10 @@ function collectSchedulingReportData(reportYear, reportMonth, y3Completed, y4Com
 }
 
 function collectReportMetrics(year, month) {
-  const snap = progressSnapshot(year, month);
-  const baseline = snap?.baseline ?? progressRow("baseline");
-  const y2 = snap?.y2 ?? progressRow("2");
-  const y3 = snap?.y3 ?? progressRow("3");
-  const y4 = snap?.y4 ?? progressRow("4");
+  const baseline = progressRow("baseline");
+  const y2 = progressRow("2");
+  const y3 = progressRow("3");
+  const y4 = progressRow("4");
 
   const thirdSched = DATA.third_year_scheduling || [];
   const fourthSched = DATA.fourth_year_scheduling || [];
@@ -1280,7 +1245,7 @@ function collectReportMetrics(year, month) {
     null;
   const y2CumulativeCarried = !trend5 && !trend6 && lastTrend5 != null;
 
-  const dropouts = snap?.dropouts ?? {
+  const dropouts = {
     baseline: baseline.dropped_out_dq ?? 0,
     year2: y2.dropped_out_dq ?? 0,
     year3: y3.dropped_out_dq ?? 0,
@@ -1296,8 +1261,7 @@ function collectReportMetrics(year, month) {
   const y4TotalMonthVisits =
     (y4Visits["BD Date"] || 0) + (y4Visits["NP Date"] || 0) + (y4Visits["CV Date"] || 0);
 
-  let scheduling = collectSchedulingReportData(year, month, y3.completed ?? 0, y4.completed ?? 0);
-  scheduling = applyProgressSnapshot(scheduling, snap);
+  const scheduling = collectSchedulingReportData(year, month, y3.completed ?? 0, y4.completed ?? 0);
   const narrative = collectReportNarrative(year, month, baseline, y2, y3);
 
   const metrics = {
@@ -1305,7 +1269,6 @@ function collectReportMetrics(year, month) {
     year,
     month,
     generatedAt: DATA.meta?.generated_at,
-    reportSnapshot: snap ? studyDetailsMonthKey(year, month) : null,
     baseline,
     y2,
     y3,

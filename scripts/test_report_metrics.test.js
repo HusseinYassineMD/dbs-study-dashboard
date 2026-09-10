@@ -7,7 +7,6 @@ const {
   loadReportContext,
   resolveMetricValue,
   loadExpectations,
-  loadAllMonthExpectations,
 } = require("./lib/load_report_metrics");
 
 const ctx = loadReportContext();
@@ -162,24 +161,15 @@ describe("Report metric invariants (any month)", () => {
   }
 });
 
-describe("All PDF-validated months — progress snapshots", () => {
-  const months = loadAllMonthExpectations();
-
-  for (const [key, spec] of Object.entries(months)) {
-    test(`${spec.label} uses meeting snapshot for Y3/Y4 completed`, () => {
-      const m = metricsFor(spec.year, spec.month);
-      assert.equal(m.reportSnapshot, key);
-      const y3Expected = spec.metrics.find((row) => row[1] === "y3.completed");
-      const y4Expected = spec.metrics.find((row) => row[1] === "y4.completed");
-      assert.ok(y3Expected, `${spec.label} fixture should include y3.completed`);
-      assert.equal(m.y3.completed, y3Expected[2]);
-      if (y4Expected) {
-        assert.equal(m.y4.completed, y4Expected[2]);
-      } else {
-        assert.equal(m.y4.completed ?? 0, 0);
-      }
-    });
-  }
+describe("September 2026 — live calculation (no PDF yet)", () => {
+  test("metrics compute from sheet data", () => {
+    const m = metricsFor(2026, 9);
+    assert.equal(m.label, "September 2026");
+    assert.ok(m.y3TotalMonthVisits > 0);
+    assert.ok(m.y4TotalMonthVisits > 0);
+    assert.ok(m.scheduling);
+    assert.ok(m.narrative);
+  });
 });
 
 describe("Available report months", () => {
