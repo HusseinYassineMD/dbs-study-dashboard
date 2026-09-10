@@ -161,6 +161,18 @@ describe("Report metric invariants (any month)", () => {
   }
 });
 
+describe("July vs August 2026 — cumulative progress differs", () => {
+  test("July uses point-in-time snapshot, not current August totals", () => {
+    const july = metricsFor(2026, 7);
+    const august = metricsFor(2026, 8);
+    assert.equal(july.y3.completed, 114);
+    assert.equal(august.y3.completed, 120);
+    assert.equal(july.y4.completed, 18);
+    assert.equal(august.y4.completed, 28);
+    assert.notEqual(july.y3TotalMonthVisits, august.y3TotalMonthVisits);
+  });
+});
+
 describe("September 2026 — live calculation (no PDF yet)", () => {
   test("metrics compute from sheet data", () => {
     const m = metricsFor(2026, 9);

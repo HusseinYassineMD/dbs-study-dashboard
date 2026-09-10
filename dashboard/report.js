@@ -742,6 +742,49 @@ function studyDetailsComponentCounts() {
   };
 }
 
+/** Point-in-time Study Progress from meeting PDFs (Jan–Aug 2026). September+ uses live sheets. */
+function progressSnapshot(reportYear, reportMonth) {
+  const key = studyDetailsMonthKey(reportYear, reportMonth);
+  return DATA.study_progress_snapshots?.[key] ?? null;
+}
+
+function snapshotComponentMap(components, yearKey) {
+  if (!components) return null;
+  if (yearKey === "y3") {
+    return {
+      "MRI Date": components.mri ?? 0,
+      "BD Date": components.bd ?? 0,
+      "NP Date": components.np ?? 0,
+      "CV Date": components.cv ?? 0,
+      mriExemptions: components.mriExemptions ?? null,
+    };
+  }
+  return {
+    "BD Date": components.bd ?? 0,
+    "NP Date": components.np ?? 0,
+    "CV Date": components.cv ?? 0,
+  };
+}
+
+function applyProgressSnapshot(metrics, snap) {
+  if (!snap) return metrics;
+  if (snap.baseline) metrics.baseline = { ...metrics.baseline, ...snap.baseline };
+  if (snap.y2) metrics.y2 = { ...metrics.y2, ...snap.y2 };
+  if (snap.y3) metrics.y3 = { ...metrics.y3, ...snap.y3 };
+  if (snap.y4) metrics.y4 = { ...metrics.y4, ...snap.y4 };
+  if (snap.dropouts) metrics.dropouts = { ...snap.dropouts };
+  if (snap.y3Components) {
+    metrics.scheduling.y3Components = snapshotComponentMap(snap.y3Components, "y3");
+  }
+  if (snap.y4Components) {
+    metrics.scheduling.y4Components = snapshotComponentMap(snap.y4Components, "y4");
+  }
+  if (snap.futureVisits) {
+    metrics.scheduling.futureVisits = { ...snap.futureVisits };
+  }
+  return metrics;
+}
+
 function expectedCompletionText(due, reportYear, reportMonth) {
   if (!due) return "TBD";
   const dueKey = dueMonthKey(due);
@@ -1058,6 +1101,7 @@ function analyzeYearActivity(rows, completeFn, visitFields, reportYear, reportMo
 }
 
 function collectSchedulingReportData(reportYear, reportMonth, y3Completed, y4Completed) {
+  const snap = progressSnapshot(reportYear, reportMonth);
   const third = DATA.third_year_scheduling || [];
   const fourth = DATA.fourth_year_scheduling || [];
   const y3Fields = ["MRI Date", "BD Date", "NP Date", "CV Date"];
@@ -1120,21 +1164,24 @@ function collectSchedulingReportData(reportYear, reportMonth, y3Completed, y4Com
 
   const y3Future = countFieldsInMonths(third, y3Fields, futureMonths);
   const y4Future = countFieldsInMonths(fourth, y4Fields, futureMonths);
-  const fromStudyDetails = studyDetailsComponentCounts();
-  const fromStudyDetailsFuture = studyDetailsFutureVisits(reportYear, reportMonth);
+  const fromStudyDetails = snap ? null : studyDetailsComponentCounts();
+  const fromStudyDetailsFuture = snap ? null : studyDetailsFutureVisits(reportYear, reportMonth);
   const y3Components =
+    snapshotComponentMap(snap?.y3Components, "y3") ??
     fromStudyDetails?.y3 ??
     completedVisitComponents(third, isYear3Complete, y3Fields, y3Completed);
   const y4Components =
+    snapshotComponentMap(snap?.y4Components, "y4") ??
     fromStudyDetails?.y4 ??
     completedVisitComponents(fourth, isYear4Complete, y4Fields, y4Completed);
 
-  const futureVisits = fromStudyDetailsFuture ?? {
-    mri: y3Future["MRI Date"] || 0,
-    bd: (y3Future["BD Date"] || 0) + (y4Future["BD Date"] || 0),
-    np: (y3Future["NP Date"] || 0) + (y4Future["NP Date"] || 0),
-    cv: (y3Future["CV Date"] || 0) + (y4Future["CV Date"] || 0),
-  };
+  const futureVisits = snap?.futureVisits ??
+    fromStudyDetailsFuture ?? {
+      mri: y3Future["MRI Date"] || 0,
+      bd: (y3Future["BD Date"] || 0) + (y4Future["BD Date"] || 0),
+      np: (y3Future["NP Date"] || 0) + (y4Future["NP Date"] || 0),
+      cv: (y3Future["CV Date"] || 0) + (y4Future["CV Date"] || 0),
+    };
 
   let y3Activity = analyzeYearActivity(third, isYear3Complete, y3Fields, reportYear, reportMonth, y3Completed, {
     dueCompleteInDueMonth: true,
@@ -1310,7 +1357,7 @@ function collectReportMetrics(year, month) {
     scheduling,
   };
 
-  return metrics;
+  return applyProgressSnapshot(metrics, progressSnapshot(year, month));
 }
 
 function asOfDateShort(year, month) {
