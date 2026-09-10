@@ -178,6 +178,11 @@ describe("Available report months", () => {
     assert.ok(months.some((m) => m.year === 2026 && m.month === 8));
   });
 
+  test("includes September 2026", () => {
+    const months = ctx.availableReportMonths();
+    assert.ok(months.some((m) => m.year === 2026 && m.month === 9));
+  });
+
   test("end month follows sheet data", () => {
     const months = ctx.availableReportMonths();
     const endKey = ctx.reportEndKey();

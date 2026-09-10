@@ -405,7 +405,11 @@ function reportEndKey() {
     const d = new Date(DATA.meta.generated_at);
     if (!Number.isNaN(d.getTime())) keys.push(monthKey(d.getFullYear(), d.getMonth() + 1));
   }
-  return keys.length ? Math.max(...keys) : monthKey(2026, 9);
+  const now = new Date();
+  const nowKey = monthKey(now.getFullYear(), now.getMonth() + 1);
+  keys.push(nowKey);
+  const raw = keys.length ? Math.max(...keys) : nowKey;
+  return Math.min(raw, nowKey);
 }
 
 function monthKey(year, month) {
@@ -1925,19 +1929,28 @@ function availableReportMonths() {
     });
   });
 
+  ["year3", "year4"].forEach((yearKey) => {
+    Object.keys(DATA.study_details_visit_totals?.[yearKey]?.monthly || {}).forEach((key) => {
+      const [year, month] = key.split("-").map(Number);
+      addMonthToSet(seen, year, month);
+    });
+  });
+
   if (DATA.meta?.generated_at) {
     const d = new Date(DATA.meta.generated_at);
     if (!Number.isNaN(d.getTime())) addMonthToSet(seen, d.getFullYear(), d.getMonth() + 1);
   }
+
+  const endKey = reportEndKey();
+  addMonthToSet(seen, Math.floor((endKey - 1) / 12), ((endKey - 1) % 12) + 1);
 
   const parsed = [...seen].map((k) => {
     const [y, m] = k.split("-").map(Number);
     return monthKey(y, m);
   });
   if (parsed.length) {
-    const endKey = reportEndKey();
     const min = Math.max(Math.min(...parsed), REPORT_START_KEY);
-    const max = Math.max(Math.min(Math.max(...parsed), endKey), min);
+    const max = Math.max(endKey, min);
     for (let cursor = min; cursor <= max; cursor += 1) {
       const year = Math.floor((cursor - 1) / 12);
       const month = ((cursor - 1) % 12) + 1;
@@ -1945,7 +1958,6 @@ function availableReportMonths() {
     }
   }
 
-  const endKey = reportEndKey();
   return [...seen]
     .map((k) => {
       const [year, month] = k.split("-").map(Number);
@@ -2069,6 +2081,10 @@ function renderReport() {
 
   if (prev && [...select.options].some((o) => o.value === prev)) {
     select.value = prev;
+  } else {
+    const nowKey = monthKey(new Date().getFullYear(), new Date().getMonth() + 1);
+    const pick = months.find((m) => m.key <= nowKey) || months[0];
+    if (pick) select.value = `${pick.year}-${pick.month}`;
   }
 
   select.removeEventListener("change", updateReportPreview);
