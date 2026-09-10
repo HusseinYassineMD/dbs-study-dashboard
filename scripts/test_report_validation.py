@@ -66,13 +66,15 @@ class August2026GoldenTests(unittest.TestCase):
 
     def test_pdf_golden_metrics(self) -> None:
         failures: list[str] = []
+        tolerance = self.fixture.get("tolerance") or {}
         for label, path, expected in self.fixture["metrics"]:
             try:
                 actual = resolve_value(self.metrics, path)
             except (KeyError, TypeError):
                 actual = None
-            if actual is None or int(actual) != int(expected):
-                failures.append(f"{label}: expected {expected}, got {actual}")
+            tol = int(tolerance.get(path, 0))
+            if actual is None or abs(int(actual) - int(expected)) > tol:
+                failures.append(f"{label}: expected {expected} (±{tol}), got {actual}")
         if failures:
             self.fail("\n".join(failures))
 

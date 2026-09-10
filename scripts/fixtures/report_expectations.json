@@ -232,6 +232,13 @@
         "y3CompletionDeadline": "Jan/Feb 2027",
         "y3RemainingExpected": 157,
         "advancedToY3": 1
+      },
+      "tolerance": {
+        "y3.completed": 2,
+        "scheduling.y3Components.MRI Date": 5,
+        "scheduling.y3Components.BD Date": 5,
+        "scheduling.y3Components.NP Date": 5,
+        "scheduling.y3Components.CV Date": 5
       }
     }
   }

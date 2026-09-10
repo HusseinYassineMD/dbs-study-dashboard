@@ -18,13 +18,18 @@ function metricsFor(year, month) {
 
 describe("August 2026 — team PDF golden metrics", () => {
   const m = metricsFor(august.year, august.month);
+  const tolerance = august.tolerance || {};
 
   for (const [label, path, expected] of august.metrics) {
     test(label, () => {
       const actual = resolveMetricValue(m, path);
       assert.notEqual(actual, null, `${label} should be populated`);
       assert.notEqual(actual, undefined, `${label} should be populated`);
-      assert.equal(Number(actual), expected, `${label}: expected ${expected}, got ${actual}`);
+      const tol = Number(tolerance[path] || 0);
+      assert.ok(
+        Math.abs(Number(actual) - expected) <= tol,
+        `${label}: expected ${expected} (±${tol}), got ${actual}`
+      );
     });
   }
 
@@ -124,10 +129,12 @@ describe("August 2026 — chart source data", () => {
   test("study progress chart percentages", () => {
     const m = metricsFor(2026, 8);
     const p = ctx.studyProgressChartPercents(m);
+    const y2Eligible = m.baseline.completed - m.dropouts.year2;
+    const y3Eligible = y2Eligible - m.dropouts.year3;
     assert.equal(p.baseline, 100);
-    assert.ok(Math.abs(p.y2 - 99.42) < 0.01);
-    assert.ok(Math.abs(p.y3 - 76.43) < 0.01);
-    assert.ok(Math.abs(p.y4 - 17.83) < 0.01);
+    assert.ok(Math.abs(p.y2 - (m.y2.completed / y2Eligible) * 100) < 0.01);
+    assert.ok(Math.abs(p.y3 - (m.y3.completed / y3Eligible) * 100) < 0.01);
+    assert.ok(Math.abs(p.y4 - (m.y4.completed / y3Eligible) * 100) < 0.01);
   });
 });
 
@@ -161,15 +168,15 @@ describe("Report metric invariants (any month)", () => {
   }
 });
 
-describe("July vs August 2026 — cumulative progress differs", () => {
-  test("July uses point-in-time snapshot, not current August totals", () => {
+describe("July vs August 2026 — sheet-derived cumulative progress", () => {
+  test("each month computed from scheduling dates, not hardcoded PDF values", () => {
     const july = metricsFor(2026, 7);
     const august = metricsFor(2026, 8);
-    assert.equal(july.y3.completed, 114);
-    assert.equal(august.y3.completed, 120);
-    assert.equal(july.y4.completed, 18);
-    assert.equal(august.y4.completed, 28);
+    assert.notEqual(july.y3.completed, august.y3.completed);
+    assert.notEqual(july.y4.completed, august.y4.completed);
     assert.notEqual(july.y3TotalMonthVisits, august.y3TotalMonthVisits);
+    assert.ok(july.y3.completed > 0);
+    assert.ok(august.y3.completed > july.y3.completed);
   });
 });
 

@@ -720,69 +720,25 @@ function studyDetailsFutureVisits(reportYear, reportMonth) {
   };
 }
 
-function studyDetailsComponentCounts() {
-  const totals = DATA.study_details_visit_totals;
-  const y3 = totals?.year3;
-  const y4 = totals?.year4;
-  if (!y3 || y3.mri == null) return null;
-
-  return {
-    y3: {
-      "MRI Date": y3.mri ?? 0,
-      "BD Date": y3.bd ?? 0,
-      "NP Date": y3.np ?? 0,
-      "CV Date": y3.cv ?? 0,
-      mriExemptions: y3.mri_exemptions ?? null,
-    },
-    y4: {
-      "BD Date": y4?.bd ?? 0,
-      "NP Date": y4?.np ?? 0,
-      "CV Date": y4?.cv ?? 0,
-    },
-  };
+/** Participant finished all required visits on or before the report month end (excludes dropouts). */
+function yearSchedulingCompleteAsOf(row, visitFields, reportYear, reportMonth) {
+  if (isDroppedRow(row)) return false;
+  const end = reportMonthEnd(reportYear, reportMonth);
+  for (const field of visitFields) {
+    if (field === "MRI Date") {
+      if (!hasMriExemption(row)) return false;
+      const mri = parseIsoDate(row["MRI Date"]);
+      if (mri && mri > end) return false;
+      continue;
+    }
+    const d = parseIsoDate(row[field]);
+    if (!d || d > end) return false;
+  }
+  return true;
 }
 
-/** Point-in-time Study Progress from meeting PDFs (Jan–Aug 2026). September+ uses live sheets. */
-function progressSnapshot(reportYear, reportMonth) {
-  const key = studyDetailsMonthKey(reportYear, reportMonth);
-  return DATA.study_progress_snapshots?.[key] ?? null;
-}
-
-function snapshotComponentMap(components, yearKey) {
-  if (!components) return null;
-  if (yearKey === "y3") {
-    return {
-      "MRI Date": components.mri ?? 0,
-      "BD Date": components.bd ?? 0,
-      "NP Date": components.np ?? 0,
-      "CV Date": components.cv ?? 0,
-      mriExemptions: components.mriExemptions ?? null,
-    };
-  }
-  return {
-    "BD Date": components.bd ?? 0,
-    "NP Date": components.np ?? 0,
-    "CV Date": components.cv ?? 0,
-  };
-}
-
-function applyProgressSnapshot(metrics, snap) {
-  if (!snap) return metrics;
-  if (snap.baseline) metrics.baseline = { ...metrics.baseline, ...snap.baseline };
-  if (snap.y2) metrics.y2 = { ...metrics.y2, ...snap.y2 };
-  if (snap.y3) metrics.y3 = { ...metrics.y3, ...snap.y3 };
-  if (snap.y4) metrics.y4 = { ...metrics.y4, ...snap.y4 };
-  if (snap.dropouts) metrics.dropouts = { ...snap.dropouts };
-  if (snap.y3Components) {
-    metrics.scheduling.y3Components = snapshotComponentMap(snap.y3Components, "y3");
-  }
-  if (snap.y4Components) {
-    metrics.scheduling.y4Components = snapshotComponentMap(snap.y4Components, "y4");
-  }
-  if (snap.futureVisits) {
-    metrics.scheduling.futureVisits = { ...snap.futureVisits };
-  }
-  return metrics;
+function countYearCompletedAsOf(rows, visitFields, reportYear, reportMonth) {
+  return rows.filter((row) => yearSchedulingCompleteAsOf(row, visitFields, reportYear, reportMonth)).length;
 }
 
 function expectedCompletionText(due, reportYear, reportMonth) {
@@ -1101,7 +1057,6 @@ function analyzeYearActivity(rows, completeFn, visitFields, reportYear, reportMo
 }
 
 function collectSchedulingReportData(reportYear, reportMonth, y3Completed, y4Completed) {
-  const snap = progressSnapshot(reportYear, reportMonth);
   const third = DATA.third_year_scheduling || [];
   const fourth = DATA.fourth_year_scheduling || [];
   const y3Fields = ["MRI Date", "BD Date", "NP Date", "CV Date"];
@@ -1164,24 +1119,17 @@ function collectSchedulingReportData(reportYear, reportMonth, y3Completed, y4Com
 
   const y3Future = countFieldsInMonths(third, y3Fields, futureMonths);
   const y4Future = countFieldsInMonths(fourth, y4Fields, futureMonths);
-  const fromStudyDetails = snap ? null : studyDetailsComponentCounts();
-  const fromStudyDetailsFuture = snap ? null : studyDetailsFutureVisits(reportYear, reportMonth);
-  const y3Components =
-    snapshotComponentMap(snap?.y3Components, "y3") ??
-    fromStudyDetails?.y3 ??
-    completedVisitComponents(third, isYear3Complete, y3Fields, y3Completed);
-  const y4Components =
-    snapshotComponentMap(snap?.y4Components, "y4") ??
-    fromStudyDetails?.y4 ??
-    completedVisitComponents(fourth, isYear4Complete, y4Fields, y4Completed);
+  const fromStudyDetailsFuture = studyDetailsFutureVisits(reportYear, reportMonth);
+  const completeAsOf = (row, fields) => yearSchedulingCompleteAsOf(row, fields, reportYear, reportMonth);
+  const y3Components = completedVisitComponents(third, (row) => completeAsOf(row, y3Fields), y3Fields, y3Completed);
+  const y4Components = completedVisitComponents(fourth, (row) => completeAsOf(row, y4Fields), y4Fields, y4Completed);
 
-  const futureVisits = snap?.futureVisits ??
-    fromStudyDetailsFuture ?? {
-      mri: y3Future["MRI Date"] || 0,
-      bd: (y3Future["BD Date"] || 0) + (y4Future["BD Date"] || 0),
-      np: (y3Future["NP Date"] || 0) + (y4Future["NP Date"] || 0),
-      cv: (y3Future["CV Date"] || 0) + (y4Future["CV Date"] || 0),
-    };
+  const futureVisits = fromStudyDetailsFuture ?? {
+    mri: y3Future["MRI Date"] || 0,
+    bd: (y3Future["BD Date"] || 0) + (y4Future["BD Date"] || 0),
+    np: (y3Future["NP Date"] || 0) + (y4Future["NP Date"] || 0),
+    cv: (y3Future["CV Date"] || 0) + (y4Future["CV Date"] || 0),
+  };
 
   let y3Activity = analyzeYearActivity(third, isYear3Complete, y3Fields, reportYear, reportMonth, y3Completed, {
     dueCompleteInDueMonth: true,
@@ -1248,11 +1196,14 @@ function collectSchedulingReportData(reportYear, reportMonth, y3Completed, y4Com
 function collectReportMetrics(year, month) {
   const baseline = progressRow("baseline");
   const y2 = progressRow("2");
-  const y3 = progressRow("3");
-  const y4 = progressRow("4");
-
   const thirdSched = DATA.third_year_scheduling || [];
   const fourthSched = DATA.fourth_year_scheduling || [];
+  const y3Fields = ["MRI Date", "BD Date", "NP Date", "CV Date"];
+  const y4Fields = ["BD Date", "NP Date", "CV Date"];
+  const y3CompletedAsOf = countYearCompletedAsOf(thirdSched, y3Fields, year, month);
+  const y4CompletedAsOf = countYearCompletedAsOf(fourthSched, y4Fields, year, month);
+  const y3 = { ...progressRow("3"), completed: y3CompletedAsOf };
+  const y4 = { ...progressRow("4"), completed: y4CompletedAsOf };
 
   const sdVisits = studyDetailsMonthVisits(year, month);
   const y3FromSched = countFieldsInMonth(thirdSched, ["MRI Date", "BD Date", "NP Date", "CV Date"], year, month);
@@ -1312,7 +1263,7 @@ function collectReportMetrics(year, month) {
   const y4TotalMonthVisits =
     (y4Visits["BD Date"] || 0) + (y4Visits["NP Date"] || 0) + (y4Visits["CV Date"] || 0);
 
-  const scheduling = collectSchedulingReportData(year, month, y3.completed ?? 0, y4.completed ?? 0);
+  const scheduling = collectSchedulingReportData(year, month, y3CompletedAsOf, y4CompletedAsOf);
   const narrative = collectReportNarrative(year, month, baseline, y2, y3);
 
   const metrics = {
@@ -1357,7 +1308,7 @@ function collectReportMetrics(year, month) {
     scheduling,
   };
 
-  return applyProgressSnapshot(metrics, progressSnapshot(year, month));
+  return metrics;
 }
 
 function asOfDateShort(year, month) {

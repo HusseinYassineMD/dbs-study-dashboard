@@ -15,16 +15,6 @@ ROOT = Path(__file__).resolve().parents[1]
 TRACKER = ROOT / "DBS Tracker.xlsx"
 MEETING = ROOT / "Monthly Meeting Updates.xlsx"
 OUTPUT = ROOT / "dashboard" / "data.json"
-PROGRESS_SNAPSHOTS = ROOT / "scripts" / "fixtures" / "study_progress_snapshots.json"
-
-
-def load_progress_snapshots() -> dict[str, Any]:
-    if not PROGRESS_SNAPSHOTS.exists():
-        return {}
-    raw = json.loads(PROGRESS_SNAPSHOTS.read_text(encoding="utf-8"))
-    return {key: value for key, value in raw.items() if not str(key).startswith("_")}
-
-
 def normalize_id(value: Any) -> str | None:
     if value is None or (isinstance(value, float) and pd.isna(value)):
         return None
@@ -899,7 +889,6 @@ def main() -> None:
         },
         "study_progress_tracker": parse_study_progress(TRACKER),
         "study_progress_meeting": parse_study_progress(MEETING),
-        "study_progress_snapshots": load_progress_snapshots(),
         "study_details_visit_totals": parse_study_details_visit_totals(MEETING),
         "recruitment": parse_recruitment(MEETING),
         "active_participants": parse_active_ids(TRACKER),
