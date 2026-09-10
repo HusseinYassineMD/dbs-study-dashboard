@@ -35,13 +35,19 @@ function resolveMetricValue(metrics, path) {
   return getPath(metrics, path);
 }
 
-function loadExpectations(name = "august_2026") {
+function loadExpectations(name = "2026-08") {
   const fixturePath = path.join(ROOT, "scripts", "fixtures", "report_expectations.json");
   const fixtures = JSON.parse(fs.readFileSync(fixturePath, "utf8"));
-  if (!fixtures[name]) {
-    throw new Error(`Missing report expectations fixture: ${name}`);
-  }
-  return fixtures[name];
+  const months = fixtures.months || fixtures;
+  if (months[name]) return months[name];
+  if (fixtures[name]) return fixtures[name];
+  throw new Error(`Missing report expectations fixture: ${name}`);
+}
+
+function loadAllMonthExpectations() {
+  const fixturePath = path.join(ROOT, "scripts", "fixtures", "report_expectations.json");
+  const fixtures = JSON.parse(fs.readFileSync(fixturePath, "utf8"));
+  return fixtures.months || {};
 }
 
 module.exports = {
@@ -50,4 +56,5 @@ module.exports = {
   getPath,
   resolveMetricValue,
   loadExpectations,
+  loadAllMonthExpectations,
 };

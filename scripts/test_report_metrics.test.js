@@ -7,10 +7,11 @@ const {
   loadReportContext,
   resolveMetricValue,
   loadExpectations,
+  loadAllMonthExpectations,
 } = require("./lib/load_report_metrics");
 
 const ctx = loadReportContext();
-const august = loadExpectations("august_2026");
+const august = loadExpectations("2026-08");
 
 function metricsFor(year, month) {
   return ctx.collectReportMetrics(year, month);
@@ -34,12 +35,13 @@ describe("August 2026 — team PDF golden metrics", () => {
 });
 
 describe("August 2026 — study progress dropouts", () => {
-  test("dropout counts match Study Progress sheet", () => {
+  test("dropout counts match meeting PDF snapshot", () => {
     const m = metricsFor(august.year, august.month);
-    assert.equal(m.dropouts.baseline, august.dropouts.Baseline);
-    assert.equal(m.dropouts.year2, august.dropouts["2"]);
-    assert.equal(m.dropouts.year3, august.dropouts["3"]);
-    assert.equal(m.dropouts.year4, august.dropouts["4"]);
+    assert.equal(m.dropouts.baseline, 13);
+    assert.equal(m.dropouts.year2, 15);
+    assert.equal(m.dropouts.year3, 15);
+    assert.equal(m.dropouts.year4, 0);
+    assert.equal(m.dropouts.total, 43);
   });
 });
 
@@ -66,7 +68,7 @@ describe("August 2026 — dynamic narrative", () => {
 
   test("Y4 rollover contacts populated from sheets", () => {
     assert.ok(n.y4Rollovers);
-    assert.ok(n.y4Rollovers.count >= august.narrative.y4RolloverCountMin);
+    assert.ok(n.y4Rollovers.count >= 65);
     assert.match(n.y4Rollovers.rangeLabel, /2027/);
   });
 
@@ -77,6 +79,18 @@ describe("August 2026 — dynamic narrative", () => {
 });
 
 describe("August 2026 — chart source data", () => {
+  const y3Chart = {
+    "2026-07": { mri: 1, bd: 2, np: 1, cv: 2 },
+    "2026-08": { mri: 5, bd: 5, np: 7, cv: 7 },
+    "2026-09": { mri: 8, bd: 8, np: 10, cv: 9 },
+    "2026-10": { mri: 3, bd: 3, np: 2, cv: 2 },
+  };
+  const y4Chart = {
+    "2026-07": { bd: 4, np: 4, cv: 5 },
+    "2026-08": { bd: 10, np: 10, cv: 9 },
+    "2026-09": { bd: 2, np: 2, cv: 2 },
+  };
+
   test("Y3 monthly visit series matches Study Details", () => {
     const { labels, series } = ctx.monthlyVisitSeries(2026, 8, [-1, 0, 1, 2], "year3", [
       { key: "mri", field: "mri" },
@@ -85,9 +99,8 @@ describe("August 2026 — chart source data", () => {
       { key: "cv", field: "cv" },
     ]);
     assert.equal(labels.length, 4);
-    const keys = ["2026-07", "2026-08", "2026-09", "2026-10"];
-    keys.forEach((key, idx) => {
-      const expected = august.chart_monthly.year3[key];
+    Object.keys(y3Chart).forEach((key, idx) => {
+      const expected = y3Chart[key];
       assert.equal(series.mri[idx], expected.mri, `Y3 MRI ${key}`);
       assert.equal(series.bd[idx], expected.bd, `Y3 BD ${key}`);
       assert.equal(series.np[idx], expected.np, `Y3 NP ${key}`);
@@ -101,9 +114,8 @@ describe("August 2026 — chart source data", () => {
       { key: "np", field: "np" },
       { key: "cv", field: "cv" },
     ]);
-    const keys = ["2026-07", "2026-08", "2026-09"];
-    keys.forEach((key, idx) => {
-      const expected = august.chart_monthly.year4[key];
+    Object.keys(y4Chart).forEach((key, idx) => {
+      const expected = y4Chart[key];
       assert.equal(series.bd[idx], expected.bd, `Y4 BD ${key}`);
       assert.equal(series.np[idx], expected.np, `Y4 NP ${key}`);
       assert.equal(series.cv[idx], expected.cv, `Y4 CV ${key}`);
@@ -146,6 +158,26 @@ describe("Report metric invariants (any month)", () => {
       assert.ok(m.scheduling.y3InProgress.every((g) => g.count >= 0));
       assert.ok(m.scheduling.y3ToContact.every((g) => g.count >= 0));
       assert.ok(m.scheduling.y4ToContact.every((g) => g.count >= 0));
+    });
+  }
+});
+
+describe("All PDF-validated months — progress snapshots", () => {
+  const months = loadAllMonthExpectations();
+
+  for (const [key, spec] of Object.entries(months)) {
+    test(`${spec.label} uses meeting snapshot for Y3/Y4 completed`, () => {
+      const m = metricsFor(spec.year, spec.month);
+      assert.equal(m.reportSnapshot, key);
+      const y3Expected = spec.metrics.find((row) => row[1] === "y3.completed");
+      const y4Expected = spec.metrics.find((row) => row[1] === "y4.completed");
+      assert.ok(y3Expected, `${spec.label} fixture should include y3.completed`);
+      assert.equal(m.y3.completed, y3Expected[2]);
+      if (y4Expected) {
+        assert.equal(m.y4.completed, y4Expected[2]);
+      } else {
+        assert.equal(m.y4.completed ?? 0, 0);
+      }
     });
   }
 });

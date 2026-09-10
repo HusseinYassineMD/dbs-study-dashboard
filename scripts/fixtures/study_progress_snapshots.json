@@ -1,0 +1,83 @@
+{
+  "_source": "Canonical Study Progress / Executive Summary numbers from team meeting PDFs (Jimena). Meetings were typically held on the last Friday of the month; values reflect the deck at presentation time.",
+  "2026-01": {
+    "baseline": { "enrolled": 200, "completed": 187, "dropped_out_dq": 13, "remaining": 187 },
+    "y2": { "completed": 166, "dropped_out_dq": 14, "remaining": 172 },
+    "y3": { "completed": 67, "dropped_out_dq": 12, "remaining": 163 },
+    "y4": { "completed": 0, "dropped_out_dq": 0, "remaining": 0 },
+    "dropouts": { "baseline": 13, "year2": 14, "year3": 12, "year4": 0, "total": 39 },
+    "y3Components": { "mri": 68, "bd": 67, "np": 68, "cv": 69 },
+    "y4Components": { "bd": 0, "np": 0, "cv": 0 },
+    "futureVisits": { "mri": 17, "bd": 19, "np": 14, "cv": 13 }
+  },
+  "2026-02": {
+    "baseline": { "enrolled": 200, "completed": 187, "dropped_out_dq": 13, "remaining": 187 },
+    "y2": { "completed": 170, "dropped_out_dq": 14, "remaining": 172 },
+    "y3": { "completed": 77, "dropped_out_dq": 12, "remaining": 163 },
+    "y4": { "completed": 0, "dropped_out_dq": 0, "remaining": 0 },
+    "dropouts": { "baseline": 13, "year2": 14, "year3": 12, "year4": 0, "total": 39 },
+    "y3Components": { "mri": 80, "bd": 79, "np": 77, "cv": 75 },
+    "y4Components": { "bd": 0, "np": 0, "cv": 0 },
+    "futureVisits": { "mri": 15, "bd": 16, "np": 17, "cv": 17 }
+  },
+  "2026-03": {
+    "baseline": { "enrolled": 200, "completed": 187, "dropped_out_dq": 13, "remaining": 187 },
+    "y2": { "completed": 171, "dropped_out_dq": 15, "remaining": 172 },
+    "y3": { "completed": 84, "dropped_out_dq": 12, "remaining": 163 },
+    "y4": { "completed": 0, "dropped_out_dq": 0, "remaining": 0 },
+    "dropouts": { "baseline": 13, "year2": 15, "year3": 12, "year4": 0, "total": 40 },
+    "y3Components": { "mri": 84, "bd": 84, "np": 84, "cv": 84 },
+    "y4Components": { "bd": 0, "np": 0, "cv": 0 },
+    "futureVisits": { "mri": 25, "bd": 26, "np": 24, "cv": 24 }
+  },
+  "2026-04": {
+    "baseline": { "enrolled": 200, "completed": 187, "dropped_out_dq": 13, "remaining": 187 },
+    "y2": { "completed": 171, "dropped_out_dq": 15, "remaining": 172 },
+    "y3": { "completed": 90, "dropped_out_dq": 13, "remaining": 163 },
+    "y4": { "completed": 0, "dropped_out_dq": 0, "remaining": 0 },
+    "dropouts": { "baseline": 13, "year2": 15, "year3": 13, "year4": 0, "total": 41 },
+    "y3Components": { "mri": 90, "bd": 92, "np": 96, "cv": 96 },
+    "y4Components": { "bd": 0, "np": 0, "cv": 0 },
+    "futureVisits": { "mri": 21, "bd": 21, "np": 18, "cv": 17 }
+  },
+  "2026-05": {
+    "baseline": { "enrolled": 200, "completed": 187, "dropped_out_dq": 13, "remaining": 187 },
+    "y2": { "completed": 171, "dropped_out_dq": 15, "remaining": 172 },
+    "y3": { "completed": 104, "dropped_out_dq": 15, "remaining": 157 },
+    "y4": { "completed": 5, "dropped_out_dq": 0, "remaining": 157 },
+    "dropouts": { "baseline": 13, "year2": 15, "year3": 15, "year4": 0, "total": 43 },
+    "y3Components": { "mri": 104, "bd": 106, "np": 108, "cv": 108 },
+    "y4Components": { "bd": 5, "np": 5, "cv": 5 },
+    "futureVisits": { "mri": 12, "bd": 22, "np": 20, "cv": 20 }
+  },
+  "2026-06": {
+    "baseline": { "enrolled": 200, "completed": 187, "dropped_out_dq": 13, "remaining": 187 },
+    "y2": { "completed": 171, "dropped_out_dq": 15, "remaining": 172 },
+    "y3": { "completed": 113, "dropped_out_dq": 15, "remaining": 157 },
+    "y4": { "completed": 13, "dropped_out_dq": 0, "remaining": 157 },
+    "dropouts": { "baseline": 13, "year2": 15, "year3": 15, "year4": 0, "total": 43 },
+    "y3Components": { "mri": 112, "bd": 114, "np": 113, "cv": 113, "mriExemptions": 2 },
+    "y4Components": { "bd": 14, "np": 14, "cv": 13 },
+    "futureVisits": { "mri": 7, "bd": 12, "np": 14, "cv": 14 }
+  },
+  "2026-07": {
+    "baseline": { "enrolled": 200, "completed": 187, "dropped_out_dq": 13, "remaining": 187 },
+    "y2": { "completed": 171, "dropped_out_dq": 15, "remaining": 172 },
+    "y3": { "completed": 114, "dropped_out_dq": 15, "remaining": 157 },
+    "y4": { "completed": 18, "dropped_out_dq": 0, "remaining": 157 },
+    "dropouts": { "baseline": 13, "year2": 15, "year3": 15, "year4": 0, "total": 43 },
+    "y3Components": { "mri": 114, "bd": 117, "np": 114, "cv": 115, "mriExemptions": 3 },
+    "y4Components": { "bd": 18, "np": 18, "cv": 19 },
+    "futureVisits": { "mri": 13, "bd": 21, "np": 21, "cv": 20 }
+  },
+  "2026-08": {
+    "baseline": { "enrolled": 200, "completed": 187, "dropped_out_dq": 13, "remaining": 187 },
+    "y2": { "completed": 171, "dropped_out_dq": 15, "remaining": 172 },
+    "y3": { "completed": 120, "dropped_out_dq": 15, "remaining": 157 },
+    "y4": { "completed": 28, "dropped_out_dq": 0, "remaining": 157 },
+    "dropouts": { "baseline": 13, "year2": 15, "year3": 15, "year4": 0, "total": 43 },
+    "y3Components": { "mri": 119, "bd": 122, "np": 121, "cv": 122, "mriExemptions": 3 },
+    "y4Components": { "bd": 28, "np": 28, "cv": 28 },
+    "futureVisits": { "mri": 11, "bd": 13, "np": 14, "cv": 13 }
+  }
+}
