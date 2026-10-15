@@ -37,12 +37,12 @@ jobs:
           else
             HASH="a85c9ab08e5d4218b4b8699aa575844d57b96d3e41a5f29b2a939db7e4bda19d"
           fi
-          cat > dashboard/auth.config.js <<EOF
-window.DBS_AUTH = {
-  username: "${USER}",
-  passwordHash: "${HASH}",
-};
-EOF
+          {
+            echo 'window.DBS_AUTH = {'
+            printf '  username: "%s",\n' "$USER"
+            printf '  passwordHash: "%s",\n' "$HASH"
+            echo '};'
+          } > dashboard/auth.config.js
 
       - name: Upload dashboard
         uses: actions/upload-pages-artifact@v3

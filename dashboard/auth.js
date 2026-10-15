@@ -59,8 +59,13 @@ function setAppVisible(visible) {
 function loadDashboardScripts() {
   if (window.__dbsDashboardScriptsLoaded) return Promise.resolve();
   window.__dbsDashboardScriptsLoaded = true;
-  const v = "20261015c";
-  const urls = [`report.js?v=${v}`, `app.js?v=${v}`];
+  const v = "20261015d";
+  const urls = [
+    "https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js",
+    "https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js",
+    `report.js?v=${v}`,
+    `app.js?v=${v}`,
+  ];
   return urls.reduce(
     (chain, src) =>
       chain.then(
@@ -88,40 +93,47 @@ async function attemptLogin(username, password) {
   return false;
 }
 
+async function handleLoginSubmit(event) {
+  event.preventDefault();
+  const errorEl = document.getElementById("login-error");
+  const submitBtn = document.getElementById("login-submit-btn");
+  if (errorEl) errorEl.textContent = "";
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Signing in…";
+  }
+  try {
+    const user = document.getElementById("login-username")?.value;
+    const pass = document.getElementById("login-password")?.value;
+    const ok = await attemptLogin(user, pass);
+    if (!ok) {
+      if (errorEl) errorEl.textContent = "Incorrect username or password.";
+      return;
+    }
+    await enterDashboard();
+  } catch (err) {
+    console.error(err);
+    if (errorEl) {
+      errorEl.textContent = err?.message || "Sign in failed. Please try again.";
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Sign in";
+    }
+  }
+}
+
 function bindLoginForm() {
   const form = document.getElementById("login-form");
-  const errorEl = document.getElementById("login-error");
-  const submitBtn = form?.querySelector(".login-submit");
+  const submitBtn = document.getElementById("login-submit-btn");
   if (!form) return;
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (errorEl) errorEl.textContent = "";
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Signing in…";
-    }
-    try {
-      const user = document.getElementById("login-username")?.value;
-      const pass = document.getElementById("login-password")?.value;
-      const ok = await attemptLogin(user, pass);
-      if (!ok) {
-        if (errorEl) errorEl.textContent = "Incorrect username or password.";
-        return;
-      }
-      await enterDashboard();
-    } catch (err) {
-      console.error(err);
-      if (errorEl) {
-        errorEl.textContent = err?.message || "Sign in failed. Please try again.";
-      }
-    } finally {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Sign in";
-      }
-    }
-  });
+  form.addEventListener("submit", handleLoginSubmit);
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Sign in";
+  }
 }
 
 async function enterDashboard() {
