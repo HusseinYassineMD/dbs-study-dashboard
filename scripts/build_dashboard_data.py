@@ -14,7 +14,23 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 TRACKER = ROOT / "DBS Tracker.xlsx"
 MEETING = ROOT / "Monthly Meeting Updates.xlsx"
+PT_TRACKER = ROOT / "PT Visit Tracker (DHA_PE4).xlsx"
 OUTPUT = ROOT / "dashboard" / "data.json"
+
+WORKBOOK_SPECS: list[tuple[Path, str, str, str]] = [
+    (TRACKER, "tracker", "DBS Tracker.xlsx", "DBS Tracker"),
+    (MEETING, "meeting", "Monthly Meeting Updates.xlsx", "Monthly Meeting Updates"),
+    (PT_TRACKER, "pt", "PT Visit Tracker (DHA_PE4).xlsx", "PT Visit Tracker (DHA/PE4)"),
+]
+
+
+def resolve_workbook(path: Path, file_name: str) -> Path:
+    if path.exists():
+        return path
+    downloads = Path.home() / "Downloads" / file_name
+    if downloads.exists():
+        return downloads
+    return path
 def normalize_id(value: Any) -> str | None:
     if value is None or (isinstance(value, float) and pd.isna(value)):
         return None
@@ -667,10 +683,13 @@ def parse_raw_sheet(path: Path, sheet: str) -> list[dict[str, Any]]:
 
 def parse_all_raw_sheets() -> dict[str, list[dict[str, Any]]]:
     raw: dict[str, list[dict[str, Any]]] = {}
-    for path, prefix in [(TRACKER, "tracker"), (MEETING, "meeting")]:
-        for sheet in pd.ExcelFile(path).sheet_names:
+    for path, prefix, file_name, _label in WORKBOOK_SPECS:
+        resolved = resolve_workbook(path, file_name)
+        if not resolved.exists():
+            continue
+        for sheet in pd.ExcelFile(resolved).sheet_names:
             key = f"{prefix}::{sheet.strip()}"
-            raw[key] = parse_raw_sheet(path, sheet)
+            raw[key] = parse_raw_sheet(resolved, sheet)
     return raw
 
 
@@ -869,23 +888,74 @@ def build_participant_index(data: dict[str, Any]) -> list[dict[str, Any]]:
 
 def sheet_catalog() -> list[dict[str, str]]:
     catalog = []
-    for path, label in [(TRACKER, "DBS Tracker"), (MEETING, "Monthly Meeting Updates")]:
-        xl = pd.ExcelFile(path)
+    for path, prefix, file_name, label in WORKBOOK_SPECS:
+        resolved = resolve_workbook(path, file_name)
+        if not resolved.exists():
+            continue
+        xl = pd.ExcelFile(resolved)
         for sheet in xl.sheet_names:
-            catalog.append({"workbook": label, "sheet": sheet, "file": path.name})
+            catalog.append(
+                {
+                    "workbook": label,
+                    "workbook_id": prefix,
+                    "sheet": sheet,
+                    "file": file_name,
+                    "raw_key": f"{prefix}::{sheet.strip()}",
+                }
+            )
     return catalog
 
 
+def workbook_inventory(
+    catalog: list[dict[str, str]], raw: dict[str, list[dict[str, Any]]]
+) -> list[dict[str, Any]]:
+    inventory: list[dict[str, Any]] = []
+    for path, prefix, file_name, label in WORKBOOK_SPECS:
+        resolved = resolve_workbook(path, file_name)
+        sheets = [item for item in catalog if item.get("workbook_id") == prefix]
+        sheet_rows = [
+            {
+                "name": item["sheet"],
+                "raw_key": item["raw_key"],
+                "rows": len(raw.get(item["raw_key"], [])),
+            }
+            for item in sheets
+        ]
+        inventory.append(
+            {
+                "id": prefix,
+                "label": label,
+                "file": file_name,
+                "path": str(resolved),
+                "loaded": resolved.exists(),
+                "sheet_count": len(sheet_rows),
+                "total_rows": sum(s["rows"] for s in sheet_rows),
+                "sheets": sheet_rows,
+            }
+        )
+    return inventory
+
+
 def main() -> None:
-    if not TRACKER.exists() or not MEETING.exists():
-        raise FileNotFoundError("Expected both Excel workbooks in project root.")
+    missing = []
+    for path, _prefix, file_name, label in WORKBOOK_SPECS:
+        if not resolve_workbook(path, file_name).exists():
+            missing.append(f"{label} ({file_name})")
+    if missing:
+        raise FileNotFoundError(
+            "Missing workbook(s). Place in project root or ~/Downloads:\n  - " + "\n  - ".join(missing)
+        )
+
+    raw_sheets = parse_all_raw_sheets()
+    catalog = sheet_catalog()
 
     payload: dict[str, Any] = {
         "meta": {
             "title": "Diabetes Brain Study (DBS) Operations Dashboard",
             "subtitle": "Unified view of participant tracking, recruitment, and visit progress",
             "generated_at": datetime.now().isoformat(),
-            "sources": ["DBS Tracker.xlsx", "Monthly Meeting Updates.xlsx"],
+            "sources": [spec[2] for spec in WORKBOOK_SPECS],
+            "workbooks": workbook_inventory(catalog, raw_sheets),
         },
         "study_progress_tracker": parse_study_progress(TRACKER),
         "study_progress_meeting": parse_study_progress(MEETING),
@@ -922,8 +992,8 @@ def main() -> None:
         "uds_id_200": parse_uds_id_200(TRACKER),
         "dq_pts": parse_dq_pts(MEETING),
         "mri_outcomes": parse_mri_outcomes(MEETING),
-        "raw_sheets": parse_all_raw_sheets(),
-        "sheet_catalog": sheet_catalog(),
+        "raw_sheets": raw_sheets,
+        "sheet_catalog": catalog,
     }
 
     payload["participants"] = build_participant_index(payload)

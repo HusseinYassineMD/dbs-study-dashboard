@@ -26,6 +26,24 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Write dashboard auth config
+        env:
+          AUTH_USER: ${{ secrets.DASHBOARD_AUTH_USER }}
+          AUTH_PASS: ${{ secrets.DASHBOARD_AUTH_PASSWORD }}
+        run: |
+          USER="${AUTH_USER:-dbs-operations}"
+          if [ -n "$AUTH_PASS" ]; then
+            HASH=$(printf '%s' "$AUTH_PASS" | sha256sum | awk '{print $1}')
+          else
+            HASH="a85c9ab08e5d4218b4b8699aa575844d57b96d3e41a5f29b2a939db7e4bda19d"
+          fi
+          cat > dashboard/auth.config.js <<EOF
+          window.DBS_AUTH = {
+            username: "${USER}",
+            passwordHash: "${HASH}",
+          };
+          EOF
+
       - name: Upload dashboard
         uses: actions/upload-pages-artifact@v3
         with:

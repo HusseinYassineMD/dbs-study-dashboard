@@ -12,7 +12,13 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 TRACKER = ROOT / "DBS Tracker.xlsx"
 MEETING = ROOT / "Monthly Meeting Updates.xlsx"
+PT_TRACKER = ROOT / "PT Visit Tracker (DHA_PE4).xlsx"
 OUTPUT = ROOT / "dashboard" / "data.json"
+RAW_WORKBOOKS = [
+    (TRACKER, "tracker"),
+    (MEETING, "meeting"),
+    (PT_TRACKER, "pt"),
+]
 
 # August 2026 monthly meeting presentation (canonical for Study Progress KPIs)
 PDF_CANONICAL = {
@@ -192,7 +198,10 @@ def main() -> int:
 
     # 4. Raw sheet backups — every row preserved
     raw_mismatches = 0
-    for path, prefix in [(TRACKER, "tracker"), (MEETING, "meeting")]:
+    for path, prefix in RAW_WORKBOOKS:
+        if not path.exists():
+            warn(f"Raw backup skipped — missing {path.name}")
+            continue
         for sheet in pd.ExcelFile(path).sheet_names:
             df = pd.read_excel(path, sheet_name=sheet, header=None)
             nonempty = len(df[~df.isna().all(axis=1)])

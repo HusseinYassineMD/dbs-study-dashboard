@@ -47,7 +47,11 @@ const sectionCopy = {
   genotype: ["Genotype & Labs", "Diabetes status, AD risk groups, and lab fulfillment"],
   dropouts: ["Dropouts", "Attrition analysis across baseline and follow-up years"],
   "monthly-report": ["Monthly Report", "One-click USC-branded PowerPoint for monthly progress meetings"],
-  "data-explorer": ["Data Explorer", "Browse every sheet loaded from both workbooks"],
+  "source-data": [
+    "Source Workbooks",
+    "DBS Tracker, Monthly Meeting Updates, and PT Visit Tracker — stored and ready in data.json",
+  ],
+  "data-explorer": ["Data Explorer", "Browse every sheet loaded from all workbooks"],
 };
 
 function getPath(obj, path) {
@@ -592,6 +596,79 @@ function renderDropouts() {
   renderTable("yearly-dropouts-table", DATA.dropouts.year_1_to_4);
 }
 
+function renderSourceWorkbooks() {
+  const workbooks = DATA.meta?.workbooks || [];
+  const cardsEl = document.getElementById("workbook-cards");
+  const listEl = document.getElementById("workbook-sheet-list");
+  const previewTitle = document.getElementById("workbook-preview-title");
+  const previewSubtitle = document.getElementById("workbook-preview-subtitle");
+  const sheetTitle = document.getElementById("workbook-sheet-title");
+  const sheetSubtitle = document.getElementById("workbook-sheet-subtitle");
+  if (!cardsEl || !listEl) return;
+
+  if (!workbooks.length) {
+    cardsEl.innerHTML = `<p class="report-preview-note">No workbook inventory in data.json. Run the build script after adding Excel files.</p>`;
+    return;
+  }
+
+  let activeWorkbookId = workbooks[0]?.id;
+
+  const renderSheetList = (workbookId) => {
+    const wb = workbooks.find((w) => w.id === workbookId);
+    if (!wb) return;
+    sheetTitle.textContent = `${wb.label} — sheets`;
+    sheetSubtitle.textContent = `${wb.file} · ${wb.sheet_count} sheets · ${wb.total_rows.toLocaleString()} rows stored`;
+    listEl.innerHTML = (wb.sheets || [])
+      .map(
+        (sheet) => `
+      <button type="button" class="workbook-sheet-item" data-raw-key="${sheet.raw_key}">
+        <span class="workbook-sheet-name">${sheet.name}</span>
+        <span class="workbook-sheet-rows">${sheet.rows.toLocaleString()} rows</span>
+      </button>`
+      )
+      .join("");
+
+    listEl.querySelectorAll(".workbook-sheet-item").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        listEl.querySelectorAll(".workbook-sheet-item").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const rawKey = btn.dataset.rawKey;
+        const rows = DATA.raw_sheets?.[rawKey] || [];
+        previewTitle.textContent = btn.querySelector(".workbook-sheet-name")?.textContent || rawKey;
+        previewSubtitle.textContent = `${rows.length.toLocaleString()} rows in data.json`;
+        renderTable("workbook-preview-table", rows.slice(0, 200));
+      });
+    });
+  };
+
+  cardsEl.innerHTML = workbooks
+    .map(
+      (wb) => `
+    <article class="workbook-card ${wb.loaded ? "loaded" : "missing"}" data-workbook-id="${wb.id}">
+      <h4>${wb.label}</h4>
+      <p class="workbook-file">${wb.file}</p>
+      <dl class="workbook-stats">
+        <div><dt>Sheets</dt><dd>${wb.sheet_count}</dd></div>
+        <div><dt>Rows stored</dt><dd>${wb.total_rows.toLocaleString()}</dd></div>
+        <div><dt>Status</dt><dd>${wb.loaded ? "Ready" : "Missing file"}</dd></div>
+      </dl>
+    </article>`
+    )
+    .join("");
+
+  cardsEl.querySelectorAll(".workbook-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      cardsEl.querySelectorAll(".workbook-card").forEach((c) => c.classList.remove("active"));
+      card.classList.add("active");
+      activeWorkbookId = card.dataset.workbookId;
+      renderSheetList(activeWorkbookId);
+    });
+  });
+
+  cardsEl.querySelector(".workbook-card")?.classList.add("active");
+  renderSheetList(activeWorkbookId);
+}
+
 function renderCatalog() {
   const grid = document.getElementById("catalog-grid");
   const cards = [];
@@ -603,8 +680,14 @@ function renderCatalog() {
   });
 
   (DATA.sheet_catalog || []).forEach((item) => {
-    const prefix = item.workbook === "DBS Tracker" ? "tracker" : "meeting";
-    const rawKey = `${prefix}::${item.sheet.trim()}`;
+    const prefix =
+      item.workbook_id ||
+      (item.workbook === "DBS Tracker"
+        ? "tracker"
+        : item.workbook.startsWith("PT Visit")
+          ? "pt"
+          : "meeting");
+    const rawKey = item.raw_key || `${prefix}::${item.sheet.trim()}`;
     const label = `${item.workbook} > ${item.sheet.trim()} (Complete Raw)`;
     const rows = getDataset(rawKey, "raw");
     cards.push({ label, path: rawKey, type: "raw", count: rows.length });
@@ -662,7 +745,7 @@ function initNavigation() {
 
 async function boot() {
   chartDefaults();
-  const response = await fetch("data.json?v=20260910f");
+  const response = await fetch("data.json?v=20261015b");
   DATA = await response.json();
   window.DATA = DATA;
   document.getElementById("generated-at").textContent = `Updated ${new Date(DATA.meta.generated_at).toLocaleString()}`;
@@ -676,6 +759,7 @@ async function boot() {
   renderGenotype();
   renderDropouts();
   renderReport();
+  renderSourceWorkbooks();
   renderCatalog();
   initNavigation();
 }

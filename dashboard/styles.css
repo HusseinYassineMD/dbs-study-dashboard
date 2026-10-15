@@ -456,6 +456,217 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
   width: 100%;
 }
 
+.login-gate {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at top right, rgba(31, 111, 120, 0.12), transparent 40%),
+    var(--bg);
+}
+
+.login-card {
+  width: min(420px, 100%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  background: var(--surface);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+.login-brand {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.login-brand h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.login-brand p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.login-form {
+  display: grid;
+  gap: 10px;
+}
+
+.login-form label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.login-form input {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 12px;
+  font: inherit;
+  background: #fff;
+}
+
+.login-submit {
+  margin-top: 8px;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  background: var(--teal);
+}
+
+.login-submit:hover {
+  filter: brightness(0.95);
+}
+
+.login-error {
+  min-height: 1.2em;
+  margin: 4px 0 0;
+  color: #b42318;
+  font-size: 0.85rem;
+}
+
+.login-note {
+  margin: 18px 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.sign-out-btn {
+  margin-top: 10px;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: transparent;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.sign-out-btn:hover {
+  border-color: rgba(31, 111, 120, 0.35);
+  color: var(--text);
+}
+
+.workbook-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.workbook-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: var(--surface);
+}
+
+.workbook-card:hover,
+.workbook-card.active {
+  border-color: rgba(31, 111, 120, 0.45);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.workbook-card h4 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+
+.workbook-file {
+  margin: 0 0 14px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  word-break: break-all;
+}
+
+.workbook-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 0;
+}
+
+.workbook-stats dt {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: 0;
+}
+
+.workbook-stats dd {
+  margin: 4px 0 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.workbook-sheet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.workbook-sheet-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  cursor: pointer;
+  font: inherit;
+}
+
+.workbook-sheet-item:hover,
+.workbook-sheet-item.active {
+  border-color: rgba(31, 111, 120, 0.4);
+  background: var(--teal-soft);
+}
+
+.workbook-sheet-name {
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.workbook-sheet-rows {
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.source-refresh-code {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #1e293b;
+  color: #e2e8f0;
+  font-size: 0.85rem;
+  overflow-x: auto;
+}
+
 .catalog-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -490,7 +701,7 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 }
 
 @media (max-width: 1200px) {
-  .kpi-grid, .mini-kpi-grid, .grid-2, .catalog-grid {
+  .kpi-grid, .mini-kpi-grid, .grid-2, .catalog-grid, .workbook-cards {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -501,7 +712,7 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
     position: static;
     height: auto;
   }
-  .kpi-grid, .mini-kpi-grid, .grid-2, .catalog-grid {
+  .kpi-grid, .mini-kpi-grid, .grid-2, .catalog-grid, .workbook-cards {
     grid-template-columns: 1fr;
   }
   .topbar { flex-direction: column; }

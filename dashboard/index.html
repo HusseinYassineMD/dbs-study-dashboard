@@ -9,10 +9,33 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
-  <link rel="stylesheet" href="styles.css?v=20260904n" />
+  <link rel="stylesheet" href="styles.css?v=20261015b" />
 </head>
 <body>
-  <div class="app">
+  <div id="login-gate" class="login-gate">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="brand-mark">DBS</div>
+        <div>
+          <h1>Diabetes Brain Study</h1>
+          <p>Operations Dashboard — team access</p>
+        </div>
+      </div>
+      <form id="login-form" class="login-form" autocomplete="on">
+        <label for="login-username">Username</label>
+        <input id="login-username" name="username" type="text" autocomplete="username" required />
+
+        <label for="login-password">Password</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+
+        <button type="submit" class="login-submit">Sign in</button>
+        <p id="login-error" class="login-error" role="alert"></p>
+      </form>
+      <p class="login-note">Access is limited to authorized study staff. Session lasts 7 days in this browser.</p>
+    </div>
+  </div>
+
+  <div id="app-root" class="app" hidden>
     <aside class="sidebar">
       <div class="brand">
         <div class="brand-mark">DBS</div>
@@ -31,10 +54,12 @@
         <button class="nav-item" data-section="genotype">Genotype & Labs</button>
         <button class="nav-item" data-section="dropouts">Dropouts</button>
         <button class="nav-item" data-section="monthly-report">Monthly Report</button>
+        <button class="nav-item" data-section="source-data">Source Workbooks</button>
         <button class="nav-item" data-section="data-explorer">Data Explorer</button>
       </nav>
       <footer class="sidebar-footer">
         <span id="generated-at">Loading…</span>
+        <button type="button" id="sign-out-btn" class="sign-out-btn">Sign out</button>
       </footer>
     </aside>
 
@@ -67,7 +92,7 @@
         <article class="card">
           <div class="card-header"><h3>About This Dashboard</h3></div>
           <div class="about-copy">
-            <p>This dashboard integrates operational data from <strong>DBS Tracker.xlsx</strong> and <strong>Monthly Meeting Updates.xlsx</strong>, linking every participant record, visit milestone, recruitment source, genotype result, lab request, and dropout event into a single research operations view.</p>
+            <p>This dashboard integrates operational data from <strong>DBS Tracker.xlsx</strong>, <strong>Monthly Meeting Updates.xlsx</strong>, and <strong>PT Visit Tracker (DHA_PE4).xlsx</strong>, linking every participant record, visit milestone, recruitment source, genotype result, lab request, and dropout event into a single research operations view.</p>
             <p>Use the sidebar to explore study progress, participant-level details, clinical workflows, and the full raw data catalog.</p>
           </div>
         </article>
@@ -325,11 +350,44 @@
         </div>
       </section>
 
+      <section id="source-data" class="panel">
+        <article class="card">
+          <div class="card-header">
+            <h3>Source Workbooks</h3>
+            <p>All three Excel files are loaded into <code>dashboard/data.json</code> and ready for reports and exploration</p>
+          </div>
+          <div id="workbook-cards" class="workbook-cards"></div>
+        </article>
+        <div class="grid-2">
+          <article class="card">
+            <div class="card-header">
+              <h3 id="workbook-sheet-title">Sheets</h3>
+              <p id="workbook-sheet-subtitle">Select a workbook above</p>
+            </div>
+            <div id="workbook-sheet-list" class="workbook-sheet-list"></div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <h3 id="workbook-preview-title">Sheet preview</h3>
+              <p id="workbook-preview-subtitle">Click a sheet to view stored rows</p>
+            </div>
+            <div class="table-wrap" id="workbook-preview-table"></div>
+          </article>
+        </div>
+        <article class="card">
+          <div class="card-header">
+            <h3>Refresh data from Excel</h3>
+            <p>After updating any workbook, rebuild the dashboard JSON from the project folder</p>
+          </div>
+          <pre class="source-refresh-code">.venv/bin/python scripts/build_dashboard_data.py</pre>
+        </article>
+      </section>
+
       <section id="data-explorer" class="panel">
         <article class="card">
           <div class="card-header">
             <h3>Complete Data Catalog</h3>
-            <p>Every sheet from both workbooks is loaded into this dashboard</p>
+            <p>Every sheet from all three workbooks is loaded into this dashboard</p>
           </div>
           <div id="catalog-grid" class="catalog-grid"></div>
         </article>
@@ -343,7 +401,7 @@
     </main>
   </div>
 
-  <script src="report.js?v=20260910f"></script>
-  <script src="app.js?v=20260910f"></script>
+  <script src="auth.config.js?v=20261015b"></script>
+  <script src="auth.js?v=20261015b"></script>
 </body>
 </html>
