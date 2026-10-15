@@ -2,7 +2,7 @@
   "meta": {
     "title": "Diabetes Brain Study (DBS) Operations Dashboard",
     "subtitle": "Unified view of participant tracking, recruitment, and visit progress",
-    "generated_at": "2026-10-15T09:55:10.193667",
+    "generated_at": "2026-10-15T14:17:08.829843",
     "sources": [
       "DBS Tracker.xlsx",
       "Monthly Meeting Updates.xlsx",
@@ -246,6 +246,62 @@
             "rows": 4
           }
         ]
+      }
+    ],
+    "scheduling_color_legend": [
+      {
+        "id": "B6D7A8",
+        "label": "Visits scheduled or complete",
+        "needs_outreach": false,
+        "action": "Monitor only — visits are on the calendar"
+      },
+      {
+        "id": "FF0000",
+        "label": "Dropped / not participating",
+        "needs_outreach": false,
+        "action": "Do not contact — confirm dropout in tracker"
+      },
+      {
+        "id": "FFFF00",
+        "label": "Needs outreach",
+        "needs_outreach": true,
+        "action": "Call / text / email to schedule"
+      },
+      {
+        "id": "FFE599",
+        "label": "Scheduling in progress",
+        "needs_outreach": true,
+        "action": "Follow up to confirm visit dates"
+      },
+      {
+        "id": "FFF2CC",
+        "label": "Pending scheduling",
+        "needs_outreach": true,
+        "action": "Begin outreach for this due month"
+      },
+      {
+        "id": "FF9900",
+        "label": "Urgent follow-up",
+        "needs_outreach": true,
+        "action": "Priority call — overdue or hard to reach"
+      },
+      {
+        "id": "D9D2E9",
+        "label": "Year 4 active scheduling",
+        "needs_outreach": true,
+        "action": "Coordinate NP / CV / BD for due month"
+      },
+      {
+        "id": "C9DAF8",
+        "label": "Coordinator follow-up",
+        "needs_outreach": true,
+        "action": "Staff follow-up per scheduling notes"
+      },
+      {
+        "id": "D9D9D9",
+        "label": "Neutral row",
+        "needs_outreach": false,
+        "action": "Use scheduling notes if action needed"
       }
     ]
   },
@@ -44053,7 +44109,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0382"
+      "participant_id": "DBS-0382",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "May",
@@ -44081,7 +44138,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0322"
+      "participant_id": "DBS-0322",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "May",
@@ -44109,7 +44167,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0053"
+      "participant_id": "DBS-0053",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "May",
@@ -44137,7 +44196,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0044"
+      "participant_id": "DBS-0044",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "May",
@@ -44165,7 +44225,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0183"
+      "participant_id": "DBS-0183",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "May",
@@ -44193,7 +44254,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0180"
+      "participant_id": "DBS-0180",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "May",
@@ -44221,7 +44283,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0007"
+      "participant_id": "DBS-0007",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44249,7 +44312,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0419"
+      "participant_id": "DBS-0419",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "June",
@@ -44277,7 +44341,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0404"
+      "participant_id": "DBS-0404",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44305,7 +44370,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0381"
+      "participant_id": "DBS-0381",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44333,7 +44399,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0360"
+      "participant_id": "DBS-0360",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44361,7 +44428,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0352"
+      "participant_id": "DBS-0352",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "June",
@@ -44389,7 +44457,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0299"
+      "participant_id": "DBS-0299",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44417,7 +44486,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0235"
+      "participant_id": "DBS-0235",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44445,7 +44515,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0221"
+      "participant_id": "DBS-0221",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44473,7 +44544,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0169"
+      "participant_id": "DBS-0169",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44501,7 +44573,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0154"
+      "participant_id": "DBS-0154",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44529,7 +44602,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0139"
+      "participant_id": "DBS-0139",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44557,7 +44631,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0073"
+      "participant_id": "DBS-0073",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44585,7 +44660,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0063"
+      "participant_id": "DBS-0063",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44613,7 +44689,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0054"
+      "participant_id": "DBS-0054",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "June",
@@ -44641,7 +44718,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0008"
+      "participant_id": "DBS-0008",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "July",
@@ -44669,7 +44747,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0430"
+      "participant_id": "DBS-0430",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "July",
@@ -44697,7 +44776,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0414"
+      "participant_id": "DBS-0414",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "July",
@@ -44725,7 +44805,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0379"
+      "participant_id": "DBS-0379",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "July",
@@ -44753,7 +44834,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0349"
+      "participant_id": "DBS-0349",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "July",
@@ -44781,7 +44863,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0028"
+      "participant_id": "DBS-0028",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "August",
@@ -44809,7 +44892,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0586"
+      "participant_id": "DBS-0586",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "August",
@@ -44837,7 +44921,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0512"
+      "participant_id": "DBS-0512",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "August",
@@ -44865,7 +44950,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0502"
+      "participant_id": "DBS-0502",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "August",
@@ -44893,7 +44979,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0499"
+      "participant_id": "DBS-0499",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "August",
@@ -44921,7 +45008,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0450"
+      "participant_id": "DBS-0450",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "August",
@@ -44949,7 +45037,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0442"
+      "participant_id": "DBS-0442",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "August",
@@ -44977,7 +45066,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0432"
+      "participant_id": "DBS-0432",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "August",
@@ -45005,7 +45095,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0429"
+      "participant_id": "DBS-0429",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "August",
@@ -45033,7 +45124,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0199"
+      "participant_id": "DBS-0199",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "August",
@@ -45061,7 +45153,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0013"
+      "participant_id": "DBS-0013",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "September",
@@ -45089,7 +45182,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0676"
+      "participant_id": "DBS-0676",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "September",
@@ -45117,7 +45211,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0620"
+      "participant_id": "DBS-0620",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "September",
@@ -45145,7 +45240,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0613"
+      "participant_id": "DBS-0613",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "October",
@@ -45173,7 +45269,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0772"
+      "participant_id": "DBS-0772",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "October",
@@ -45201,7 +45298,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0757"
+      "participant_id": "DBS-0757",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "October",
@@ -45229,7 +45327,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0745"
+      "participant_id": "DBS-0745",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "October",
@@ -45257,7 +45356,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0599"
+      "participant_id": "DBS-0599",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "October",
@@ -45285,7 +45385,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0216"
+      "participant_id": "DBS-0216",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "October",
@@ -45313,7 +45414,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0055"
+      "participant_id": "DBS-0055",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "October",
@@ -45341,7 +45443,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0418"
+      "participant_id": "DBS-0418",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "October",
@@ -45369,7 +45472,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0587"
+      "participant_id": "DBS-0587",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "October",
@@ -45397,7 +45501,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0569"
+      "participant_id": "DBS-0569",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "October",
@@ -45425,7 +45530,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0597"
+      "participant_id": "DBS-0597",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "October",
@@ -45453,7 +45559,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0657"
+      "participant_id": "DBS-0657",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "October",
@@ -45481,7 +45588,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0219"
+      "participant_id": "DBS-0219",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "October",
@@ -45509,7 +45617,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0498"
+      "participant_id": "DBS-0498",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "October",
@@ -45537,7 +45646,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0830"
+      "participant_id": "DBS-0830",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-11-01T00:00:00",
@@ -45565,7 +45675,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0658"
+      "participant_id": "DBS-0658",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-11-01T00:00:00",
@@ -45593,7 +45704,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0741"
+      "participant_id": "DBS-0741",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-11-01T00:00:00",
@@ -45621,7 +45733,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0652"
+      "participant_id": "DBS-0652",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-11-01T00:00:00",
@@ -45649,7 +45762,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0855"
+      "participant_id": "DBS-0855",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-11-01T00:00:00",
@@ -45677,7 +45791,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0790"
+      "participant_id": "DBS-0790",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-11-01T00:00:00",
@@ -45705,7 +45820,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0800"
+      "participant_id": "DBS-0800",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-11-01T00:00:00",
@@ -45733,7 +45849,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0693"
+      "participant_id": "DBS-0693",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-11-01T00:00:00",
@@ -45761,7 +45878,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0614"
+      "participant_id": "DBS-0614",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-11-01T00:00:00",
@@ -45789,7 +45907,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0715"
+      "participant_id": "DBS-0715",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-12-01T00:00:00",
@@ -45817,7 +45936,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0763"
+      "participant_id": "DBS-0763",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-12-01T00:00:00",
@@ -45845,7 +45965,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0617"
+      "participant_id": "DBS-0617",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-12-01T00:00:00",
@@ -45873,7 +45994,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0653"
+      "participant_id": "DBS-0653",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-12-01T00:00:00",
@@ -45901,7 +46023,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0781"
+      "participant_id": "DBS-0781",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "2025-12-01T00:00:00",
@@ -45929,7 +46052,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0805"
+      "participant_id": "DBS-0805",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-12-01T00:00:00",
@@ -45957,7 +46081,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0818"
+      "participant_id": "DBS-0818",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-12-01T00:00:00",
@@ -45985,7 +46110,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0824"
+      "participant_id": "DBS-0824",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-12-01T00:00:00",
@@ -46013,7 +46139,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0879"
+      "participant_id": "DBS-0879",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-12-01T00:00:00",
@@ -46041,7 +46168,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0884"
+      "participant_id": "DBS-0884",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2025-12-01T00:00:00",
@@ -46069,7 +46197,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0756"
+      "participant_id": "DBS-0756",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-01-01T00:00:00",
@@ -46097,7 +46226,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0770"
+      "participant_id": "DBS-0770",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-01-01T00:00:00",
@@ -46125,7 +46255,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0916"
+      "participant_id": "DBS-0916",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-01-01T00:00:00",
@@ -46153,7 +46284,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0935"
+      "participant_id": "DBS-0935",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-01-01T00:00:00",
@@ -46181,7 +46313,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0956"
+      "participant_id": "DBS-0956",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-01-01T00:00:00",
@@ -46209,7 +46342,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0981"
+      "participant_id": "DBS-0981",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-01-01T00:00:00",
@@ -46237,7 +46371,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0843"
+      "participant_id": "DBS-0843",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "2026-01-01T00:00:00",
@@ -46265,7 +46400,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0838"
+      "participant_id": "DBS-0838",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-01-01T00:00:00",
@@ -46293,7 +46429,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0918"
+      "participant_id": "DBS-0918",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-01-01T00:00:00",
@@ -46321,7 +46458,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0878"
+      "participant_id": "DBS-0878",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-01-01T00:00:00",
@@ -46349,7 +46487,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0924"
+      "participant_id": "DBS-0924",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-01-01T00:00:00",
@@ -46377,7 +46516,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0789"
+      "participant_id": "DBS-0789",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-02-01T00:00:00",
@@ -46405,7 +46545,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0987"
+      "participant_id": "DBS-0987",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-02-02T00:00:00",
@@ -46433,7 +46574,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1016"
+      "participant_id": "DBS-1016",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-02-03T00:00:00",
@@ -46461,7 +46603,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0982"
+      "participant_id": "DBS-0982",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-02-04T00:00:00",
@@ -46489,7 +46632,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0971"
+      "participant_id": "DBS-0971",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-02-05T00:00:00",
@@ -46517,7 +46661,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0901"
+      "participant_id": "DBS-0901",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "2026-02-06T00:00:00",
@@ -46545,7 +46690,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0771"
+      "participant_id": "DBS-0771",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-02-07T00:00:00",
@@ -46573,7 +46719,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0798"
+      "participant_id": "DBS-0798",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "2026-02-08T00:00:00",
@@ -46601,7 +46748,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0978"
+      "participant_id": "DBS-0978",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-02-09T00:00:00",
@@ -46629,7 +46777,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0908"
+      "participant_id": "DBS-0908",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-02-10T00:00:00",
@@ -46657,7 +46806,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1019"
+      "participant_id": "DBS-1019",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-02-11T00:00:00",
@@ -46685,7 +46835,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1039"
+      "participant_id": "DBS-1039",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-02-12T00:00:00",
@@ -46713,7 +46864,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1030"
+      "participant_id": "DBS-1030",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-03-01T00:00:00",
@@ -46741,7 +46893,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1071"
+      "participant_id": "DBS-1071",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-03-01T00:00:00",
@@ -46769,7 +46922,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0876"
+      "participant_id": "DBS-0876",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "2026-03-01T00:00:00",
@@ -46797,7 +46951,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0940"
+      "participant_id": "DBS-0940",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-03-01T00:00:00",
@@ -46825,7 +46980,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1000"
+      "participant_id": "DBS-1000",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-03-01T00:00:00",
@@ -46853,7 +47009,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0822"
+      "participant_id": "DBS-0822",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-03-01T00:00:00",
@@ -46881,7 +47038,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1047"
+      "participant_id": "DBS-1047",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-03-01T00:00:00",
@@ -46909,7 +47067,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1008"
+      "participant_id": "DBS-1008",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-04-01T00:00:00",
@@ -46937,7 +47096,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1085"
+      "participant_id": "DBS-1085",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-04-02T00:00:00",
@@ -46965,7 +47125,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1059"
+      "participant_id": "DBS-1059",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-04-03T00:00:00",
@@ -46993,7 +47154,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-0969"
+      "participant_id": "DBS-0969",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-04-04T00:00:00",
@@ -47021,7 +47183,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1076"
+      "participant_id": "DBS-1076",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-04-05T00:00:00",
@@ -47049,7 +47212,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1143"
+      "participant_id": "DBS-1143",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-04-06T00:00:00",
@@ -47077,7 +47241,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1142"
+      "participant_id": "DBS-1142",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-04-07T00:00:00",
@@ -47105,7 +47270,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1152"
+      "participant_id": "DBS-1152",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-04-08T00:00:00",
@@ -47133,7 +47299,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1119"
+      "participant_id": "DBS-1119",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-04-09T00:00:00",
@@ -47161,7 +47328,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1106"
+      "participant_id": "DBS-1106",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-04-10T00:00:00",
@@ -47189,7 +47357,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1134"
+      "participant_id": "DBS-1134",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -47217,7 +47386,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1004"
+      "participant_id": "DBS-1004",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -47245,7 +47415,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1276"
+      "participant_id": "DBS-1276",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -47273,7 +47444,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1231"
+      "participant_id": "DBS-1231",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -47301,7 +47473,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1079"
+      "participant_id": "DBS-1079",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -47329,7 +47502,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1160"
+      "participant_id": "DBS-1160",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -47357,7 +47531,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1009"
+      "participant_id": "DBS-1009",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -47385,7 +47560,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1012"
+      "participant_id": "DBS-1012",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -47413,7 +47589,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1246"
+      "participant_id": "DBS-1246",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -47441,7 +47618,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1263"
+      "participant_id": "DBS-1263",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -47469,7 +47647,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1167"
+      "participant_id": "DBS-1167",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -47497,7 +47676,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1190"
+      "participant_id": "DBS-1190",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-01T00:00:00",
@@ -47525,7 +47705,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1095"
+      "participant_id": "DBS-1095",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-02T00:00:00",
@@ -47553,7 +47734,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1303"
+      "participant_id": "DBS-1303",
+      "tracker_color": "FF0000"
     },
     {
       "Month": "2026-06-03T00:00:00",
@@ -47581,7 +47763,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1202"
+      "participant_id": "DBS-1202",
+      "tracker_color": "FF9900"
     },
     {
       "Month": "2026-06-04T00:00:00",
@@ -47609,7 +47792,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1133"
+      "participant_id": "DBS-1133",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-05T00:00:00",
@@ -47637,7 +47821,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1387"
+      "participant_id": "DBS-1387",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-06T00:00:00",
@@ -47665,7 +47850,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1218"
+      "participant_id": "DBS-1218",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-07T00:00:00",
@@ -47693,7 +47879,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1241"
+      "participant_id": "DBS-1241",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-07-01T00:00:00",
@@ -47721,7 +47908,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1156"
+      "participant_id": "DBS-1156",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-07-01T00:00:00",
@@ -47749,7 +47937,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1347"
+      "participant_id": "DBS-1347",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-07-01T00:00:00",
@@ -47777,7 +47966,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1392"
+      "participant_id": "DBS-1392",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -47805,7 +47995,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1455"
+      "participant_id": "DBS-1455",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -47833,7 +48024,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1187"
+      "participant_id": "DBS-1187",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -47861,7 +48053,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1318"
+      "participant_id": "DBS-1318",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -47889,7 +48082,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1341"
+      "participant_id": "DBS-1341",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -47917,7 +48111,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1388"
+      "participant_id": "DBS-1388",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -47945,7 +48140,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1063"
+      "participant_id": "DBS-1063",
+      "tracker_color": "FF9900"
     },
     {
       "Month": "2026-09-01T00:00:00",
@@ -47973,7 +48169,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1523"
+      "participant_id": "DBS-1523",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-09-01T00:00:00",
@@ -48001,7 +48198,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1373"
+      "participant_id": "DBS-1373",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-09-01T00:00:00",
@@ -48029,7 +48227,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1491"
+      "participant_id": "DBS-1491",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-09-01T00:00:00",
@@ -48057,7 +48256,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1368"
+      "participant_id": "DBS-1368",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-09-01T00:00:00",
@@ -48085,7 +48285,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1396"
+      "participant_id": "DBS-1396",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-09-01T00:00:00",
@@ -48113,7 +48314,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1480"
+      "participant_id": "DBS-1480",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-09-01T00:00:00",
@@ -48141,7 +48343,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1418"
+      "participant_id": "DBS-1418",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-09-01T00:00:00",
@@ -48169,7 +48372,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1530"
+      "participant_id": "DBS-1530",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-10-01T00:00:00",
@@ -48197,7 +48401,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1508"
+      "participant_id": "DBS-1508",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-10-01T00:00:00",
@@ -48225,7 +48430,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1521"
+      "participant_id": "DBS-1521",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -48253,7 +48459,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1605"
+      "participant_id": "DBS-1605",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -48281,7 +48488,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1601"
+      "participant_id": "DBS-1601",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -48309,7 +48517,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1593"
+      "participant_id": "DBS-1593",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -48337,7 +48546,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1575"
+      "participant_id": "DBS-1575",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -48365,7 +48575,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1629"
+      "participant_id": "DBS-1629",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -48393,7 +48604,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1622"
+      "participant_id": "DBS-1622",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -48421,7 +48633,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1579"
+      "participant_id": "DBS-1579",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -48449,7 +48662,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1284"
+      "participant_id": "DBS-1284",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-12-01T00:00:00",
@@ -48477,7 +48691,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1335"
+      "participant_id": "DBS-1335",
+      "tracker_color": "D0E0E3"
     },
     {
       "Month": "2026-12-01T00:00:00",
@@ -48505,7 +48720,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1664"
+      "participant_id": "DBS-1664",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2025-12-06T00:00:00",
@@ -48533,7 +48749,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1619"
+      "participant_id": "DBS-1619",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2027-01-01T00:00:00",
@@ -48561,7 +48778,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1734"
+      "participant_id": "DBS-1734",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2027-01-22T00:00:00",
@@ -48589,7 +48807,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1608"
+      "participant_id": "DBS-1608",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2027-01-01T00:00:00",
@@ -48617,7 +48836,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1674"
+      "participant_id": "DBS-1674",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2027-01-22T00:00:00",
@@ -48645,7 +48865,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1705"
+      "participant_id": "DBS-1705",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2027-01-01T00:00:00",
@@ -48673,7 +48894,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1556"
+      "participant_id": "DBS-1556",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2027-01-22T00:00:00",
@@ -48701,7 +48923,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1662"
+      "participant_id": "DBS-1662",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2027-02-01T00:00:00",
@@ -48729,7 +48952,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1727"
+      "participant_id": "DBS-1727",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2027-02-01T00:00:00",
@@ -48757,7 +48981,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1735"
+      "participant_id": "DBS-1735",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2027-02-01T00:00:00",
@@ -48785,7 +49010,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1695"
+      "participant_id": "DBS-1695",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2027-02-01T00:00:00",
@@ -48813,7 +49039,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1725"
+      "participant_id": "DBS-1725",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2027-02-01T00:00:00",
@@ -48841,7 +49068,8 @@
       "col_22": null,
       "col_23": null,
       "": null,
-      "participant_id": "DBS-1703"
+      "participant_id": "DBS-1703",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "3RD YR COMPLETE",
@@ -48889,7 +49117,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0044"
+      "participant_id": "DBS-0044",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -48907,7 +49136,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0322"
+      "participant_id": "DBS-0322",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -48925,7 +49155,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0007"
+      "participant_id": "DBS-0007",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -48943,7 +49174,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0053"
+      "participant_id": "DBS-0053",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -48961,7 +49193,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0169"
+      "participant_id": "DBS-0169",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-05-01T00:00:00",
@@ -48979,7 +49212,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0073"
+      "participant_id": "DBS-0073",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-01T00:00:00",
@@ -48997,7 +49231,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0360"
+      "participant_id": "DBS-0360",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-01T00:00:00",
@@ -49015,7 +49250,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0054"
+      "participant_id": "DBS-0054",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-01T00:00:00",
@@ -49033,7 +49269,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0154"
+      "participant_id": "DBS-0154",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-01T00:00:00",
@@ -49051,7 +49288,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0221"
+      "participant_id": "DBS-0221",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-01T00:00:00",
@@ -49069,7 +49307,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0008"
+      "participant_id": "DBS-0008",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-01T00:00:00",
@@ -49087,7 +49326,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0235"
+      "participant_id": "DBS-0235",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-01T00:00:00",
@@ -49105,7 +49345,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0299"
+      "participant_id": "DBS-0299",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-06-01T00:00:00",
@@ -49123,7 +49364,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0063"
+      "participant_id": "DBS-0063",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-07-01T00:00:00",
@@ -49141,7 +49383,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0180"
+      "participant_id": "DBS-0180",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-07-01T00:00:00",
@@ -49159,7 +49402,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0028"
+      "participant_id": "DBS-0028",
+      "tracker_color": "FF9900"
     },
     {
       "Month": "2026-07-01T00:00:00",
@@ -49177,7 +49421,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0349"
+      "participant_id": "DBS-0349",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-07-01T00:00:00",
@@ -49195,7 +49440,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0430"
+      "participant_id": "DBS-0430",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-07T00:00:00",
@@ -49213,7 +49459,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0502"
+      "participant_id": "DBS-0502",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -49231,7 +49478,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0442"
+      "participant_id": "DBS-0442",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -49249,7 +49497,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0199"
+      "participant_id": "DBS-0199",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -49267,7 +49516,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0429"
+      "participant_id": "DBS-0429",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -49285,7 +49535,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0381"
+      "participant_id": "DBS-0381",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -49303,7 +49554,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0450"
+      "participant_id": "DBS-0450",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -49321,7 +49573,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0586"
+      "participant_id": "DBS-0586",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -49339,7 +49592,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0499"
+      "participant_id": "DBS-0499",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -49357,7 +49611,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0139"
+      "participant_id": "DBS-0139",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -49375,7 +49630,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0404"
+      "participant_id": "DBS-0404",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -49393,7 +49649,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0512"
+      "participant_id": "DBS-0512",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-08-01T00:00:00",
@@ -49411,7 +49668,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0432"
+      "participant_id": "DBS-0432",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-09-01T00:00:00",
@@ -49429,7 +49687,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0676"
+      "participant_id": "DBS-0676",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-09-01T00:00:00",
@@ -49447,7 +49706,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0772"
+      "participant_id": "DBS-0772",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-09-01T00:00:00",
@@ -49465,7 +49725,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0830"
+      "participant_id": "DBS-0830",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-10-01T00:00:00",
@@ -49483,7 +49744,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0613"
+      "participant_id": "DBS-0613",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-10-01T00:00:00",
@@ -49501,7 +49763,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0620"
+      "participant_id": "DBS-0620",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2026-10-01T00:00:00",
@@ -49519,7 +49782,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0055"
+      "participant_id": "DBS-0055",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-10-01T00:00:00",
@@ -49537,7 +49801,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0569"
+      "participant_id": "DBS-0569",
+      "tracker_color": "B6D7A8"
     },
     {
       "Month": "2026-10-01T00:00:00",
@@ -49555,7 +49820,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0745"
+      "participant_id": "DBS-0745",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-10-01T00:00:00",
@@ -49573,7 +49839,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0587"
+      "participant_id": "DBS-0587",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-10-01T00:00:00",
@@ -49591,7 +49858,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0599"
+      "participant_id": "DBS-0599",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2026-10-01T00:00:00",
@@ -49609,7 +49877,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0657"
+      "participant_id": "DBS-0657",
+      "tracker_color": "FFFF00"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -49627,7 +49896,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0741"
+      "participant_id": "DBS-0741",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -49645,7 +49915,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0216"
+      "participant_id": "DBS-0216",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -49663,7 +49934,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0693"
+      "participant_id": "DBS-0693",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -49681,7 +49953,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0418"
+      "participant_id": "DBS-0418",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -49699,7 +49972,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0790"
+      "participant_id": "DBS-0790",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -49717,7 +49991,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0658"
+      "participant_id": "DBS-0658",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -49735,7 +50010,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0652"
+      "participant_id": "DBS-0652",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2026-11-01T00:00:00",
@@ -49753,7 +50029,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0855"
+      "participant_id": "DBS-0855",
+      "tracker_color": "D9D2E9"
     },
     {
       "Month": "2026-12-01T00:00:00",
@@ -49771,7 +50048,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0805"
+      "participant_id": "DBS-0805",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2026-12-01T00:00:00",
@@ -49789,7 +50067,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0824"
+      "participant_id": "DBS-0824",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2026-12-01T00:00:00",
@@ -49807,7 +50086,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0818"
+      "participant_id": "DBS-0818",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2026-12-01T00:00:00",
@@ -49825,7 +50105,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0614"
+      "participant_id": "DBS-0614",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2026-12-01T00:00:00",
@@ -49843,7 +50124,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0653"
+      "participant_id": "DBS-0653",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2026-12-01T00:00:00",
@@ -49861,7 +50143,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0800"
+      "participant_id": "DBS-0800",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2026-12-01T00:00:00",
@@ -49879,7 +50162,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0884"
+      "participant_id": "DBS-0884",
+      "tracker_color": "C9DAF8"
     },
     {
       "Month": "2026-04-01T00:00:00",
@@ -49897,7 +50181,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-1085"
+      "participant_id": "DBS-1085",
+      "tracker_color": "FFE599"
     },
     {
       "Month": "2026-04-02T00:00:00",
@@ -49915,7 +50200,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-1059"
+      "participant_id": "DBS-1059",
+      "tracker_color": "FFE599"
     },
     {
       "Month": "2026-04-03T00:00:00",
@@ -49933,7 +50219,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-0969"
+      "participant_id": "DBS-0969",
+      "tracker_color": "FFE599"
     },
     {
       "Month": "2026-04-04T00:00:00",
@@ -49951,7 +50238,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-1076"
+      "participant_id": "DBS-1076",
+      "tracker_color": "FFE599"
     },
     {
       "Month": "2026-04-05T00:00:00",
@@ -49969,7 +50257,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-1143"
+      "participant_id": "DBS-1143",
+      "tracker_color": "FFE599"
     },
     {
       "Month": "2026-04-06T00:00:00",
@@ -49987,7 +50276,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-1142"
+      "participant_id": "DBS-1142",
+      "tracker_color": "FFE599"
     },
     {
       "Month": "2026-04-07T00:00:00",
@@ -50005,7 +50295,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-1152"
+      "participant_id": "DBS-1152",
+      "tracker_color": "FFE599"
     },
     {
       "Month": "2026-04-08T00:00:00",
@@ -50023,7 +50314,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-1119"
+      "participant_id": "DBS-1119",
+      "tracker_color": "FFE599"
     },
     {
       "Month": "2026-04-09T00:00:00",
@@ -50041,7 +50333,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-1106"
+      "participant_id": "DBS-1106",
+      "tracker_color": "FFE599"
     },
     {
       "Month": "2026-04-10T00:00:00",
@@ -50059,7 +50352,8 @@
       "col_12": null,
       "col_13": null,
       "": null,
-      "participant_id": "DBS-1134"
+      "participant_id": "DBS-1134",
+      "tracker_color": "FFE599"
     }
   ],
   "pt_status": [
@@ -149040,7 +149334,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0007"
+        "participant_id": "DBS-0007",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-05-01T00:00:00",
@@ -149058,7 +149353,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0007"
+        "participant_id": "DBS-0007",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0007",
@@ -149270,7 +149566,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0008"
+        "participant_id": "DBS-0008",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-06-01T00:00:00",
@@ -149288,7 +149585,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0008"
+        "participant_id": "DBS-0008",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0008",
@@ -149609,7 +149907,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0013"
+        "participant_id": "DBS-0013",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0013",
@@ -149805,7 +150104,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0028"
+        "participant_id": "DBS-0028",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-07-01T00:00:00",
@@ -149823,7 +150123,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0028"
+        "participant_id": "DBS-0028",
+        "tracker_color": "FF9900"
       },
       "clincard": {
         "ID": "DBS-0028",
@@ -150035,7 +150336,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0044"
+        "participant_id": "DBS-0044",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-05-01T00:00:00",
@@ -150053,7 +150355,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0044"
+        "participant_id": "DBS-0044",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0044",
@@ -150275,7 +150578,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0053"
+        "participant_id": "DBS-0053",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-05-01T00:00:00",
@@ -150293,7 +150597,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0053"
+        "participant_id": "DBS-0053",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0053",
@@ -150505,7 +150810,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0054"
+        "participant_id": "DBS-0054",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-06-01T00:00:00",
@@ -150523,7 +150829,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0054"
+        "participant_id": "DBS-0054",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0054",
@@ -150735,7 +151042,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0055"
+        "participant_id": "DBS-0055",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
@@ -150753,7 +151061,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0055"
+        "participant_id": "DBS-0055",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0055",
@@ -151078,7 +151387,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0063"
+        "participant_id": "DBS-0063",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-06-01T00:00:00",
@@ -151096,7 +151406,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0063"
+        "participant_id": "DBS-0063",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0063",
@@ -151318,7 +151629,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0073"
+        "participant_id": "DBS-0073",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-05-01T00:00:00",
@@ -151336,7 +151648,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0073"
+        "participant_id": "DBS-0073",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0073",
@@ -152257,7 +152570,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0139"
+        "participant_id": "DBS-0139",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-08-01T00:00:00",
@@ -152275,7 +152589,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0139"
+        "participant_id": "DBS-0139",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0139",
@@ -152487,7 +152802,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0154"
+        "participant_id": "DBS-0154",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-06-01T00:00:00",
@@ -152505,7 +152821,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0154"
+        "participant_id": "DBS-0154",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0154",
@@ -152727,7 +153044,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0169"
+        "participant_id": "DBS-0169",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-05-01T00:00:00",
@@ -152745,7 +153063,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0169"
+        "participant_id": "DBS-0169",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0169",
@@ -152957,7 +153276,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0180"
+        "participant_id": "DBS-0180",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-07-01T00:00:00",
@@ -152975,7 +153295,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0180"
+        "participant_id": "DBS-0180",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0180",
@@ -153201,7 +153522,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0183"
+        "participant_id": "DBS-0183",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0183",
@@ -153413,7 +153735,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0199"
+        "participant_id": "DBS-0199",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-08-01T00:00:00",
@@ -153431,7 +153754,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0199"
+        "participant_id": "DBS-0199",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0199",
@@ -153753,7 +154077,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0216"
+        "participant_id": "DBS-0216",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
@@ -153771,7 +154096,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0216"
+        "participant_id": "DBS-0216",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-0216",
@@ -153997,7 +154323,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0219"
+        "participant_id": "DBS-0219",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0219",
@@ -154209,7 +154536,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0221"
+        "participant_id": "DBS-0221",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-06-01T00:00:00",
@@ -154227,7 +154555,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0221"
+        "participant_id": "DBS-0221",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0221",
@@ -154439,7 +154768,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0235"
+        "participant_id": "DBS-0235",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-06-01T00:00:00",
@@ -154457,7 +154787,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0235"
+        "participant_id": "DBS-0235",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0235",
@@ -155280,7 +155611,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0299"
+        "participant_id": "DBS-0299",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-06-01T00:00:00",
@@ -155298,7 +155630,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0299"
+        "participant_id": "DBS-0299",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0299",
@@ -155564,7 +155897,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0322"
+        "participant_id": "DBS-0322",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-05-01T00:00:00",
@@ -155582,7 +155916,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0322"
+        "participant_id": "DBS-0322",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0322",
@@ -155990,7 +156325,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0349"
+        "participant_id": "DBS-0349",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-07-01T00:00:00",
@@ -156008,7 +156344,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0349"
+        "participant_id": "DBS-0349",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0349",
@@ -156234,7 +156571,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0352"
+        "participant_id": "DBS-0352",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0352",
@@ -156446,7 +156784,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0360"
+        "participant_id": "DBS-0360",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-06-01T00:00:00",
@@ -156464,7 +156803,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0360"
+        "participant_id": "DBS-0360",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0360",
@@ -156690,7 +157030,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0379"
+        "participant_id": "DBS-0379",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0379",
@@ -156902,7 +157243,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0381"
+        "participant_id": "DBS-0381",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-08-01T00:00:00",
@@ -156920,7 +157262,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0381"
+        "participant_id": "DBS-0381",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0381",
@@ -157146,7 +157489,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0382"
+        "participant_id": "DBS-0382",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0382",
@@ -157376,7 +157720,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0404"
+        "participant_id": "DBS-0404",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-08-01T00:00:00",
@@ -157394,7 +157739,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0404"
+        "participant_id": "DBS-0404",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0404",
@@ -157620,7 +157966,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0414"
+        "participant_id": "DBS-0414",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0414",
@@ -157816,7 +158163,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0418"
+        "participant_id": "DBS-0418",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
@@ -157834,7 +158182,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0418"
+        "participant_id": "DBS-0418",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-0418",
@@ -158060,7 +158409,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0419"
+        "participant_id": "DBS-0419",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0419",
@@ -158290,7 +158640,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0429"
+        "participant_id": "DBS-0429",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-08-01T00:00:00",
@@ -158308,7 +158659,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0429"
+        "participant_id": "DBS-0429",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0429",
@@ -158520,7 +158872,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0430"
+        "participant_id": "DBS-0430",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-07-01T00:00:00",
@@ -158538,7 +158891,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0430"
+        "participant_id": "DBS-0430",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0430",
@@ -158750,7 +159104,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0432"
+        "participant_id": "DBS-0432",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-08-01T00:00:00",
@@ -158768,7 +159123,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0432"
+        "participant_id": "DBS-0432",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0432",
@@ -158982,7 +159338,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0442"
+        "participant_id": "DBS-0442",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-08-01T00:00:00",
@@ -159000,7 +159357,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0442"
+        "participant_id": "DBS-0442",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-0442",
@@ -159212,7 +159570,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0450"
+        "participant_id": "DBS-0450",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-08-01T00:00:00",
@@ -159230,7 +159589,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0450"
+        "participant_id": "DBS-0450",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0450",
@@ -159426,7 +159786,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0498"
+        "participant_id": "DBS-0498",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0498",
@@ -159638,7 +159999,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0499"
+        "participant_id": "DBS-0499",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-08-01T00:00:00",
@@ -159656,7 +160018,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0499"
+        "participant_id": "DBS-0499",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0499",
@@ -159886,7 +160249,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0502"
+        "participant_id": "DBS-0502",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-08-07T00:00:00",
@@ -159904,7 +160268,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0502"
+        "participant_id": "DBS-0502",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0502",
@@ -160134,7 +160499,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0512"
+        "participant_id": "DBS-0512",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-08-01T00:00:00",
@@ -160152,7 +160518,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0512"
+        "participant_id": "DBS-0512",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0512",
@@ -160838,7 +161205,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0569"
+        "participant_id": "DBS-0569",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
@@ -160856,7 +161224,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0569"
+        "participant_id": "DBS-0569",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0569",
@@ -161126,7 +161495,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0586"
+        "participant_id": "DBS-0586",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-08-01T00:00:00",
@@ -161144,7 +161514,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0586"
+        "participant_id": "DBS-0586",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0586",
@@ -161340,7 +161711,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0587"
+        "participant_id": "DBS-0587",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
@@ -161358,7 +161730,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0587"
+        "participant_id": "DBS-0587",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-0587",
@@ -161554,7 +161927,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0597"
+        "participant_id": "DBS-0597",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0597",
@@ -161750,7 +162124,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0599"
+        "participant_id": "DBS-0599",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
@@ -161768,7 +162143,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0599"
+        "participant_id": "DBS-0599",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-0599",
@@ -162093,7 +162469,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0613"
+        "participant_id": "DBS-0613",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
@@ -162111,7 +162488,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0613"
+        "participant_id": "DBS-0613",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0613",
@@ -162307,7 +162685,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0614"
+        "participant_id": "DBS-0614",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-12-01T00:00:00",
@@ -162325,7 +162704,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0614"
+        "participant_id": "DBS-0614",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-0614",
@@ -162521,7 +162901,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0617"
+        "participant_id": "DBS-0617",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0617",
@@ -162717,7 +163098,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0620"
+        "participant_id": "DBS-0620",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
@@ -162735,7 +163117,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0620"
+        "participant_id": "DBS-0620",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-0620",
@@ -162931,7 +163314,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0652"
+        "participant_id": "DBS-0652",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
@@ -162949,7 +163333,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0652"
+        "participant_id": "DBS-0652",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-0652",
@@ -163155,7 +163540,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0653"
+        "participant_id": "DBS-0653",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-12-01T00:00:00",
@@ -163173,7 +163559,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0653"
+        "participant_id": "DBS-0653",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-0653",
@@ -163369,7 +163756,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0657"
+        "participant_id": "DBS-0657",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
@@ -163387,7 +163775,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0657"
+        "participant_id": "DBS-0657",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-0657",
@@ -163583,7 +163972,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0658"
+        "participant_id": "DBS-0658",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
@@ -163601,7 +163991,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0658"
+        "participant_id": "DBS-0658",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-0658",
@@ -163916,7 +164307,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0676"
+        "participant_id": "DBS-0676",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-09-01T00:00:00",
@@ -163934,7 +164326,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0676"
+        "participant_id": "DBS-0676",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0676",
@@ -164148,7 +164541,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0693"
+        "participant_id": "DBS-0693",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
@@ -164166,7 +164560,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0693"
+        "participant_id": "DBS-0693",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-0693",
@@ -164583,7 +164978,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0715"
+        "participant_id": "DBS-0715",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0715",
@@ -165031,7 +165427,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0741"
+        "participant_id": "DBS-0741",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
@@ -165049,7 +165446,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0741"
+        "participant_id": "DBS-0741",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-0741",
@@ -165376,7 +165774,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0745"
+        "participant_id": "DBS-0745",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-10-01T00:00:00",
@@ -165394,7 +165793,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0745"
+        "participant_id": "DBS-0745",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-0745",
@@ -165618,7 +166018,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0756"
+        "participant_id": "DBS-0756",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0756",
@@ -165844,7 +166245,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0757"
+        "participant_id": "DBS-0757",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0757",
@@ -166040,7 +166442,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0763"
+        "participant_id": "DBS-0763",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0763",
@@ -166264,7 +166667,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0770"
+        "participant_id": "DBS-0770",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0770",
@@ -166470,7 +166874,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0771"
+        "participant_id": "DBS-0771",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0771",
@@ -166682,7 +167087,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0772"
+        "participant_id": "DBS-0772",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-09-01T00:00:00",
@@ -166700,7 +167106,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0772"
+        "participant_id": "DBS-0772",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0772",
@@ -167029,7 +167436,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0781"
+        "participant_id": "DBS-0781",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0781",
@@ -167235,7 +167643,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0789"
+        "participant_id": "DBS-0789",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0789",
@@ -167441,7 +167850,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0790"
+        "participant_id": "DBS-0790",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
@@ -167459,7 +167869,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0790"
+        "participant_id": "DBS-0790",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-0790",
@@ -167695,7 +168106,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0798"
+        "participant_id": "DBS-0798",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0798",
@@ -167909,7 +168321,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0800"
+        "participant_id": "DBS-0800",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-12-01T00:00:00",
@@ -167927,7 +168340,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0800"
+        "participant_id": "DBS-0800",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-0800",
@@ -168267,7 +168681,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0805"
+        "participant_id": "DBS-0805",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-12-01T00:00:00",
@@ -168285,7 +168700,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0805"
+        "participant_id": "DBS-0805",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-0805",
@@ -168712,7 +169128,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0818"
+        "participant_id": "DBS-0818",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-12-01T00:00:00",
@@ -168730,7 +169147,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0818"
+        "participant_id": "DBS-0818",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-0818",
@@ -168954,7 +169372,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0822"
+        "participant_id": "DBS-0822",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0822",
@@ -169160,7 +169579,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0824"
+        "participant_id": "DBS-0824",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-12-01T00:00:00",
@@ -169178,7 +169598,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0824"
+        "participant_id": "DBS-0824",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-0824",
@@ -169395,7 +169816,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0830"
+        "participant_id": "DBS-0830",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-09-01T00:00:00",
@@ -169413,7 +169835,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0830"
+        "participant_id": "DBS-0830",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0830",
@@ -169637,7 +170060,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0838"
+        "participant_id": "DBS-0838",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0838",
@@ -169873,7 +170297,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0843"
+        "participant_id": "DBS-0843",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0843",
@@ -170172,7 +170597,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0855"
+        "participant_id": "DBS-0855",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-11-01T00:00:00",
@@ -170190,7 +170616,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0855"
+        "participant_id": "DBS-0855",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-0855",
@@ -170560,7 +170987,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0876"
+        "participant_id": "DBS-0876",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0876",
@@ -170766,7 +171194,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0878"
+        "participant_id": "DBS-0878",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0878",
@@ -170972,7 +171401,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0879"
+        "participant_id": "DBS-0879",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0879",
@@ -171214,7 +171644,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0884"
+        "participant_id": "DBS-0884",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-12-01T00:00:00",
@@ -171232,7 +171663,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0884"
+        "participant_id": "DBS-0884",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-0884",
@@ -171556,7 +171988,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0901"
+        "participant_id": "DBS-0901",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-0901",
@@ -171855,7 +172288,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0908"
+        "participant_id": "DBS-0908",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0908",
@@ -172156,7 +172590,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0916"
+        "participant_id": "DBS-0916",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0916",
@@ -172362,7 +172797,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0918"
+        "participant_id": "DBS-0918",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0918",
@@ -172568,7 +173004,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0924"
+        "participant_id": "DBS-0924",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0924",
@@ -173019,7 +173456,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0935"
+        "participant_id": "DBS-0935",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0935",
@@ -173225,7 +173663,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0940"
+        "participant_id": "DBS-0940",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0940",
@@ -173537,7 +173976,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0956"
+        "participant_id": "DBS-0956",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0956",
@@ -173761,7 +174201,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0969"
+        "participant_id": "DBS-0969",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-04-03T00:00:00",
@@ -173779,7 +174220,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-0969"
+        "participant_id": "DBS-0969",
+        "tracker_color": "FFE599"
       },
       "clincard": {
         "ID": "DBS-0969",
@@ -173985,7 +174427,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0971"
+        "participant_id": "DBS-0971",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0971",
@@ -174181,7 +174624,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0978"
+        "participant_id": "DBS-0978",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0978",
@@ -174405,7 +174849,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0981"
+        "participant_id": "DBS-0981",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0981",
@@ -174611,7 +175056,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0982"
+        "participant_id": "DBS-0982",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0982",
@@ -175010,7 +175456,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-0987"
+        "participant_id": "DBS-0987",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-0987",
@@ -175310,7 +175757,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1000"
+        "participant_id": "DBS-1000",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1000",
@@ -175516,7 +175964,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1004"
+        "participant_id": "DBS-1004",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1004",
@@ -175722,7 +176171,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1008"
+        "participant_id": "DBS-1008",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1008",
@@ -175928,7 +176378,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1009"
+        "participant_id": "DBS-1009",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1009",
@@ -176134,7 +176585,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1012"
+        "participant_id": "DBS-1012",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1012",
@@ -176340,7 +176792,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1016"
+        "participant_id": "DBS-1016",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1016",
@@ -176546,7 +176999,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1019"
+        "participant_id": "DBS-1019",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1019",
@@ -176770,7 +177224,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1030"
+        "participant_id": "DBS-1030",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1030",
@@ -177187,7 +177642,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1039"
+        "participant_id": "DBS-1039",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1039",
@@ -177499,7 +177955,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1047"
+        "participant_id": "DBS-1047",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1047",
@@ -178002,7 +178459,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1059"
+        "participant_id": "DBS-1059",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-04-02T00:00:00",
@@ -178020,7 +178478,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-1059"
+        "participant_id": "DBS-1059",
+        "tracker_color": "FFE599"
       },
       "clincard": {
         "ID": "DBS-1059",
@@ -178208,7 +178667,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1063"
+        "participant_id": "DBS-1063",
+        "tracker_color": "FF9900"
       },
       "clincard": {
         "ID": "DBS-1063",
@@ -178432,7 +178892,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1071"
+        "participant_id": "DBS-1071",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1071",
@@ -178638,7 +179099,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1076"
+        "participant_id": "DBS-1076",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-04-04T00:00:00",
@@ -178656,7 +179118,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-1076"
+        "participant_id": "DBS-1076",
+        "tracker_color": "FFE599"
       },
       "clincard": {
         "ID": "DBS-1076",
@@ -178862,7 +179325,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1079"
+        "participant_id": "DBS-1079",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1079",
@@ -179068,7 +179532,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1085"
+        "participant_id": "DBS-1085",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-04-01T00:00:00",
@@ -179086,7 +179551,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-1085"
+        "participant_id": "DBS-1085",
+        "tracker_color": "FFE599"
       },
       "clincard": {
         "ID": "DBS-1085",
@@ -179495,7 +179961,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1095"
+        "participant_id": "DBS-1095",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1095",
@@ -179974,7 +180441,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1106"
+        "participant_id": "DBS-1106",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-04-09T00:00:00",
@@ -179992,7 +180460,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-1106"
+        "participant_id": "DBS-1106",
+        "tracker_color": "FFE599"
       },
       "clincard": {
         "ID": "DBS-1106",
@@ -180213,7 +180682,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1119"
+        "participant_id": "DBS-1119",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-04-08T00:00:00",
@@ -180231,7 +180701,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-1119"
+        "participant_id": "DBS-1119",
+        "tracker_color": "FFE599"
       },
       "clincard": {
         "ID": "DBS-1119",
@@ -180568,7 +181039,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1133"
+        "participant_id": "DBS-1133",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1133",
@@ -180774,7 +181246,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1134"
+        "participant_id": "DBS-1134",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-04-10T00:00:00",
@@ -180792,7 +181265,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-1134"
+        "participant_id": "DBS-1134",
+        "tracker_color": "FFE599"
       },
       "clincard": {
         "ID": "DBS-1134",
@@ -181192,7 +181666,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1142"
+        "participant_id": "DBS-1142",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-04-06T00:00:00",
@@ -181210,7 +181685,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-1142"
+        "participant_id": "DBS-1142",
+        "tracker_color": "FFE599"
       },
       "clincard": {
         "ID": "DBS-1142",
@@ -181416,7 +181892,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1143"
+        "participant_id": "DBS-1143",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-04-05T00:00:00",
@@ -181434,7 +181911,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-1143"
+        "participant_id": "DBS-1143",
+        "tracker_color": "FFE599"
       },
       "clincard": {
         "ID": "DBS-1143",
@@ -181694,7 +182172,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1152"
+        "participant_id": "DBS-1152",
+        "tracker_color": "B6D7A8"
       },
       "fourth_year_scheduling": {
         "Month": "2026-04-07T00:00:00",
@@ -181712,7 +182191,8 @@
         "col_12": null,
         "col_13": null,
         "": null,
-        "participant_id": "DBS-1152"
+        "participant_id": "DBS-1152",
+        "tracker_color": "FFE599"
       },
       "clincard": {
         "ID": "DBS-1152",
@@ -181913,7 +182393,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1156"
+        "participant_id": "DBS-1156",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-1156",
@@ -182119,7 +182600,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1160"
+        "participant_id": "DBS-1160",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1160",
@@ -182325,7 +182807,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1167"
+        "participant_id": "DBS-1167",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1167",
@@ -182652,7 +183135,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1187"
+        "participant_id": "DBS-1187",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-1187",
@@ -182876,7 +183360,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1190"
+        "participant_id": "DBS-1190",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1190",
@@ -183354,7 +183839,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1202"
+        "participant_id": "DBS-1202",
+        "tracker_color": "FF9900"
       },
       "clincard": {
         "ID": "DBS-1202",
@@ -183585,7 +184071,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1218"
+        "participant_id": "DBS-1218",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1218",
@@ -183916,7 +184403,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1231"
+        "participant_id": "DBS-1231",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1231",
@@ -184225,7 +184713,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1241"
+        "participant_id": "DBS-1241",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1241",
@@ -184544,7 +185033,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1246"
+        "participant_id": "DBS-1246",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1246",
@@ -184881,7 +185371,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1263"
+        "participant_id": "DBS-1263",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1263",
@@ -185087,7 +185578,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1276"
+        "participant_id": "DBS-1276",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1276",
@@ -185275,7 +185767,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1284"
+        "participant_id": "DBS-1284",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-1284",
@@ -185537,7 +186030,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1303"
+        "participant_id": "DBS-1303",
+        "tracker_color": "FF0000"
       },
       "clincard": {
         "ID": "DBS-1303",
@@ -186172,7 +186666,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1318"
+        "participant_id": "DBS-1318",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1318",
@@ -186414,7 +186909,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1335"
+        "participant_id": "DBS-1335",
+        "tracker_color": "D0E0E3"
       },
       "clincard": {
         "ID": "DBS-1335",
@@ -186620,7 +187116,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1341"
+        "participant_id": "DBS-1341",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1341",
@@ -186862,7 +187359,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1347"
+        "participant_id": "DBS-1347",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1347",
@@ -187174,7 +187672,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1368"
+        "participant_id": "DBS-1368",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1368",
@@ -187398,7 +187897,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1373"
+        "participant_id": "DBS-1373",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1373",
@@ -187807,7 +188307,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1387"
+        "participant_id": "DBS-1387",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1387",
@@ -188013,7 +188514,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1388"
+        "participant_id": "DBS-1388",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1388",
@@ -188219,7 +188721,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1392"
+        "participant_id": "DBS-1392",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1392",
@@ -188425,7 +188928,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1396"
+        "participant_id": "DBS-1396",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-1396",
@@ -188978,7 +189482,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1418"
+        "participant_id": "DBS-1418",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1418",
@@ -189348,7 +189853,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1455"
+        "participant_id": "DBS-1455",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1455",
@@ -189843,7 +190349,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1480"
+        "participant_id": "DBS-1480",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1480",
@@ -190103,7 +190610,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1491"
+        "participant_id": "DBS-1491",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1491",
@@ -190922,7 +191430,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1508"
+        "participant_id": "DBS-1508",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-1508",
@@ -191333,7 +191842,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1521"
+        "participant_id": "DBS-1521",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1521",
@@ -191521,7 +192031,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1523"
+        "participant_id": "DBS-1523",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-1523",
@@ -191709,7 +192220,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1530"
+        "participant_id": "DBS-1530",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-1530",
@@ -192251,7 +192763,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1556"
+        "participant_id": "DBS-1556",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-1556",
@@ -192493,7 +193006,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1575"
+        "participant_id": "DBS-1575",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-1575",
@@ -192884,7 +193398,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1579"
+        "participant_id": "DBS-1579",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-1579",
@@ -193116,7 +193631,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1593"
+        "participant_id": "DBS-1593",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-1593",
@@ -193353,7 +193869,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1601"
+        "participant_id": "DBS-1601",
+        "tracker_color": "B6D7A8"
       },
       "clincard": {
         "ID": "DBS-1601",
@@ -193541,7 +194058,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1605"
+        "participant_id": "DBS-1605",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-1605",
@@ -193729,7 +194247,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1608"
+        "participant_id": "DBS-1608",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-1608",
@@ -194005,7 +194524,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1619"
+        "participant_id": "DBS-1619",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-1619",
@@ -194211,7 +194731,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1622"
+        "participant_id": "DBS-1622",
+        "tracker_color": "FFFF00"
       },
       "clincard": {
         "ID": "DBS-1622",
@@ -194611,7 +195132,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1629"
+        "participant_id": "DBS-1629",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-1629",
@@ -195259,7 +195781,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1662"
+        "participant_id": "DBS-1662",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-1662",
@@ -195447,7 +195970,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1664"
+        "participant_id": "DBS-1664",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-1664",
@@ -195653,7 +196177,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1674"
+        "participant_id": "DBS-1674",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-1674",
@@ -196240,7 +196765,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1695"
+        "participant_id": "DBS-1695",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-1695",
@@ -196428,7 +196954,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1703"
+        "participant_id": "DBS-1703",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-1703",
@@ -196616,7 +197143,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1705"
+        "participant_id": "DBS-1705",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-1705",
@@ -196928,7 +197456,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1725"
+        "participant_id": "DBS-1725",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-1725",
@@ -197116,7 +197645,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1727"
+        "participant_id": "DBS-1727",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-1727",
@@ -197392,7 +197922,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1734"
+        "participant_id": "DBS-1734",
+        "tracker_color": "D9D2E9"
       },
       "clincard": {
         "ID": "DBS-1734",
@@ -197580,7 +198111,8 @@
         "col_22": null,
         "col_23": null,
         "": null,
-        "participant_id": "DBS-1735"
+        "participant_id": "DBS-1735",
+        "tracker_color": "C9DAF8"
       },
       "clincard": {
         "ID": "DBS-1735",

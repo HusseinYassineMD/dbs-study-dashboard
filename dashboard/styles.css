@@ -512,6 +512,116 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
   font-weight: 600;
 }
 
+.outreach-hero .card-header p {
+  max-width: 72ch;
+}
+
+.outreach-prep-note {
+  margin: 0 24px 20px;
+  font-size: 0.86rem;
+  color: var(--muted);
+  max-width: 72ch;
+  line-height: 1.5;
+}
+
+.outreach-kpi-grid {
+  margin-bottom: 20px;
+}
+
+.outreach-controls select {
+  min-width: 240px;
+}
+
+.outreach-legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  padding: 0 24px 24px;
+}
+
+.outreach-legend-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.outreach-legend-item.needs-outreach {
+  border-color: rgba(153, 0, 0, 0.18);
+  background: rgba(153, 0, 0, 0.03);
+}
+
+.outreach-legend-item strong {
+  display: block;
+  font-size: 0.88rem;
+  margin-bottom: 4px;
+}
+
+.outreach-legend-item p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.outreach-swatch {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.outreach-swatch.inline {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: -3px;
+  margin-right: 6px;
+  border-radius: 4px;
+}
+
+.outreach-table-wrap {
+  max-height: min(70vh, 720px);
+}
+
+.outreach-table {
+  font-size: 0.84rem;
+}
+
+.outreach-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface);
+}
+
+.outreach-check {
+  width: 44px;
+  text-align: center;
+}
+
+.outreach-notes {
+  max-width: 220px;
+  white-space: normal;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.outreach-table a.id-link {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.outreach-table a.id-link:hover {
+  text-decoration: underline;
+}
+
 .report-preview-wrap {
   margin-top: 0;
   max-height: 640px;

@@ -2130,6 +2130,193 @@ function updateReportPreview() {
   }
 }
 
+const OUTREACH_CATEGORY_META = {
+  y3_in_progress: {
+    label: "Year 3 · In progress",
+    action: "Call / text to finish scheduling visits due soon",
+  },
+  y3_to_contact: {
+    label: "Year 3 · To contact",
+    action: "Start outreach for future due months (per monthly report rules)",
+  },
+  y4_to_contact: {
+    label: "Year 4 · To contact",
+    action: "Schedule Year 4 NP, CV, and BD for listed due month",
+  },
+};
+
+function schedulingColorLegend() {
+  return DATA?.meta?.scheduling_color_legend || [];
+}
+
+function colorLegendEntry(hex) {
+  if (!hex) return null;
+  const key = String(hex).toUpperCase().replace("#", "").slice(-6);
+  return schedulingColorLegend().find((e) => e.id === key) || null;
+}
+
+function extractContactHints(...sources) {
+  const text = sources
+    .flat()
+    .filter((v) => v != null && v !== "")
+    .map((v) => String(v))
+    .join(" ");
+  const email =
+    text.match(/(?:EMAIL:\s*)?([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/i)?.[1] || null;
+  const phone =
+    text.match(/(?:\+1[-.\s]?)?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}/)?.[0] || null;
+  return { email, phone };
+}
+
+function participantSchedulingRow(participantId) {
+  const p = DATA.participants?.[participantId];
+  return (
+    p?.fourth_year_scheduling ||
+    p?.third_year_scheduling ||
+    p?.second_year_scheduling ||
+    p?.baseline_scheduling ||
+    null
+  );
+}
+
+function schedulingNotesSnippet(row, maxLen = 120) {
+  if (!row) return "";
+  const parts = [];
+  Object.entries(row).forEach(([key, val]) => {
+    if (!val || typeof val !== "string") return;
+    if (/date|month|id|participant|col_/i.test(key) && !/notes|scheduling/i.test(key)) return;
+    if (/notes|scheduling/i.test(key)) parts.push(val);
+  });
+  const joined = parts.join(" · ").replace(/\s+/g, " ").trim();
+  if (!joined) return "";
+  return joined.length > maxLen ? `${joined.slice(0, maxLen - 1)}…` : joined;
+}
+
+function flattenSchedulingGroup(groups, category) {
+  const items = [];
+  (groups || []).forEach((group) => {
+    (group.rows || []).forEach((row) => {
+      const participantId = row.participant_id || row.ID;
+      if (!participantId) return;
+      items.push({
+        participant_id: participantId,
+        study_year: category.startsWith("y3") ? 3 : 4,
+        category,
+        due_label: group.label,
+        scheduling_row: row,
+      });
+    });
+  });
+  return items;
+}
+
+/** Outreach month M uses tracker rules as of end of month M−1 (list ready on the 1st). */
+function buildMonthlyOutreachChecklist(outreachYear, outreachMonth) {
+  const prep = addMonths(outreachYear, outreachMonth, -1);
+  const metrics = collectReportMetrics(prep.year, prep.month);
+  const s = metrics.scheduling;
+
+  const raw = [
+    ...flattenSchedulingGroup(s.y3InProgress, "y3_in_progress"),
+    ...flattenSchedulingGroup(s.y3ToContact, "y3_to_contact"),
+    ...flattenSchedulingGroup(s.y4ToContact, "y4_to_contact"),
+  ];
+
+  const byId = new Map();
+  const priority = { y3_in_progress: 0, y4_to_contact: 1, y3_to_contact: 2 };
+  raw.forEach((item) => {
+    const existing = byId.get(item.participant_id);
+    if (!existing || priority[item.category] < priority[existing.category]) {
+      byId.set(item.participant_id, item);
+    }
+  });
+
+  const completedVisits = DATA.completed_visits || {};
+  const items = [...byId.values()]
+    .map((item) => {
+      const row = item.scheduling_row || participantSchedulingRow(item.participant_id) || {};
+      const trackerColor = row.tracker_color || null;
+      const legend = colorLegendEntry(trackerColor);
+      const hints = extractContactHints(
+        row,
+        participantSchedulingRow(item.participant_id),
+        DATA.participants?.[item.participant_id]?.genotype?.["Contact Notes"]
+      );
+      const cv =
+        completedVisits.third_year?.find((r) => r.participant_id === item.participant_id) ||
+        completedVisits.fourth_year?.find((r) => r.participant_id === item.participant_id) ||
+        completedVisits.second_year?.find((r) => r.participant_id === item.participant_id);
+      const staff = row.col_2 || row["Thank you Card?"] || cv?.assigned_to || null;
+      const catMeta = OUTREACH_CATEGORY_META[item.category] || { label: item.category, action: "Contact" };
+      return {
+        participant_id: item.participant_id,
+        study_year: item.study_year,
+        category: item.category,
+        category_label: catMeta.label,
+        action: legend?.action || catMeta.action,
+        due_label: item.due_label,
+        tracker_color: trackerColor,
+        tracker_color_label: legend?.label || (trackerColor ? "Custom color" : "—"),
+        email: hints.email,
+        phone: hints.phone,
+        staff,
+        notes: schedulingNotesSnippet(row),
+        checklist_id: `${item.participant_id}-${item.category}-${item.due_label}`,
+      };
+    })
+    .sort((a, b) => {
+      const cat = (a.category || "").localeCompare(b.category || "");
+      if (cat) return cat;
+      return (a.due_label || "").localeCompare(b.due_label || "") || a.participant_id.localeCompare(b.participant_id);
+    });
+
+  return {
+    outreach_year: outreachYear,
+    outreach_month: outreachMonth,
+    outreach_label: monthLabel(outreachYear, outreachMonth),
+    prepared_from_label: metrics.label,
+    prepared_from_year: prep.year,
+    prepared_from_month: prep.month,
+    generated_at: DATA.meta?.generated_at || null,
+    items,
+    summary: {
+      total: items.length,
+      y3_in_progress: items.filter((i) => i.category === "y3_in_progress").length,
+      y3_to_contact: items.filter((i) => i.category === "y3_to_contact").length,
+      y4_to_contact: items.filter((i) => i.category === "y4_to_contact").length,
+      with_email: items.filter((i) => i.email).length,
+    },
+  };
+}
+
+function defaultOutreachMonth() {
+  const ref = DATA.meta?.generated_at ? new Date(DATA.meta.generated_at) : new Date();
+  if (Number.isNaN(ref.getTime())) {
+    const now = new Date();
+    return addMonths(now.getFullYear(), now.getMonth() + 1, 1);
+  }
+  return addMonths(ref.getFullYear(), ref.getMonth() + 1, 1);
+}
+
+function availableOutreachMonths(count = 14) {
+  const start = defaultOutreachMonth();
+  const months = [];
+  let y = start.year;
+  let m = start.month;
+  for (let i = 0; i < count; i += 1) {
+    months.push({
+      year: y,
+      month: m,
+      label: monthLabel(y, m),
+      key: monthKey(y, m),
+    });
+    const next = addMonths(y, m, 1);
+    y = next.year;
+    m = next.month;
+  }
+  return months;
+}
+
 function renderReport() {
   const select = document.getElementById("report-month-select");
   const months = availableReportMonths();

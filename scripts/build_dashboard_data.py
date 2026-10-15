@@ -572,6 +572,120 @@ def parse_synopsis(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+SCHEDULING_COLOR_LEGEND: list[dict[str, Any]] = [
+    {
+        "id": "B6D7A8",
+        "label": "Visits scheduled or complete",
+        "needs_outreach": False,
+        "action": "Monitor only — visits are on the calendar",
+    },
+    {
+        "id": "FF0000",
+        "label": "Dropped / not participating",
+        "needs_outreach": False,
+        "action": "Do not contact — confirm dropout in tracker",
+    },
+    {
+        "id": "FFFF00",
+        "label": "Needs outreach",
+        "needs_outreach": True,
+        "action": "Call / text / email to schedule",
+    },
+    {
+        "id": "FFE599",
+        "label": "Scheduling in progress",
+        "needs_outreach": True,
+        "action": "Follow up to confirm visit dates",
+    },
+    {
+        "id": "FFF2CC",
+        "label": "Pending scheduling",
+        "needs_outreach": True,
+        "action": "Begin outreach for this due month",
+    },
+    {
+        "id": "FF9900",
+        "label": "Urgent follow-up",
+        "needs_outreach": True,
+        "action": "Priority call — overdue or hard to reach",
+    },
+    {
+        "id": "D9D2E9",
+        "label": "Year 4 active scheduling",
+        "needs_outreach": True,
+        "action": "Coordinate NP / CV / BD for due month",
+    },
+    {
+        "id": "C9DAF8",
+        "label": "Coordinator follow-up",
+        "needs_outreach": True,
+        "action": "Staff follow-up per scheduling notes",
+    },
+    {
+        "id": "D9D9D9",
+        "label": "Neutral row",
+        "needs_outreach": False,
+        "action": "Use scheduling notes if action needed",
+    },
+]
+
+
+def _normalize_excel_fill_rgb(raw: Any) -> str | None:
+    if raw is None:
+        return None
+    rgb = str(raw).upper().replace(" ", "")
+    if rgb in ("00000000", "FFFFFFFF", "000000", "FFFFFF", "NONE", "00FFFFFF"):
+        return None
+    if len(rgb) == 8:
+        return rgb[2:]
+    if len(rgb) == 6:
+        return rgb
+    return None
+
+
+def _cell_fill_rgb(cell: Any) -> str | None:
+    fill = getattr(cell, "fill", None)
+    if not fill or not getattr(fill, "patternType", None):
+        return None
+    fg = getattr(fill, "fgColor", None)
+    if not fg:
+        return None
+    return _normalize_excel_fill_rgb(getattr(fg, "rgb", None))
+
+
+def parse_scheduling_id_colors(path: Path, sheet_name: str) -> dict[str, str]:
+    """ID-column fill colors from 3rd/4th year scheduling sheets (team color code)."""
+    from openpyxl import load_workbook
+
+    if not path.exists():
+        return {}
+    wb = load_workbook(path, data_only=True, read_only=False)
+    if sheet_name not in wb.sheetnames:
+        return {}
+    ws = wb[sheet_name]
+    colors: dict[str, str] = {}
+    for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=1, max_col=3):
+        id_cell = row[1] if len(row) > 1 else None
+        if not id_cell:
+            continue
+        pid = normalize_id(id_cell.value)
+        if not pid:
+            continue
+        color = _cell_fill_rgb(id_cell)
+        if not color and row[0]:
+            color = _cell_fill_rgb(row[0])
+        if color:
+            colors[pid] = color
+    return colors
+
+
+def attach_scheduling_colors(rows: list[dict[str, Any]], color_map: dict[str, str]) -> None:
+    for row in rows:
+        pid = row.get("participant_id")
+        if pid and pid in color_map:
+            row["tracker_color"] = color_map[pid]
+
+
 def parse_scheduling_notes(path: Path, sheet: str, header: int = 1) -> list[dict[str, Any]]:
     df = pd.read_excel(path, sheet_name=sheet, header=None)
     header_row = 0
@@ -995,6 +1109,13 @@ def main() -> None:
         "raw_sheets": raw_sheets,
         "sheet_catalog": catalog,
     }
+
+    y3_colors = parse_scheduling_id_colors(TRACKER, "3rd Yr Scheduling Notes ")
+    y4_colors = parse_scheduling_id_colors(TRACKER, "4th Yr Scheduling Notes")
+    attach_scheduling_colors(payload["third_year_scheduling"], y3_colors)
+    attach_scheduling_colors(payload["fourth_year_scheduling"], y4_colors)
+
+    payload["meta"]["scheduling_color_legend"] = SCHEDULING_COLOR_LEGEND
 
     payload["participants"] = build_participant_index(payload)
 
