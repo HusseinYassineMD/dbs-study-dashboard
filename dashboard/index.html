@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261015d" />
+  <link rel="stylesheet" href="styles.css?v=20261015h" />
 </head>
 <body>
   <div id="login-gate" class="login-gate">
@@ -351,58 +351,72 @@
         </div>
       </section>
 
-      <section id="source-data" class="panel">
-        <article class="card workbook-viz-hero">
-          <div class="card-header">
-            <h3>Source Workbooks — full picture</h3>
-            <p>How your three Excel files flow into <code>data.json</code> and power each part of this dashboard</p>
+      <section id="source-data" class="panel source-panel">
+        <header class="source-hero">
+          <div class="source-hero-copy">
+            <p class="source-hero-eyebrow">Data architecture</p>
+            <h3 class="source-hero-title">Three workbooks → one dashboard</h3>
+            <p class="source-hero-lead">Every chart and report starts as Excel on your machine, is unified into <code>data.json</code>, then powers the views in the left sidebar.</p>
           </div>
           <div id="workbook-viz-stats" class="workbook-viz-stats"></div>
+        </header>
+
+        <article class="card source-flow-card">
+          <div class="card-header">
+            <h3>End-to-end flow</h3>
+            <p>Follow the path from source files to what you see on screen</p>
+          </div>
           <div id="workbook-pipeline" class="workbook-pipeline"></div>
+        </article>
+
+        <article class="card source-hub-card">
+          <div class="card-header">
+            <h3>Workbook roles &amp; dashboard links</h3>
+            <p>Each file has a job — click a section pill to open that view, or explore sheets below</p>
+          </div>
           <div id="workbook-flow-map" class="workbook-flow-map"></div>
         </article>
-        <article class="card">
+
+        <article class="card source-metrics-card">
           <div class="card-header">
             <h3>By the numbers</h3>
-            <p>Share of stored rows and sheets across workbooks</p>
+            <p>Row and sheet volume across your three files</p>
           </div>
           <div class="workbook-charts-grid">
             <div class="workbook-chart-box">
               <h4>Rows stored</h4>
-              <p class="workbook-chart-caption">How much data from each Excel file is in <code>data.json</code></p>
               <div id="workbook-rows-summary" class="workbook-chart-summary"></div>
-              <canvas id="workbook-rows-donut" height="220"></canvas>
+              <div class="workbook-chart-canvas"><canvas id="workbook-rows-donut"></canvas></div>
             </div>
             <div class="workbook-chart-box">
               <h4>Sheet count</h4>
-              <p class="workbook-chart-caption">Number of tabs per workbook</p>
               <div id="workbook-sheets-summary" class="workbook-chart-summary"></div>
-              <canvas id="workbook-sheets-bar" height="220"></canvas>
+              <div class="workbook-chart-canvas"><canvas id="workbook-sheets-bar"></canvas></div>
             </div>
           </div>
-          <div class="workbook-chart-box workbook-chart-wide">
-            <h4>Largest sheets (all workbooks)</h4>
-            <p class="workbook-chart-caption">Biggest tabs by row count across all three files</p>
-            <div id="workbook-top-sheets-summary" class="workbook-chart-summary"></div>
-            <canvas id="workbook-top-sheets-bar" height="320"></canvas>
-          </div>
-          <div class="workbook-chart-box workbook-chart-wide">
-            <h4 id="workbook-sheet-breakdown-title">Sheets in selected workbook</h4>
-            <p class="workbook-chart-caption">Updates when you click a workbook card below</p>
-            <div id="workbook-breakdown-summary" class="workbook-chart-summary"></div>
-            <canvas id="workbook-sheet-breakdown-bar" height="280"></canvas>
+          <div class="workbook-metrics-split">
+            <div class="workbook-chart-box">
+              <h4>Largest sheets</h4>
+              <div id="workbook-top-sheets-summary" class="workbook-chart-summary"></div>
+              <div class="workbook-chart-canvas workbook-chart-canvas-tall"><canvas id="workbook-top-sheets-bar"></canvas></div>
+            </div>
+            <div class="workbook-chart-box">
+              <h4 id="workbook-sheet-breakdown-title">Selected workbook</h4>
+              <div id="workbook-breakdown-summary" class="workbook-chart-summary"></div>
+              <div class="workbook-chart-canvas workbook-chart-canvas-tall"><canvas id="workbook-sheet-breakdown-bar"></canvas></div>
+            </div>
           </div>
         </article>
-        <article class="card">
+
+        <article class="card source-explorer-card">
           <div class="card-header">
-            <h3>What each file is for</h3>
-            <p>Plain-language roles and which sidebar sections they feed</p>
+            <h3>Explore &amp; preview</h3>
+            <p>Choose a workbook, pick a sheet, inspect up to 200 rows from the stored copy</p>
           </div>
-          <div id="workbook-intro" class="workbook-intro" hidden></div>
-          <h4 class="workbook-cards-heading">Select a workbook to explore sheets</h4>
           <div id="workbook-cards" class="workbook-cards"></div>
         </article>
-        <div class="grid-2">
+
+        <div class="grid-2 source-preview-grid">
           <article class="card">
             <div class="card-header">
               <h3 id="workbook-sheet-title">Sheets</h3>
@@ -418,10 +432,11 @@
             <div class="table-wrap" id="workbook-preview-table"></div>
           </article>
         </div>
-        <article class="card">
+
+        <article class="card source-refresh-card">
           <div class="card-header">
-            <h3>Refresh data from Excel</h3>
-            <p>After updating any workbook, rebuild the dashboard JSON from the project folder</p>
+            <h3>Update from Excel</h3>
+            <p>After editing any workbook, rebuild <code>data.json</code> from the project folder</p>
           </div>
           <pre class="source-refresh-code">.venv/bin/python scripts/build_dashboard_data.py</pre>
         </article>

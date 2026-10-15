@@ -49,7 +49,7 @@ const sectionCopy = {
   "monthly-report": ["Monthly Report", "One-click USC-branded PowerPoint for monthly progress meetings"],
   "source-data": [
     "Source Workbooks",
-    "Pipeline diagram, charts, and sheet previews for all three Excel files",
+    "End-to-end flow from Excel → data.json → every dashboard view",
   ],
   "data-explorer": ["Data Explorer", "Browse every sheet loaded from all workbooks"],
 };
@@ -639,6 +639,10 @@ function navigateToSection(sectionId) {
   if (btn) btn.click();
 }
 
+const WB_FLOW_CHEVRON = `<span class="wb-journey-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>`;
+
+const WORKBOOK_INDEX = { tracker: "01", meeting: "02", pt: "03" };
+
 function renderWorkbookVizStats(workbooks) {
   const el = document.getElementById("workbook-viz-stats");
   if (!el) return;
@@ -648,80 +652,112 @@ function renderWorkbookVizStats(workbooks) {
     ? new Date(DATA.meta.generated_at).toLocaleString()
     : "—";
   el.innerHTML = `
-    <div class="wb-stat"><span class="wb-stat-value">3</span><span class="wb-stat-label">Excel workbooks</span></div>
-    <div class="wb-stat"><span class="wb-stat-value">${totalSheets}</span><span class="wb-stat-label">Sheets in JSON</span></div>
-    <div class="wb-stat"><span class="wb-stat-value">${totalRows.toLocaleString()}</span><span class="wb-stat-label">Rows stored</span></div>
-    <div class="wb-stat wb-stat-wide"><span class="wb-stat-value wb-stat-sm">${updated}</span><span class="wb-stat-label">Last rebuild</span></div>`;
+    <div class="wb-stat"><span class="wb-stat-value">3</span><span class="wb-stat-label">Workbooks</span></div>
+    <div class="wb-stat"><span class="wb-stat-value">${totalSheets}</span><span class="wb-stat-label">Sheets</span></div>
+    <div class="wb-stat"><span class="wb-stat-value">${totalRows.toLocaleString()}</span><span class="wb-stat-label">Rows</span></div>
+    <div class="wb-stat wb-stat-time"><span class="wb-stat-value wb-stat-sm">${updated}</span><span class="wb-stat-label">Rebuilt</span></div>`;
 }
 
 function renderWorkbookPipeline(workbooks) {
   const el = document.getElementById("workbook-pipeline");
   if (!el) return;
+  const excelCards = workbooks
+    .map((wb) => {
+      const guide = WORKBOOK_GUIDE[wb.id] || {};
+      return `
+        <div class="wb-journey-excel" style="--wb-accent: ${guide.color || "var(--teal)"}">
+          <span class="wb-journey-excel-icon">XLS</span>
+          <strong>${wb.label}</strong>
+          <span>${wb.sheet_count} sheets · ${wb.total_rows.toLocaleString()} rows</span>
+        </div>`;
+    })
+    .join("");
+
+  const dashPills = [
+    "Overview",
+    "Study Progress",
+    "Monthly Report",
+    "Visits",
+    "Participants",
+    "Data Explorer",
+  ]
+    .map((label) => `<span class="wb-journey-dash-pill">${label}</span>`)
+    .join("");
+
   el.innerHTML = `
-    <div class="wb-pipeline">
-      <div class="wb-pipeline-label">Your Excel files (project root)</div>
-      <div class="wb-pipeline-row wb-pipeline-sources">
-        ${workbooks
-          .map((wb) => {
-            const guide = WORKBOOK_GUIDE[wb.id] || {};
-            return `
-          <div class="wb-pipeline-node wb-pipeline-excel" style="--wb-accent: ${guide.color || "var(--teal)"}">
-            <span class="wb-pipeline-icon">XLS</span>
-            <strong>${wb.label}</strong>
-            <span class="wb-pipeline-meta">${wb.sheet_count} sheets · ${wb.total_rows.toLocaleString()} rows</span>
-          </div>`;
-          })
-          .join("")}
-      </div>
-      <div class="wb-pipeline-arrow" aria-hidden="true"></div>
-      <div class="wb-pipeline-node wb-pipeline-script">
-        <span class="wb-pipeline-icon">PY</span>
-        <strong>build_dashboard_data.py</strong>
-        <span class="wb-pipeline-meta">Reads every sheet → unified JSON</span>
-      </div>
-      <div class="wb-pipeline-arrow" aria-hidden="true"></div>
-      <div class="wb-pipeline-node wb-pipeline-json">
-        <span class="wb-pipeline-icon">{ }</span>
-        <strong>dashboard / data.json</strong>
-        <span class="wb-pipeline-meta">Structured metrics + raw_sheets archive</span>
-      </div>
-      <div class="wb-pipeline-arrow" aria-hidden="true"></div>
-      <div class="wb-pipeline-node wb-pipeline-app">
-        <span class="wb-pipeline-icon">DBS</span>
-        <strong>Operations Dashboard</strong>
-        <span class="wb-pipeline-meta">Charts, tables, monthly PowerPoint</span>
-      </div>
-    </div>`;
+    <ol class="wb-journey">
+      <li class="wb-journey-step wb-journey-step-sources">
+        <div class="wb-journey-step-label"><span>1</span> Source Excel</div>
+        <div class="wb-journey-excels">${excelCards}</div>
+      </li>
+      ${WB_FLOW_CHEVRON}
+      <li class="wb-journey-step">
+        <div class="wb-journey-step-label"><span>2</span> Build</div>
+        <div class="wb-journey-node wb-journey-node-build">
+          <span class="wb-journey-node-icon">PY</span>
+          <strong>build_dashboard_data.py</strong>
+          <p>Parse every tab from all three files</p>
+        </div>
+      </li>
+      ${WB_FLOW_CHEVRON}
+      <li class="wb-journey-step">
+        <div class="wb-journey-step-label"><span>3</span> Store</div>
+        <div class="wb-journey-node wb-journey-node-store">
+          <span class="wb-journey-node-icon">{ }</span>
+          <strong>data.json</strong>
+          <p>Metrics for charts + full raw_sheets archive</p>
+        </div>
+      </li>
+      ${WB_FLOW_CHEVRON}
+      <li class="wb-journey-step wb-journey-step-dash">
+        <div class="wb-journey-step-label"><span>4</span> Dashboard</div>
+        <div class="wb-journey-node wb-journey-node-dash">
+          <span class="wb-journey-node-icon">DBS</span>
+          <strong>Operations views</strong>
+          <div class="wb-journey-dash-pills">${dashPills}</div>
+        </div>
+      </li>
+    </ol>`;
 }
 
 function renderWorkbookFlowMap(workbooks, activeWorkbookId) {
   const el = document.getElementById("workbook-flow-map");
   if (!el) return;
   el.innerHTML = `
-    <h4 class="wb-flow-heading">Which workbook powers which sidebar section</h4>
-    <p class="wb-flow-sub">Click a section pill to jump there. Click a workbook column to focus sheet previews below.</p>
-    <div class="wb-flow-grid">
+    <div class="wb-hub-grid">
       ${workbooks
         .map((wb) => {
           const guide = WORKBOOK_GUIDE[wb.id] || {};
-          const active = wb.id === activeWorkbookId ? " active" : "";
+          const active = wb.id === activeWorkbookId ? " is-active" : "";
           return `
-        <div class="wb-flow-col${active}" data-workbook-id="${wb.id}" style="--wb-accent: ${guide.color || "var(--teal)"}">
-          <button type="button" class="wb-flow-source" data-workbook-id="${wb.id}">
-            <span class="wb-flow-source-tag">Workbook</span>
-            <strong>${wb.label}</strong>
-            <span>${wb.file}</span>
-          </button>
-          <div class="wb-flow-connector" aria-hidden="true"></div>
-          <div class="wb-flow-targets">
-            ${(guide.feeds || [])
-              .map(
-                (f) =>
-                  `<button type="button" class="wb-flow-pill" data-section="${f.section}">${f.label}</button>`
-              )
-              .join("")}
+        <article class="wb-hub-card${active}" data-workbook-id="${wb.id}" style="--wb-accent: ${guide.color || "var(--teal)"}">
+          <header class="wb-hub-head">
+            <span class="wb-hub-index">${WORKBOOK_INDEX[wb.id] || "—"}</span>
+            <div>
+              <h4>${wb.label}</h4>
+              <p>${guide.short || ""}</p>
+            </div>
+          </header>
+          <p class="wb-hub-file">${wb.file}</p>
+          <p class="wb-hub-desc">${guide.description || ""}</p>
+          <div class="wb-hub-metrics">
+            <span><strong>${wb.sheet_count}</strong> sheets</span>
+            <span><strong>${wb.total_rows.toLocaleString()}</strong> rows</span>
+            <span class="wb-hub-status">${wb.loaded ? "Ready" : "Missing"}</span>
           </div>
-        </div>`;
+          <div class="wb-hub-powers">
+            <span class="wb-hub-powers-label">Opens in sidebar</span>
+            <div class="wb-hub-pills">
+              ${(guide.feeds || [])
+                .map(
+                  (f) =>
+                    `<button type="button" class="wb-flow-pill" data-section="${f.section}">${f.label}</button>`
+                )
+                .join("")}
+            </div>
+          </div>
+          <button type="button" class="wb-hub-explore" data-workbook-id="${wb.id}">Preview sheets below</button>
+        </article>`;
         })
         .join("")}
     </div>`;
@@ -733,13 +769,35 @@ function renderWorkbookFlowMap(workbooks, activeWorkbookId) {
     });
   });
 
-  el.querySelectorAll(".wb-flow-source").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.workbookId;
-      document.querySelector(`.workbook-card[data-workbook-id="${id}"]`)?.click();
-      document.getElementById("workbook-cards")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  const focusWorkbook = (id) => {
+    document.querySelector(`.workbook-card[data-workbook-id="${id}"]`)?.click();
+    document.querySelector(".source-explorer-card")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  el.querySelectorAll(".wb-hub-explore").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      focusWorkbook(btn.dataset.workbookId);
     });
   });
+
+  el.querySelectorAll(".wb-hub-card").forEach((card) => {
+    card.addEventListener("click", (e) => {
+      if (e.target.closest(".wb-flow-pill") || e.target.closest(".wb-hub-explore")) return;
+      focusWorkbook(card.dataset.workbookId);
+    });
+  });
+}
+
+function wbMeter(label, valueText, pct, color) {
+  return `
+    <div class="wb-meter" style="--wb-accent: ${color}">
+      <div class="wb-meter-top">
+        <span class="wb-meter-label">${label}</span>
+        <span class="wb-meter-value">${valueText}</span>
+      </div>
+      <div class="wb-meter-track"><div class="wb-meter-fill" style="width: ${pct}%"></div></div>
+    </div>`;
 }
 
 function workbookChartAreaReady(canvasId) {
@@ -756,12 +814,19 @@ function renderWorkbookNumericSummary(workbooks) {
   const topEl = document.getElementById("workbook-top-sheets-summary");
   const breakdownEl = document.getElementById("workbook-breakdown-summary");
 
+  const maxSheets = Math.max(...workbooks.map((w) => w.sheet_count), 1);
+
   if (rowsEl) {
     rowsEl.innerHTML = workbooks
       .map((wb) => {
-        const pct = ((wb.total_rows / totalRows) * 100).toFixed(1);
+        const pct = (wb.total_rows / totalRows) * 100;
         const color = (WORKBOOK_GUIDE[wb.id] || {}).color || "#1f6f78";
-        return `<div class="wb-num-row"><span class="wb-num-label" style="--wb-accent:${color}">${wb.label}</span><span class="wb-num-bar" style="width:${pct}%;background:${color}"></span><span class="wb-num-value">${wb.total_rows.toLocaleString()} (${pct}%)</span></div>`;
+        return wbMeter(
+          wb.label.replace(" (DHA/PE4)", ""),
+          `${wb.total_rows.toLocaleString()} (${pct.toFixed(1)}%)`,
+          pct,
+          color
+        );
       })
       .join("");
   }
@@ -769,8 +834,9 @@ function renderWorkbookNumericSummary(workbooks) {
   if (sheetsEl) {
     sheetsEl.innerHTML = workbooks
       .map((wb) => {
+        const pct = (wb.sheet_count / maxSheets) * 100;
         const color = (WORKBOOK_GUIDE[wb.id] || {}).color || "#1f6f78";
-        return `<div class="wb-num-row wb-num-row-compact"><span class="wb-num-label" style="--wb-accent:${color}">${wb.label.replace(" (DHA/PE4)", "")}</span><span class="wb-num-value">${wb.sheet_count} sheets</span></div>`;
+        return wbMeter(wb.label.replace(" (DHA/PE4)", ""), `${wb.sheet_count} sheets`, pct, color);
       })
       .join("");
   }
@@ -780,12 +846,18 @@ function renderWorkbookNumericSummary(workbooks) {
   );
   allSheets.sort((a, b) => b.rows - a.rows);
 
+  const maxRow = Math.max(...allSheets.map((s) => s.rows), 1);
+
   if (topEl) {
     topEl.innerHTML = allSheets
-      .slice(0, 8)
-      .map(
-        (s) =>
-          `<div class="wb-num-row wb-num-row-compact"><span class="wb-num-label">${s.name}</span><span class="wb-num-value">${s.rows.toLocaleString()} rows · ${s.workbook.split(" ")[0]}</span></div>`
+      .slice(0, 6)
+      .map((s) =>
+        wbMeter(
+          s.name,
+          `${s.rows.toLocaleString()} · ${s.workbook.split(" ")[0]}`,
+          (s.rows / maxRow) * 100,
+          s.color || "#1f6f78"
+        )
       )
       .join("");
   }
@@ -795,12 +867,11 @@ function renderWorkbookNumericSummary(workbooks) {
       document.querySelector(".workbook-card.active")?.dataset.workbookId || workbooks[0]?.id;
     const wb = workbooks.find((w) => w.id === activeId) || workbooks[0];
     const color = (WORKBOOK_GUIDE[wb?.id] || {}).color || "#1f6f78";
-    breakdownEl.innerHTML = (wb?.sheets || [])
-      .slice()
-      .sort((a, b) => b.rows - a.rows)
-      .map(
-        (s) =>
-          `<div class="wb-num-row wb-num-row-compact"><span class="wb-num-label" style="--wb-accent:${color}">${s.name}</span><span class="wb-num-value">${s.rows.toLocaleString()} rows</span></div>`
+    const sheets = (wb?.sheets || []).slice().sort((a, b) => b.rows - a.rows);
+    const maxWb = Math.max(...sheets.map((s) => s.rows), 1);
+    breakdownEl.innerHTML = sheets
+      .map((s) =>
+        wbMeter(s.name, `${s.rows.toLocaleString()} rows`, (s.rows / maxWb) * 100, color)
       )
       .join("");
   }
@@ -882,6 +953,7 @@ function renderWorkbookCharts(workbooks) {
   ["workbook-rows-donut", "workbook-sheets-bar", "workbook-top-sheets-bar"].forEach((id) => {
     charts[id]?.resize();
   });
+  document.getElementById("source-data")?.classList.add("charts-painted");
   return true;
 }
 
@@ -939,7 +1011,6 @@ function scheduleWorkbookChartRefresh() {
 function renderSourceWorkbooks() {
   const workbooks = DATA.meta?.workbooks || [];
   workbookVizCache = workbooks;
-  const introEl = document.getElementById("workbook-intro");
   const cardsEl = document.getElementById("workbook-cards");
   const listEl = document.getElementById("workbook-sheet-list");
   const previewTitle = document.getElementById("workbook-preview-title");
@@ -949,7 +1020,6 @@ function renderSourceWorkbooks() {
   if (!cardsEl || !listEl) return;
 
   if (!workbooks.length) {
-    if (introEl) introEl.hidden = true;
     cardsEl.innerHTML = `<p class="report-preview-note">No workbook inventory in data.json. Run the build script after adding Excel files.</p>`;
     return;
   }
@@ -960,32 +1030,6 @@ function renderSourceWorkbooks() {
   renderWorkbookPipeline(workbooks);
   renderWorkbookNumericSummary(workbooks);
   renderWorkbookFlowMap(workbooks, activeWorkbookId);
-
-  if (introEl) {
-    introEl.hidden = false;
-    introEl.innerHTML = `
-      <div class="workbook-intro-grid">
-        ${workbooks
-          .map((wb) => {
-            const guide = WORKBOOK_GUIDE[wb.id] || {};
-            return `
-          <div class="workbook-intro-item" style="--wb-accent: ${guide.color || "var(--teal)"}">
-            <span class="workbook-intro-step">${wb.id === "tracker" ? "1" : wb.id === "meeting" ? "2" : "3"}</span>
-            <h4>${wb.label}</h4>
-            <p class="workbook-intro-file">${wb.file}</p>
-            <p class="workbook-intro-tagline">${guide.short || ""}</p>
-            <p class="workbook-intro-desc">${guide.description || ""}</p>
-            ${
-              guide.feeds?.length
-                ? `<ul class="workbook-intro-feeds">${guide.feeds.map((f) => `<li>${f.label}</li>`).join("")}</ul>`
-                : ""
-            }
-          </div>`;
-          })
-          .join("")}
-      </div>
-      <p class="workbook-intro-hint">Click a card below to browse sheets and preview up to 200 rows stored in <code>data.json</code>.</p>`;
-  }
 
   const renderSheetList = (workbookId) => {
     const wb = workbooks.find((w) => w.id === workbookId);
@@ -1024,13 +1068,16 @@ function renderSourceWorkbooks() {
         const guide = WORKBOOK_GUIDE[wb.id] || {};
         return `
     <article class="workbook-card ${wb.loaded ? "loaded" : "missing"}" data-workbook-id="${wb.id}" style="--wb-accent: ${guide.color || "var(--teal)"}">
-      <span class="workbook-card-badge">${guide.short || "Workbook"}</span>
+      <header class="workbook-card-head">
+        <span class="workbook-card-index">${WORKBOOK_INDEX[wb.id] || ""}</span>
+        <span class="workbook-card-badge">${guide.short || "Workbook"}</span>
+      </header>
       <h4>${wb.label}</h4>
       <p class="workbook-file">${wb.file}</p>
       <dl class="workbook-stats">
         <div><dt>Sheets</dt><dd>${wb.sheet_count}</dd></div>
-        <div><dt>Rows stored</dt><dd>${wb.total_rows.toLocaleString()}</dd></div>
-        <div><dt>Status</dt><dd>${wb.loaded ? "Ready" : "Missing file"}</dd></div>
+        <div><dt>Rows</dt><dd>${wb.total_rows.toLocaleString()}</dd></div>
+        <div><dt>Status</dt><dd>${wb.loaded ? "Ready" : "Missing"}</dd></div>
       </dl>
     </article>`;
       }
@@ -1129,7 +1176,7 @@ function initNavigation() {
 
 async function boot() {
   chartDefaults();
-  const response = await fetch("data.json?v=20261015g");
+  const response = await fetch("data.json?v=20261015h");
   DATA = await response.json();
   window.DATA = DATA;
   document.getElementById("generated-at").textContent = `Updated ${new Date(DATA.meta.generated_at).toLocaleString()}`;
