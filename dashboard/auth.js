@@ -13,6 +13,9 @@ function authConfig() {
 }
 
 async function sha256Hex(text) {
+  if (!globalThis.crypto?.subtle) {
+    throw new Error("Secure sign-in requires HTTPS (or localhost).");
+  }
   const data = new TextEncoder().encode(text);
   const hash = await crypto.subtle.digest("SHA-256", data);
   return Array.from(new Uint8Array(hash))
@@ -56,7 +59,7 @@ function setAppVisible(visible) {
 function loadDashboardScripts() {
   if (window.__dbsDashboardScriptsLoaded) return Promise.resolve();
   window.__dbsDashboardScriptsLoaded = true;
-  const v = "20261015b";
+  const v = "20261015c";
   const urls = [`report.js?v=${v}`, `app.js?v=${v}`];
   return urls.reduce(
     (chain, src) =>
@@ -88,19 +91,36 @@ async function attemptLogin(username, password) {
 function bindLoginForm() {
   const form = document.getElementById("login-form");
   const errorEl = document.getElementById("login-error");
+  const submitBtn = form?.querySelector(".login-submit");
   if (!form) return;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (errorEl) errorEl.textContent = "";
-    const user = document.getElementById("login-username")?.value;
-    const pass = document.getElementById("login-password")?.value;
-    const ok = await attemptLogin(user, pass);
-    if (!ok) {
-      if (errorEl) errorEl.textContent = "Incorrect username or password.";
-      return;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Signing in…";
     }
-    await enterDashboard();
+    try {
+      const user = document.getElementById("login-username")?.value;
+      const pass = document.getElementById("login-password")?.value;
+      const ok = await attemptLogin(user, pass);
+      if (!ok) {
+        if (errorEl) errorEl.textContent = "Incorrect username or password.";
+        return;
+      }
+      await enterDashboard();
+    } catch (err) {
+      console.error(err);
+      if (errorEl) {
+        errorEl.textContent = err?.message || "Sign in failed. Please try again.";
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Sign in";
+      }
+    }
   });
 }
 
@@ -118,9 +138,7 @@ function bindSignOut() {
   });
 }
 
-async function initAuth() {
-  bindLoginForm();
-  bindSignOut();
+async function resumeSessionOrShowGate() {
   if (readSession()) {
     await enterDashboard();
     return;
@@ -128,13 +146,23 @@ async function initAuth() {
   setAppVisible(false);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  initAuth().catch((err) => {
+function startAuth() {
+  resumeSessionOrShowGate().catch((err) => {
     console.error(err);
     const errorEl = document.getElementById("login-error");
-    if (errorEl) errorEl.textContent = "Login failed to initialize.";
+    if (errorEl) errorEl.textContent = err?.message || "Login failed to initialize.";
   });
-});
+}
+
+// Form exists before this script runs (tags are at end of body) — bind immediately.
+bindLoginForm();
+bindSignOut();
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", startAuth);
+} else {
+  startAuth();
+}
 
 window.dbsSignOut = () => {
   clearSession();
