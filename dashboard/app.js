@@ -49,7 +49,7 @@ const sectionCopy = {
   "monthly-report": ["Monthly Report", "One-click USC-branded PowerPoint for monthly progress meetings"],
   "source-data": [
     "Source Workbooks",
-    "End-to-end flow from Excel → data.json → every dashboard view",
+    "Pipeline, workbook guide, and sheet-level previews",
   ],
   "data-explorer": ["Data Explorer", "Browse every sheet loaded from all workbooks"],
 };
@@ -639,8 +639,6 @@ function navigateToSection(sectionId) {
   if (btn) btn.click();
 }
 
-const WB_FLOW_CHEVRON = `<span class="wb-journey-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>`;
-
 const WORKBOOK_INDEX = { tracker: "01", meeting: "02", pt: "03" };
 
 function renderWorkbookVizStats(workbooks) {
@@ -762,7 +760,7 @@ function renderWorkbookFlowMap(workbooks, activeWorkbookId) {
             <div class="wb-hub-status-wrap"><dt>Status</dt><dd class="wb-hub-status">${wb.loaded ? "Ready" : "Missing"}</dd></div>
           </dl>
           <div class="wb-hub-powers">
-            <span class="wb-hub-powers-label">Opens in sidebar</span>
+            <span class="wb-hub-powers-label">Dashboard sections</span>
             <div class="wb-hub-pills">
               ${(guide.feeds || [])
                 .map(
@@ -772,7 +770,7 @@ function renderWorkbookFlowMap(workbooks, activeWorkbookId) {
                 .join("")}
             </div>
           </div>
-          <button type="button" class="wb-hub-explore" data-workbook-id="${wb.id}">Preview sheets below</button>
+          <button type="button" class="wb-hub-explore" data-workbook-id="${wb.id}">Browse sheets</button>
         </article>`;
         })
         .join("")}
@@ -1192,7 +1190,7 @@ function initNavigation() {
 
 async function boot() {
   chartDefaults();
-  const response = await fetch("data.json?v=20261015i");
+  const response = await fetch("data.json?v=20261015j");
   DATA = await response.json();
   window.DATA = DATA;
   document.getElementById("generated-at").textContent = `Updated ${new Date(DATA.meta.generated_at).toLocaleString()}`;

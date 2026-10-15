@@ -10,8 +10,11 @@
   --text: #1b2430;
   --muted: #5f6b7a;
   --border: rgba(19, 32, 51, 0.08);
-  --shadow: 0 18px 50px rgba(19, 32, 51, 0.08);
-  --radius: 18px;
+  --shadow: 0 1px 2px rgba(19, 32, 51, 0.04), 0 12px 40px rgba(19, 32, 51, 0.07);
+  --shadow-soft: 0 4px 20px rgba(19, 32, 51, 0.05);
+  --radius: 16px;
+  --radius-lg: 20px;
+  --ink: #132033;
 }
 
 * { box-sizing: border-box; }
@@ -125,8 +128,10 @@ body {
 .topbar h2 {
   margin: 0;
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: 2.2rem;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
   font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--ink);
 }
 
 .topbar p {
@@ -153,16 +158,18 @@ body {
 
 .card {
   background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 22px;
+  border: 1px solid rgba(19, 32, 51, 0.07);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 24px 26px;
   margin-bottom: 20px;
 }
 
 .card-header h3 {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   display: flex;
   align-items: baseline;
   gap: 10px;
@@ -567,12 +574,12 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
   color: var(--text);
 }
 
-/* —— Source Workbooks panel —— */
+/* —— Source Workbooks panel (marketing-grade layout) —— */
 .source-panel {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  max-width: 1200px;
+  gap: 36px;
+  max-width: 1080px;
 }
 
 .source-panel > .card,
@@ -582,113 +589,134 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 }
 
 .source-panel .card-header {
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.source-panel .card-header h3 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.source-panel .card-header p {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-width: 62ch;
 }
 
 .source-panel .card {
-  padding: 26px 28px;
+  padding: 32px 34px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
 }
 
 .workbook-pipeline,
 .workbook-flow-map {
-  margin-top: 4px;
+  margin-top: 0;
 }
 
 .source-hero {
+  padding: 0;
+  border-radius: var(--radius-lg);
+  border: none;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: linear-gradient(145deg, #0f1929 0%, #152438 48%, #1a3340 100%);
+}
+
+.source-hero-inner {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 32px 36px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background:
-    linear-gradient(135deg, rgba(31, 111, 120, 0.12) 0%, transparent 42%),
-    linear-gradient(225deg, rgba(196, 92, 38, 0.1) 0%, transparent 38%),
-    var(--bg-elevated);
-  box-shadow: var(--shadow);
+  gap: 28px;
+  padding: 40px 40px 36px;
 }
 
 .source-hero-eyebrow {
-  margin: 0 0 8px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  margin: 0 0 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: rgba(126, 184, 192, 0.95);
 }
 
 .source-hero-title {
   margin: 0;
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(1.65rem, 3vw, 2.1rem);
+  font-size: clamp(2rem, 4vw, 2.75rem);
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #fff;
 }
 
 .source-hero-lead {
-  margin: 10px 0 0;
-  max-width: 52ch;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: var(--muted);
+  margin: 14px 0 0;
+  max-width: 54ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(232, 238, 245, 0.78);
 }
 
-.source-hero-copy {
-  flex: 1 1 320px;
+.source-hero-lead code {
+  font-size: 0.88em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .workbook-viz-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  gap: 1px;
   width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.wb-stat {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 14px 12px;
-  background: rgba(255, 255, 255, 0.72);
-  text-align: center;
-  backdrop-filter: blur(6px);
+.source-hero .wb-stat {
+  border: none;
+  border-radius: 0;
+  padding: 18px 16px;
+  background: transparent;
+  text-align: left;
+  backdrop-filter: none;
+}
+
+.source-hero .wb-stat + .wb-stat {
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .wb-stat-time .wb-stat-value {
-  font-size: 0.75rem;
-  line-height: 1.35;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  font-weight: 500;
 }
 
-.wb-stat-value {
-  display: block;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--teal);
-  line-height: 1.1;
-}
-
-.wb-stat-value.wb-stat-sm {
-  font-size: 0.82rem;
+.source-hero .wb-stat-value {
+  font-size: 1.65rem;
   font-weight: 600;
-  color: var(--text);
+  color: #fff;
+  letter-spacing: -0.02em;
 }
 
-.wb-stat-label {
-  display: block;
-  margin-top: 4px;
-  font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--muted);
+.source-hero .wb-stat-value.wb-stat-sm {
+  color: rgba(255, 255, 255, 0.92);
 }
 
-.source-flow-card,
-.source-hub-card,
-.source-metrics-card,
-.source-explorer-card,
-.source-refresh-card {
-  border-radius: var(--radius);
+.source-hero .wb-stat-label {
+  margin-top: 6px;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 /* Vertical timeline flow */
@@ -739,8 +767,10 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 
 .wb-timeline-title {
   margin: 0 0 6px;
-  font-size: 0.92rem;
-  font-weight: 600;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--ink);
 }
 
 .wb-timeline-sub {
@@ -759,10 +789,11 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 .wb-timeline-node {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  padding: 16px 18px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(19, 32, 51, 0.08);
+  background: #faf9f7;
 }
 
 .wb-timeline-node strong {
@@ -781,15 +812,15 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 .wb-journey-excel {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 14px 16px;
+  gap: 6px;
+  padding: 16px 18px;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  border-top: 3px solid var(--wb-accent, var(--teal));
-  background: var(--bg-elevated);
-  font-size: 0.75rem;
+  border: 1px solid rgba(19, 32, 51, 0.08);
+  background: #faf9f7;
+  font-size: 0.78rem;
   color: var(--muted);
   min-height: 0;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
 }
 
 .wb-journey-excel strong {
@@ -800,14 +831,7 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 }
 
 .wb-journey-excel-icon {
-  align-self: flex-start;
-  padding: 2px 6px;
-  border-radius: 6px;
-  font-size: 0.6rem;
-  font-weight: 800;
-  color: #fff;
-  background: var(--wb-accent, var(--teal));
-  margin-bottom: 4px;
+  display: none;
 }
 
 .wb-journey-node-icon {
@@ -877,50 +901,74 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 .wb-hub-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 22px 20px 20px;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  background: var(--bg-elevated);
+  gap: 14px;
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid rgba(19, 32, 51, 0.08);
+  background: #fff;
   cursor: pointer;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
   min-width: 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.wb-hub-card::before {
+  content: "";
+  display: block;
+  height: 3px;
+  background: var(--wb-accent, var(--teal));
 }
 
 .wb-hub-card:hover {
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.07);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
 }
 
 .wb-hub-card.is-active {
-  border-color: color-mix(in srgb, var(--wb-accent, var(--teal)) 50%, transparent);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--wb-accent, var(--teal)) 25%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--wb-accent, var(--teal)) 35%, transparent), var(--shadow);
+}
+
+.wb-hub-head,
+.wb-hub-file,
+.wb-hub-desc,
+.wb-hub-metrics,
+.wb-hub-powers {
+  padding-left: 22px;
+  padding-right: 22px;
 }
 
 .wb-hub-head {
   display: flex;
   gap: 12px;
   align-items: flex-start;
+  padding-top: 20px;
 }
 
 .wb-hub-index {
-  font-size: 1.5rem;
+  font-size: 0.72rem;
   font-weight: 700;
+  letter-spacing: 0.1em;
   line-height: 1;
-  color: color-mix(in srgb, var(--wb-accent, var(--teal)) 70%, var(--muted));
+  color: var(--wb-accent, var(--teal));
+  opacity: 0.85;
 }
 
 .wb-hub-head h4 {
   margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.3;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 1.12rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--ink);
   word-wrap: break-word;
 }
 
 .wb-hub-head p {
-  margin: 4px 0 0;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--wb-accent, var(--teal));
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
 }
 
 .wb-hub-file {
@@ -1002,38 +1050,43 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 }
 
 .wb-flow-pill {
-  border: 1px solid color-mix(in srgb, var(--wb-accent, var(--teal)) 30%, var(--border));
-  border-radius: 999px;
-  padding: 5px 11px;
-  font-size: 0.72rem;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.78rem;
   font-weight: 500;
   cursor: pointer;
-  background: #fff;
-  color: var(--text);
-  transition: background 0.15s ease, transform 0.15s ease;
+  background: rgba(19, 32, 51, 0.05);
+  color: var(--ink);
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .wb-flow-pill:hover {
-  background: color-mix(in srgb, var(--wb-accent, var(--teal)) 12%, #fff);
-  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--wb-accent, var(--teal)) 14%, #fff);
+  color: var(--ink);
 }
 
 .wb-hub-explore {
   margin-top: auto;
-  width: 100%;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 12px;
+  width: calc(100% - 44px);
+  margin-left: 22px;
+  margin-right: 22px;
+  margin-bottom: 22px;
+  border: 1px solid rgba(19, 32, 51, 0.12);
+  border-radius: 8px;
+  padding: 11px 14px;
   font: inherit;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
-  color: #fff;
-  background: var(--wb-accent, var(--teal));
+  color: var(--ink);
+  background: #fff;
+  transition: border-color 0.15s ease, background 0.15s ease;
 }
 
 .wb-hub-explore:hover {
-  filter: brightness(0.95);
+  border-color: var(--wb-accent, var(--teal));
+  background: color-mix(in srgb, var(--wb-accent, var(--teal)) 6%, #fff);
 }
 
 /* Metrics & charts */
@@ -1049,19 +1102,19 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 }
 
 .workbook-chart-box {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 20px;
-  background: var(--bg-elevated);
+  border: 1px solid rgba(19, 32, 51, 0.07);
+  border-radius: 12px;
+  padding: 22px 24px;
+  background: #faf9f7;
   min-width: 0;
 }
 
 .workbook-chart-box h4 {
-  margin: 0 0 12px;
-  font-size: 0.78rem;
-  font-weight: 700;
+  margin: 0 0 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: var(--muted);
 }
 
@@ -1097,16 +1150,17 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 }
 
 .wb-meter-track {
-  height: 8px;
+  height: 6px;
   border-radius: 999px;
-  background: rgba(19, 32, 51, 0.06);
+  background: rgba(19, 32, 51, 0.08);
   overflow: hidden;
 }
 
 .wb-meter-fill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--wb-accent), color-mix(in srgb, var(--wb-accent) 65%, #fff));
+  background: var(--wb-accent, var(--teal));
+  opacity: 0.85;
 }
 
 .workbook-chart-canvas {
@@ -1142,38 +1196,46 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 }
 
 .workbook-card {
-  border: 1px solid var(--border);
-  border-radius: 18px;
+  border: 1px solid rgba(19, 32, 51, 0.08);
+  border-radius: 14px;
   padding: 0;
   cursor: pointer;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  background: var(--bg-elevated);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.workbook-card::before {
+  content: "";
+  display: block;
+  height: 3px;
+  background: var(--wb-accent, var(--teal));
 }
 
 .workbook-card-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px 10px;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--wb-accent, var(--teal)) 18%, #fff), #fff);
+  padding: 18px 20px 8px;
+  background: transparent;
 }
 
 .workbook-card-index {
-  font-size: 1.25rem;
+  font-size: 0.7rem;
   font-weight: 700;
+  letter-spacing: 0.1em;
   color: var(--wb-accent, var(--teal));
 }
 
 .workbook-card-badge {
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--wb-accent, var(--teal));
-  background: rgba(255, 255, 255, 0.85);
+  padding: 0;
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--muted);
+  background: none;
 }
 
 .workbook-card h4 {
@@ -1195,9 +1257,9 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   margin: 0;
-  padding: 14px 16px 16px;
-  border-top: 1px solid var(--border);
-  background: rgba(244, 241, 236, 0.35);
+  padding: 16px 20px 20px;
+  border-top: 1px solid rgba(19, 32, 51, 0.06);
+  background: #faf9f7;
 }
 
 .workbook-stats dt {
@@ -1215,12 +1277,12 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 }
 
 .workbook-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 .workbook-card.active {
-  box-shadow: 0 0 0 2px var(--wb-accent, var(--teal));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--wb-accent, var(--teal)) 40%, transparent), var(--shadow);
 }
 
 .workbook-sheet-list {
@@ -1325,6 +1387,10 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
   .workbook-viz-stats {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .source-hero .wb-stat:nth-child(odd) {
+    border-left: none;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1343,7 +1409,19 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
   .workbook-charts-grid,
   .workbook-metrics-split,
   .workbook-cards,
-  .workbook-viz-stats,
+  .workbook-viz-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .source-hero .wb-stat + .wb-stat {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .source-hero-inner {
+    padding: 28px 22px;
+  }
+
   .kpi-grid, .mini-kpi-grid, .grid-2, .catalog-grid {
     grid-template-columns: 1fr;
   }

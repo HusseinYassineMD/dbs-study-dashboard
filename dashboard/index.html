@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261015i" />
+  <link rel="stylesheet" href="styles.css?v=20261015j" />
 </head>
 <body>
   <div id="login-gate" class="login-gate">
@@ -33,8 +33,8 @@
     </div>
   </div>
 
-  <script src="auth.config.js?v=20261015d"></script>
-  <script src="auth.js?v=20261015d"></script>
+  <script src="auth.config.js?v=20261015j"></script>
+  <script src="auth.js?v=20261015j"></script>
 
   <div id="app-root" class="app" hidden>
     <aside class="sidebar">
@@ -353,34 +353,36 @@
 
       <section id="source-data" class="panel source-panel">
         <header class="source-hero">
-          <div class="source-hero-copy">
-            <p class="source-hero-eyebrow">Data architecture</p>
-            <h3 class="source-hero-title">Three workbooks → one dashboard</h3>
-            <p class="source-hero-lead">Every chart and report starts as Excel on your machine, is unified into <code>data.json</code>, then powers the views in the left sidebar.</p>
+          <div class="source-hero-inner">
+            <div class="source-hero-copy">
+              <p class="source-hero-eyebrow">DBS Study · Data sources</p>
+              <h3 class="source-hero-title">Source workbooks</h3>
+              <p class="source-hero-lead">Three Excel files are unified into a single dashboard dataset. Trace each file from upload to the views your team uses every day.</p>
+            </div>
+            <div id="workbook-viz-stats" class="workbook-viz-stats"></div>
           </div>
-          <div id="workbook-viz-stats" class="workbook-viz-stats"></div>
         </header>
 
         <article class="card source-flow-card">
           <div class="card-header">
-            <h3>End-to-end flow</h3>
-            <p>Follow the path from source files to what you see on screen</p>
+            <h3>Data pipeline</h3>
+            <p>From workbook to dashboard in four steps</p>
           </div>
           <div id="workbook-pipeline" class="workbook-pipeline"></div>
         </article>
 
         <article class="card source-hub-card">
           <div class="card-header">
-            <h3>Workbook roles &amp; dashboard links</h3>
-            <p>Each file has a job — click a section pill to open that view, or explore sheets below</p>
+            <h3>Workbook guide</h3>
+            <p>What each file contains and which dashboard sections it supports</p>
           </div>
           <div id="workbook-flow-map" class="workbook-flow-map"></div>
         </article>
 
         <article class="card source-metrics-card">
           <div class="card-header">
-            <h3>By the numbers</h3>
-            <p>Row and sheet volume across your three files</p>
+            <h3>Volume summary</h3>
+            <p>Rows and sheets stored per workbook</p>
           </div>
           <div class="workbook-charts-grid">
             <div class="workbook-chart-box">
@@ -410,8 +412,8 @@
 
         <article class="card source-explorer-card">
           <div class="card-header">
-            <h3>Explore &amp; preview</h3>
-            <p>Choose a workbook, pick a sheet, inspect up to 200 rows from the stored copy</p>
+            <h3>Sheet explorer</h3>
+            <p>Select a workbook and preview stored data (up to 200 rows per sheet)</p>
           </div>
           <div id="workbook-cards" class="workbook-cards"></div>
         </article>
