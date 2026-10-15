@@ -745,32 +745,34 @@ function renderWorkbookFlowMap(workbooks, activeWorkbookId) {
           const active = wb.id === activeWorkbookId ? " is-active" : "";
           return `
         <article class="wb-hub-card${active}" data-workbook-id="${wb.id}" style="--wb-accent: ${guide.color || "var(--teal)"}">
-          <header class="wb-hub-head">
-            <span class="wb-hub-index">${WORKBOOK_INDEX[wb.id] || "—"}</span>
-            <div>
-              <h4>${wb.label}</h4>
-              <p>${guide.short || ""}</p>
+          <div class="wb-hub-body">
+            <header class="wb-hub-head">
+              <span class="wb-hub-index">${WORKBOOK_INDEX[wb.id] || "—"}</span>
+              <div class="wb-hub-titles">
+                <h4>${wb.label}</h4>
+                <p>${guide.short || ""}</p>
+              </div>
+            </header>
+            <p class="wb-hub-file">${wb.file}</p>
+            <p class="wb-hub-desc">${guide.description || ""}</p>
+            <dl class="wb-hub-metrics">
+              <div class="wb-hub-metric"><dt>Sheets</dt><dd>${wb.sheet_count}</dd></div>
+              <div class="wb-hub-metric"><dt>Rows</dt><dd>${wb.total_rows.toLocaleString()}</dd></div>
+              <div class="wb-hub-status-wrap"><dt>Status</dt><dd><span class="wb-hub-status">${wb.loaded ? "Ready" : "Missing"}</span></dd></div>
+            </dl>
+            <div class="wb-hub-powers">
+              <span class="wb-hub-powers-label">Dashboard sections</span>
+              <div class="wb-hub-pills">
+                ${(guide.feeds || [])
+                  .map(
+                    (f) =>
+                      `<button type="button" class="wb-flow-pill" data-section="${f.section}">${f.label}</button>`
+                  )
+                  .join("")}
+              </div>
             </div>
-          </header>
-          <p class="wb-hub-file">${wb.file}</p>
-          <p class="wb-hub-desc">${guide.description || ""}</p>
-          <dl class="wb-hub-metrics">
-            <div><dt>Sheets</dt><dd>${wb.sheet_count}</dd></div>
-            <div><dt>Rows</dt><dd>${wb.total_rows.toLocaleString()}</dd></div>
-            <div class="wb-hub-status-wrap"><dt>Status</dt><dd class="wb-hub-status">${wb.loaded ? "Ready" : "Missing"}</dd></div>
-          </dl>
-          <div class="wb-hub-powers">
-            <span class="wb-hub-powers-label">Dashboard sections</span>
-            <div class="wb-hub-pills">
-              ${(guide.feeds || [])
-                .map(
-                  (f) =>
-                    `<button type="button" class="wb-flow-pill" data-section="${f.section}">${f.label}</button>`
-                )
-                .join("")}
-            </div>
+            <button type="button" class="wb-hub-explore" data-workbook-id="${wb.id}">Browse sheets</button>
           </div>
-          <button type="button" class="wb-hub-explore" data-workbook-id="${wb.id}">Browse sheets</button>
         </article>`;
         })
         .join("")}
@@ -1190,7 +1192,7 @@ function initNavigation() {
 
 async function boot() {
   chartDefaults();
-  const response = await fetch("data.json?v=20261015k");
+  const response = await fetch("data.json?v=20261015l");
   DATA = await response.json();
   window.DATA = DATA;
   document.getElementById("generated-at").textContent = `Updated ${new Date(DATA.meta.generated_at).toLocaleString()}`;
