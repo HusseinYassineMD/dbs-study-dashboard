@@ -369,19 +369,27 @@
           <div class="workbook-charts-grid">
             <div class="workbook-chart-box">
               <h4>Rows stored</h4>
+              <p class="workbook-chart-caption">How much data from each Excel file is in <code>data.json</code></p>
+              <div id="workbook-rows-summary" class="workbook-chart-summary"></div>
               <canvas id="workbook-rows-donut" height="220"></canvas>
             </div>
             <div class="workbook-chart-box">
               <h4>Sheet count</h4>
+              <p class="workbook-chart-caption">Number of tabs per workbook</p>
+              <div id="workbook-sheets-summary" class="workbook-chart-summary"></div>
               <canvas id="workbook-sheets-bar" height="220"></canvas>
             </div>
           </div>
           <div class="workbook-chart-box workbook-chart-wide">
             <h4>Largest sheets (all workbooks)</h4>
+            <p class="workbook-chart-caption">Biggest tabs by row count across all three files</p>
+            <div id="workbook-top-sheets-summary" class="workbook-chart-summary"></div>
             <canvas id="workbook-top-sheets-bar" height="320"></canvas>
           </div>
           <div class="workbook-chart-box workbook-chart-wide">
             <h4 id="workbook-sheet-breakdown-title">Sheets in selected workbook</h4>
+            <p class="workbook-chart-caption">Updates when you click a workbook card below</p>
+            <div id="workbook-breakdown-summary" class="workbook-chart-summary"></div>
             <canvas id="workbook-sheet-breakdown-bar" height="280"></canvas>
           </div>
         </article>

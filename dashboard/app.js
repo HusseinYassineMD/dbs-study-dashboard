@@ -742,7 +742,74 @@ function renderWorkbookFlowMap(workbooks, activeWorkbookId) {
   });
 }
 
+function workbookChartAreaReady(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return false;
+  const box = canvas.closest(".workbook-chart-box");
+  return (box?.clientWidth || 0) > 40;
+}
+
+function renderWorkbookNumericSummary(workbooks) {
+  const totalRows = workbooks.reduce((n, w) => n + w.total_rows, 0) || 1;
+  const rowsEl = document.getElementById("workbook-rows-summary");
+  const sheetsEl = document.getElementById("workbook-sheets-summary");
+  const topEl = document.getElementById("workbook-top-sheets-summary");
+  const breakdownEl = document.getElementById("workbook-breakdown-summary");
+
+  if (rowsEl) {
+    rowsEl.innerHTML = workbooks
+      .map((wb) => {
+        const pct = ((wb.total_rows / totalRows) * 100).toFixed(1);
+        const color = (WORKBOOK_GUIDE[wb.id] || {}).color || "#1f6f78";
+        return `<div class="wb-num-row"><span class="wb-num-label" style="--wb-accent:${color}">${wb.label}</span><span class="wb-num-bar" style="width:${pct}%;background:${color}"></span><span class="wb-num-value">${wb.total_rows.toLocaleString()} (${pct}%)</span></div>`;
+      })
+      .join("");
+  }
+
+  if (sheetsEl) {
+    sheetsEl.innerHTML = workbooks
+      .map((wb) => {
+        const color = (WORKBOOK_GUIDE[wb.id] || {}).color || "#1f6f78";
+        return `<div class="wb-num-row wb-num-row-compact"><span class="wb-num-label" style="--wb-accent:${color}">${wb.label.replace(" (DHA/PE4)", "")}</span><span class="wb-num-value">${wb.sheet_count} sheets</span></div>`;
+      })
+      .join("");
+  }
+
+  const allSheets = workbooks.flatMap((wb) =>
+    (wb.sheets || []).map((s) => ({ ...s, workbook: wb.label, color: (WORKBOOK_GUIDE[wb.id] || {}).color }))
+  );
+  allSheets.sort((a, b) => b.rows - a.rows);
+
+  if (topEl) {
+    topEl.innerHTML = allSheets
+      .slice(0, 8)
+      .map(
+        (s) =>
+          `<div class="wb-num-row wb-num-row-compact"><span class="wb-num-label">${s.name}</span><span class="wb-num-value">${s.rows.toLocaleString()} rows · ${s.workbook.split(" ")[0]}</span></div>`
+      )
+      .join("");
+  }
+
+  if (breakdownEl) {
+    const activeId =
+      document.querySelector(".workbook-card.active")?.dataset.workbookId || workbooks[0]?.id;
+    const wb = workbooks.find((w) => w.id === activeId) || workbooks[0];
+    const color = (WORKBOOK_GUIDE[wb?.id] || {}).color || "#1f6f78";
+    breakdownEl.innerHTML = (wb?.sheets || [])
+      .slice()
+      .sort((a, b) => b.rows - a.rows)
+      .map(
+        (s) =>
+          `<div class="wb-num-row wb-num-row-compact"><span class="wb-num-label" style="--wb-accent:${color}">${s.name}</span><span class="wb-num-value">${s.rows.toLocaleString()} rows</span></div>`
+      )
+      .join("");
+  }
+}
+
 function renderWorkbookCharts(workbooks) {
+  if (typeof Chart === "undefined") return false;
+  if (!workbookChartAreaReady("workbook-rows-donut")) return false;
+
   const labels = workbooks.map((w) => w.label);
   const colors = workbooks.map((w) => (WORKBOOK_GUIDE[w.id] || {}).color || "#1f6f78");
   const rowCounts = workbooks.map((w) => w.total_rows);
@@ -811,12 +878,19 @@ function renderWorkbookCharts(workbooks) {
       scales: { x: { beginAtZero: true } },
     },
   });
+
+  ["workbook-rows-donut", "workbook-sheets-bar", "workbook-top-sheets-bar"].forEach((id) => {
+    charts[id]?.resize();
+  });
+  return true;
 }
 
 function renderWorkbookSheetBreakdown(wb) {
+  renderWorkbookNumericSummary(workbookVizCache || (wb ? [wb] : []));
   const titleEl = document.getElementById("workbook-sheet-breakdown-title");
   const canvas = document.getElementById("workbook-sheet-breakdown-bar");
   if (!canvas || !wb) return;
+  if (typeof Chart === "undefined" || !workbookChartAreaReady("workbook-sheet-breakdown-bar")) return;
   if (titleEl) titleEl.textContent = `Sheets in ${wb.label}`;
   const sheets = [...(wb.sheets || [])].sort((a, b) => b.rows - a.rows);
   const color = (WORKBOOK_GUIDE[wb.id] || {}).color || "#1f6f78";
@@ -833,17 +907,33 @@ function renderWorkbookSheetBreakdown(wb) {
       scales: { x: { beginAtZero: true } },
     },
   });
+  charts["workbook-sheet-breakdown-bar"]?.resize();
 }
 
 let workbookVizCache = null;
 
 function refreshWorkbookChartsIfNeeded() {
-  if (!workbookVizCache?.length || typeof Chart === "undefined") return;
-  renderWorkbookCharts(workbookVizCache);
+  if (!workbookVizCache?.length) return;
+  renderWorkbookNumericSummary(workbookVizCache);
+  if (typeof Chart === "undefined") return;
+  const painted = renderWorkbookCharts(workbookVizCache);
   const activeId =
     document.querySelector(".workbook-card.active")?.dataset.workbookId || workbookVizCache[0]?.id;
   const wb = workbookVizCache.find((w) => w.id === activeId);
   if (wb) renderWorkbookSheetBreakdown(wb);
+  return painted;
+}
+
+function scheduleWorkbookChartRefresh() {
+  let tries = 10;
+  const tick = () => {
+    if (!document.getElementById("source-data")?.classList.contains("active")) return;
+    const painted = refreshWorkbookChartsIfNeeded();
+    if (painted || tries <= 0) return;
+    tries -= 1;
+    setTimeout(tick, 100);
+  };
+  requestAnimationFrame(() => requestAnimationFrame(tick));
 }
 
 function renderSourceWorkbooks() {
@@ -868,9 +958,8 @@ function renderSourceWorkbooks() {
 
   renderWorkbookVizStats(workbooks);
   renderWorkbookPipeline(workbooks);
-  renderWorkbookCharts(workbooks);
+  renderWorkbookNumericSummary(workbooks);
   renderWorkbookFlowMap(workbooks, activeWorkbookId);
-  renderWorkbookSheetBreakdown(workbooks[0]);
 
   if (introEl) {
     introEl.hidden = false;
@@ -1016,7 +1105,7 @@ function activateSection(section) {
     updateReportPreview();
   }
   if (section === "source-data") {
-    requestAnimationFrame(() => refreshWorkbookChartsIfNeeded());
+    scheduleWorkbookChartRefresh();
   }
 }
 
@@ -1040,7 +1129,7 @@ function initNavigation() {
 
 async function boot() {
   chartDefaults();
-  const response = await fetch("data.json?v=20261015f");
+  const response = await fetch("data.json?v=20261015g");
   DATA = await response.json();
   window.DATA = DATA;
   document.getElementById("generated-at").textContent = `Updated ${new Date(DATA.meta.generated_at).toLocaleString()}`;
@@ -1057,6 +1146,12 @@ async function boot() {
   renderSourceWorkbooks();
   renderCatalog();
   initNavigation();
+  const hashId = location.hash.replace("#", "");
+  if (hashId && document.getElementById(hashId)?.classList.contains("panel")) {
+    activateSection(hashId);
+  } else if (document.getElementById("source-data")?.classList.contains("active")) {
+    scheduleWorkbookChartRefresh();
+  }
 }
 
 boot().catch((err) => {

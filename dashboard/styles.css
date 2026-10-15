@@ -852,12 +852,60 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 }
 
 .workbook-chart-box h4 {
-  margin: 0 0 8px;
+  margin: 0 0 4px;
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.workbook-chart-caption {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.workbook-chart-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.wb-num-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.78rem;
+}
+
+.wb-num-row-compact {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.wb-num-label {
+  font-weight: 500;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wb-num-bar {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  min-width: 4px;
+  opacity: 0.85;
+}
+
+.wb-num-value {
+  color: var(--muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .workbook-chart-wide {
