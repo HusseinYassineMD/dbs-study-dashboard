@@ -685,39 +685,55 @@ function renderWorkbookPipeline(workbooks) {
     .join("");
 
   el.innerHTML = `
-    <ol class="wb-journey">
-      <li class="wb-journey-step wb-journey-step-sources">
-        <div class="wb-journey-step-label"><span>1</span> Source Excel</div>
-        <div class="wb-journey-excels">${excelCards}</div>
-      </li>
-      ${WB_FLOW_CHEVRON}
-      <li class="wb-journey-step">
-        <div class="wb-journey-step-label"><span>2</span> Build</div>
-        <div class="wb-journey-node wb-journey-node-build">
-          <span class="wb-journey-node-icon">PY</span>
-          <strong>build_dashboard_data.py</strong>
-          <p>Parse every tab from all three files</p>
+    <div class="wb-timeline">
+      <section class="wb-timeline-block">
+        <div class="wb-timeline-rail" aria-hidden="true"><span class="wb-timeline-dot">1</span></div>
+        <div class="wb-timeline-content">
+          <h5 class="wb-timeline-title">Your Excel workbooks</h5>
+          <p class="wb-timeline-sub">Three files in the project folder (or Downloads when rebuilding)</p>
+          <div class="wb-timeline-excel-grid">${excelCards}</div>
         </div>
-      </li>
-      ${WB_FLOW_CHEVRON}
-      <li class="wb-journey-step">
-        <div class="wb-journey-step-label"><span>3</span> Store</div>
-        <div class="wb-journey-node wb-journey-node-store">
-          <span class="wb-journey-node-icon">{ }</span>
-          <strong>data.json</strong>
-          <p>Metrics for charts + full raw_sheets archive</p>
+      </section>
+      <section class="wb-timeline-block">
+        <div class="wb-timeline-rail" aria-hidden="true"><span class="wb-timeline-dot">2</span></div>
+        <div class="wb-timeline-content">
+          <h5 class="wb-timeline-title">Build script</h5>
+          <div class="wb-timeline-node wb-journey-node-build">
+            <span class="wb-journey-node-icon">PY</span>
+            <div>
+              <strong>build_dashboard_data.py</strong>
+              <p>Reads every sheet from all three workbooks</p>
+            </div>
+          </div>
         </div>
-      </li>
-      ${WB_FLOW_CHEVRON}
-      <li class="wb-journey-step wb-journey-step-dash">
-        <div class="wb-journey-step-label"><span>4</span> Dashboard</div>
-        <div class="wb-journey-node wb-journey-node-dash">
-          <span class="wb-journey-node-icon">DBS</span>
-          <strong>Operations views</strong>
-          <div class="wb-journey-dash-pills">${dashPills}</div>
+      </section>
+      <section class="wb-timeline-block">
+        <div class="wb-timeline-rail" aria-hidden="true"><span class="wb-timeline-dot">3</span></div>
+        <div class="wb-timeline-content">
+          <h5 class="wb-timeline-title">Unified JSON</h5>
+          <div class="wb-timeline-node wb-journey-node-store">
+            <span class="wb-journey-node-icon">{ }</span>
+            <div>
+              <strong>dashboard / data.json</strong>
+              <p>Structured metrics plus a full raw_sheets archive</p>
+            </div>
+          </div>
         </div>
-      </li>
-    </ol>`;
+      </section>
+      <section class="wb-timeline-block wb-timeline-block-last">
+        <div class="wb-timeline-rail" aria-hidden="true"><span class="wb-timeline-dot">4</span></div>
+        <div class="wb-timeline-content">
+          <h5 class="wb-timeline-title">This dashboard</h5>
+          <div class="wb-timeline-node wb-journey-node-dash">
+            <span class="wb-journey-node-icon">DBS</span>
+            <div>
+              <strong>Sidebar views &amp; monthly report</strong>
+              <div class="wb-journey-dash-pills">${dashPills}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>`;
 }
 
 function renderWorkbookFlowMap(workbooks, activeWorkbookId) {
@@ -740,11 +756,11 @@ function renderWorkbookFlowMap(workbooks, activeWorkbookId) {
           </header>
           <p class="wb-hub-file">${wb.file}</p>
           <p class="wb-hub-desc">${guide.description || ""}</p>
-          <div class="wb-hub-metrics">
-            <span><strong>${wb.sheet_count}</strong> sheets</span>
-            <span><strong>${wb.total_rows.toLocaleString()}</strong> rows</span>
-            <span class="wb-hub-status">${wb.loaded ? "Ready" : "Missing"}</span>
-          </div>
+          <dl class="wb-hub-metrics">
+            <div><dt>Sheets</dt><dd>${wb.sheet_count}</dd></div>
+            <div><dt>Rows</dt><dd>${wb.total_rows.toLocaleString()}</dd></div>
+            <div class="wb-hub-status-wrap"><dt>Status</dt><dd class="wb-hub-status">${wb.loaded ? "Ready" : "Missing"}</dd></div>
+          </dl>
           <div class="wb-hub-powers">
             <span class="wb-hub-powers-label">Opens in sidebar</span>
             <div class="wb-hub-pills">
@@ -1176,7 +1192,7 @@ function initNavigation() {
 
 async function boot() {
   chartDefaults();
-  const response = await fetch("data.json?v=20261015h");
+  const response = await fetch("data.json?v=20261015i");
   DATA = await response.json();
   window.DATA = DATA;
   document.getElementById("generated-at").textContent = `Updated ${new Date(DATA.meta.generated_at).toLocaleString()}`;
