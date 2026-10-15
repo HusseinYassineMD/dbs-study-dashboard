@@ -47,10 +47,7 @@ const sectionCopy = {
   genotype: ["Genotype & Labs", "Diabetes status, AD risk groups, and lab fulfillment"],
   dropouts: ["Dropouts", "Attrition analysis across baseline and follow-up years"],
   "monthly-report": ["Monthly Report", "One-click USC-branded PowerPoint for monthly progress meetings"],
-  outreach: [
-    "Monthly Outreach",
-    "Call / email checklist for upcoming scheduling — aligned with tracker colors and monthly report rules",
-  ],
+  outreach: ["Monthly Outreach", "Who to call this month — from DBS Tracker scheduling rules"],
   "source-data": [
     "Source Workbooks",
     "Pipeline, workbook guide, and sheet-level previews",
@@ -612,6 +609,7 @@ const WORKBOOK_GUIDE = {
       { label: "Clinical Ops", section: "clinical" },
       { label: "Genotype & Labs", section: "genotype" },
       { label: "Dropouts", section: "dropouts" },
+      { label: "Monthly Outreach", section: "outreach" },
     ],
     color: "#c45c26",
   },
@@ -1179,95 +1177,191 @@ function activateSection(section) {
   }
 }
 
+const OUTREACH_GROUP_ORDER = [
+  { key: "y3_in_progress", title: "Year 3 · In progress" },
+  { key: "y3_to_contact", title: "Year 3 · To contact" },
+  { key: "y4_to_contact", title: "Year 4 · To contact" },
+];
+
+function outreachDoneStorageKey(year, month) {
+  return `dbs_outreach_done_${year}_${month}`;
+}
+
+function readOutreachDoneSet(year, month) {
+  try {
+    const raw = localStorage.getItem(outreachDoneStorageKey(year, month));
+    return new Set(raw ? JSON.parse(raw) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function writeOutreachDoneSet(year, month, set) {
+  localStorage.setItem(outreachDoneStorageKey(year, month), JSON.stringify([...set]));
+}
+
+function escapeHtml(text) {
+  return String(text ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function renderOutreachLegend() {
   const el = document.getElementById("outreach-color-legend");
   if (!el || typeof schedulingColorLegend !== "function") return;
-  const legend = schedulingColorLegend();
+  const legend = schedulingColorLegend().filter((e) => e.needs_outreach || e.id === "B6D7A8" || e.id === "FF0000");
   if (!legend.length) {
-    el.innerHTML = `<p class="about-copy">Rebuild <code>data.json</code> to load tracker color legend.</p>`;
+    el.innerHTML = "";
     return;
   }
   el.innerHTML = legend
     .map(
       (entry) => `
-    <div class="outreach-legend-item${entry.needs_outreach ? " needs-outreach" : ""}">
+    <span class="outreach-legend-chip" title="${escapeHtml(entry.action)}">
       <span class="outreach-swatch" style="background:#${entry.id}"></span>
-      <div>
-        <strong>${entry.label}</strong>
-        <p>${entry.action}</p>
-      </div>
-    </div>`
+      ${escapeHtml(entry.label)}
+    </span>`
     )
     .join("");
 }
 
-function updateOutreachChecklist() {
-  const select = document.getElementById("outreach-month-select");
-  if (!select || !select.value || typeof buildMonthlyOutreachChecklist !== "function") return;
-  const [year, month] = select.value.split("-").map(Number);
-  const checklist = buildMonthlyOutreachChecklist(year, month);
-  const badge = document.getElementById("outreach-live-badge");
-  if (badge) {
-    badge.textContent = `${checklist.outreach_label} checklist · ${checklist.summary.total} participants · data through ${checklist.prepared_from_label}`;
-  }
-  const kpis = document.getElementById("outreach-kpis");
-  if (kpis) {
-    kpis.innerHTML = `
-      <div class="kpi"><span class="kpi-label">Total to contact</span><span class="kpi-value">${checklist.summary.total}</span></div>
-      <div class="kpi"><span class="kpi-label">Y3 in progress</span><span class="kpi-value">${checklist.summary.y3_in_progress}</span></div>
-      <div class="kpi"><span class="kpi-label">Y3 to contact</span><span class="kpi-value">${checklist.summary.y3_to_contact}</span></div>
-      <div class="kpi"><span class="kpi-label">Y4 to contact</span><span class="kpi-value">${checklist.summary.y4_to_contact}</span></div>
-      <div class="kpi"><span class="kpi-label">Emails in notes</span><span class="kpi-value">${checklist.summary.with_email}</span></div>`;
-  }
-  const tbody = document.getElementById("outreach-checklist-body");
-  if (!tbody) return;
-  if (!checklist.items.length) {
-    tbody.innerHTML = `<tr><td colspan="10"><p class="about-copy">No participants matched outreach rules for this month.</p></td></tr>`;
-    return;
-  }
-  tbody.innerHTML = checklist.items
-    .map(
-      (item) => `
-    <tr data-checklist-id="${item.checklist_id}">
-      <td class="outreach-check"><input type="checkbox" aria-label="Mark ${item.participant_id} contacted" /></td>
-      <td><a href="#participants" class="id-link" data-participant="${item.participant_id}">${item.participant_id}</a></td>
-      <td>${item.category_label}</td>
-      <td>${item.due_label || "—"}</td>
-      <td><span class="outreach-swatch inline" style="background:#${item.tracker_color || "E8E8E8"}"></span> ${item.tracker_color_label}</td>
-      <td>${item.email ? `<a href="mailto:${item.email}">${item.email}</a>` : "—"}</td>
-      <td>${item.phone || "—"}</td>
-      <td>${item.staff || "—"}</td>
-      <td class="outreach-notes">${item.notes || "—"}</td>
-      <td>${item.action}</td>
-    </tr>`
-    )
+function renderOutreachCard(item, doneSet) {
+  const accent = item.tracker_color || "E8E8E8";
+  const done = doneSet.has(item.checklist_id);
+  const contacts = [
+    item.email
+      ? `<a class="outreach-contact-btn" href="mailto:${escapeHtml(item.email)}">Email</a>`
+      : "",
+    item.phone ? `<a class="outreach-contact-btn" href="tel:${escapeHtml(item.phone.replace(/\D/g, ""))}">Call</a>` : "",
+  ]
+    .filter(Boolean)
     .join("");
-  tbody.querySelectorAll(".id-link").forEach((link) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      const pid = link.dataset.participant;
+  const notes = item.notes ? `<p class="outreach-card-notes">${escapeHtml(item.notes)}</p>` : "";
+  return `
+    <article class="outreach-card${done ? " is-done" : ""}" data-checklist-id="${escapeHtml(item.checklist_id)}" style="--card-accent:#${accent}">
+      <label class="outreach-card-check">
+        <input type="checkbox" ${done ? "checked" : ""} aria-label="Mark ${escapeHtml(item.participant_id)} contacted" />
+      </label>
+      <div class="outreach-card-body">
+        <header class="outreach-card-head">
+          <button type="button" class="outreach-card-id" data-participant="${escapeHtml(item.participant_id)}">${escapeHtml(item.participant_id)}</button>
+          <span class="outreach-card-due">${escapeHtml(item.due_label || "—")}</span>
+        </header>
+        <p class="outreach-card-action">${escapeHtml(item.action)}</p>
+        ${contacts ? `<div class="outreach-card-contacts">${contacts}</div>` : ""}
+        ${notes}
+        <footer class="outreach-card-foot">
+          ${item.staff ? `<span class="outreach-staff-pill">${escapeHtml(item.staff)}</span>` : ""}
+          <span class="outreach-color-tag"><span class="outreach-swatch inline" style="background:#${accent}"></span>${escapeHtml(item.tracker_color_label)}</span>
+        </footer>
+      </div>
+    </article>`;
+}
+
+function bindOutreachListInteractions(listEl, year, month) {
+  listEl.querySelectorAll(".outreach-card-id").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const pid = btn.dataset.participant;
       activateSection("participants");
       renderParticipants(document.getElementById("status-filter").value, pid);
       document.getElementById("global-search").value = pid;
     });
   });
+  listEl.querySelectorAll(".outreach-card-check input").forEach((input) => {
+    input.addEventListener("change", () => {
+      const card = input.closest(".outreach-card");
+      const id = card?.dataset.checklistId;
+      if (!id) return;
+      const doneSet = readOutreachDoneSet(year, month);
+      if (input.checked) doneSet.add(id);
+      else doneSet.delete(id);
+      writeOutreachDoneSet(year, month, doneSet);
+      card.classList.toggle("is-done", input.checked);
+      updateOutreachProgress(year, month);
+    });
+  });
+}
+
+function updateOutreachProgress(year, month) {
+  const meta = document.getElementById("outreach-meta");
+  if (!meta || typeof buildMonthlyOutreachChecklist !== "function") return;
+  const checklist = buildMonthlyOutreachChecklist(year, month);
+  const doneSet = readOutreachDoneSet(year, month);
+  const doneCount = checklist.items.filter((i) => doneSet.has(i.checklist_id)).length;
+  meta.textContent = `${checklist.summary.total} to contact · ${doneCount} done · tracker as of ${checklist.prepared_from_label}`;
+}
+
+function updateOutreachChecklist() {
+  const select = document.getElementById("outreach-month-select");
+  const listEl = document.getElementById("outreach-list");
+  if (!select || !select.value || !listEl || typeof buildMonthlyOutreachChecklist !== "function") return;
+  const [year, month] = select.value.split("-").map(Number);
+  const checklist = buildMonthlyOutreachChecklist(year, month);
+  const doneSet = readOutreachDoneSet(year, month);
+
+  document.querySelectorAll(".outreach-month-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.value === select.value);
+    btn.setAttribute("aria-selected", btn.dataset.value === select.value ? "true" : "false");
+  });
+
+  updateOutreachProgress(year, month);
+
+  if (!checklist.items.length) {
+    listEl.innerHTML = `<p class="outreach-empty">No one to contact for this month.</p>`;
+    return;
+  }
+
+  const byCategory = Object.fromEntries(OUTREACH_GROUP_ORDER.map((g) => [g.key, []]));
+  checklist.items.forEach((item) => {
+    if (byCategory[item.category]) byCategory[item.category].push(item);
+  });
+
+  listEl.innerHTML = OUTREACH_GROUP_ORDER.filter((g) => byCategory[g.key]?.length)
+    .map(
+      (g) => `
+    <section class="outreach-group">
+      <h3 class="outreach-group-title">${g.title}<span class="outreach-group-count">${byCategory[g.key].length}</span></h3>
+      <div class="outreach-cards">${byCategory[g.key].map((item) => renderOutreachCard(item, doneSet)).join("")}</div>
+    </section>`
+    )
+    .join("");
+
+  bindOutreachListInteractions(listEl, year, month);
+}
+
+function renderOutreachMonthStrip(months, selectedValue) {
+  const strip = document.getElementById("outreach-month-strip");
+  const select = document.getElementById("outreach-month-select");
+  if (!strip || !select) return;
+  select.innerHTML = months.map((m) => `<option value="${m.year}-${m.month}">${m.label}</option>`).join("");
+  select.value = selectedValue || `${months[0].year}-${months[0].month}`;
+
+  strip.innerHTML = months
+    .map((m) => {
+      const value = `${m.year}-${m.month}`;
+      const short = m.label.replace(/ \d{4}$/, "");
+      return `<button type="button" class="outreach-month-btn${value === select.value ? " active" : ""}" role="tab" data-value="${value}" aria-selected="${value === select.value}">${short}</button>`;
+    })
+    .join("");
+
+  strip.querySelectorAll(".outreach-month-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      select.value = btn.dataset.value;
+      updateOutreachChecklist();
+    });
+  });
 }
 
 function renderOutreach() {
-  const select = document.getElementById("outreach-month-select");
-  if (!select || typeof availableOutreachMonths !== "function") return;
+  if (typeof availableOutreachMonths !== "function") return;
   const months = availableOutreachMonths();
-  const prev = select.value;
-  select.innerHTML = months
-    .map((m) => `<option value="${m.year}-${m.month}">${m.label} outreach</option>`)
-    .join("");
-  if (prev && [...select.options].some((o) => o.value === prev)) {
-    select.value = prev;
-  } else if (months[0]) {
-    select.value = `${months[0].year}-${months[0].month}`;
-  }
-  select.removeEventListener("change", updateOutreachChecklist);
-  select.addEventListener("change", updateOutreachChecklist);
+  const select = document.getElementById("outreach-month-select");
+  const prev = select?.value;
+  const fallback = months[0] ? `${months[0].year}-${months[0].month}` : "";
+  const selected = prev && months.some((m) => `${m.year}-${m.month}` === prev) ? prev : fallback;
+  renderOutreachMonthStrip(months, selected);
   renderOutreachLegend();
   updateOutreachChecklist();
 }
@@ -1292,7 +1386,7 @@ function initNavigation() {
 
 async function boot() {
   chartDefaults();
-  const response = await fetch("data.json?v=20261015n");
+  const response = await fetch("data.json?v=20261015o");
   DATA = await response.json();
   window.DATA = DATA;
   document.getElementById("generated-at").textContent = `Updated ${new Date(DATA.meta.generated_at).toLocaleString()}`;
