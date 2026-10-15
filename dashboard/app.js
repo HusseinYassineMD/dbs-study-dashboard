@@ -49,7 +49,7 @@ const sectionCopy = {
   "monthly-report": ["Monthly Report", "One-click USC-branded PowerPoint for monthly progress meetings"],
   "source-data": [
     "Source Workbooks",
-    "Your three Excel files — what each one is for, every sheet, and live previews",
+    "Pipeline diagram, charts, and sheet previews for all three Excel files",
   ],
   "data-explorer": ["Data Explorer", "Browse every sheet loaded from all workbooks"],
 };
@@ -601,27 +601,254 @@ const WORKBOOK_GUIDE = {
     short: "Day-to-day study operations",
     description:
       "Participant IDs, visit scheduling and completion, recruitment funnel, genotype/labs, screening, and dropout tabs. Most dashboard views (Overview, Visits, Clinical, Genotype) are built from here.",
-    feeds: ["Overview", "Participants", "Visit Tracking", "Clinical Ops", "Genotype & Labs", "Dropouts"],
+    feeds: [
+      { label: "Overview", section: "overview" },
+      { label: "Participants", section: "participants" },
+      { label: "Visit Tracking", section: "visits" },
+      { label: "Clinical Ops", section: "clinical" },
+      { label: "Genotype & Labs", section: "genotype" },
+      { label: "Dropouts", section: "dropouts" },
+    ],
     color: "#c45c26",
   },
   meeting: {
     short: "Monthly board / PI meeting workbook",
     description:
       "Study Progress tables for slides, Study Details monthly visit columns, recruitment summaries, and meeting dropout notes. Powers Study Progress and the Monthly Report PowerPoint.",
-    feeds: ["Study Progress", "Monthly Report", "Recruitment"],
+    feeds: [
+      { label: "Study Progress", section: "progress" },
+      { label: "Monthly Report", section: "monthly-report" },
+      { label: "Recruitment", section: "recruitment" },
+    ],
     color: "#1f6f78",
   },
   pt: {
     short: "Physical therapy visit tracker (DHA / PE4)",
     description:
       "PT-specific visit sheets for the DHA and PE4 arms. Stored in full for audit and exploration alongside the main tracker.",
-    feeds: ["Data Explorer", "Source previews"],
+    feeds: [
+      { label: "Data Explorer", section: "data-explorer" },
+      { label: "Source Workbooks", section: "source-data" },
+    ],
     color: "#5c4d7a",
   },
 };
 
+function navigateToSection(sectionId) {
+  const btn = document.querySelector(`.nav-item[data-section="${sectionId}"]`);
+  if (btn) btn.click();
+}
+
+function renderWorkbookVizStats(workbooks) {
+  const el = document.getElementById("workbook-viz-stats");
+  if (!el) return;
+  const totalSheets = workbooks.reduce((n, w) => n + w.sheet_count, 0);
+  const totalRows = workbooks.reduce((n, w) => n + w.total_rows, 0);
+  const updated = DATA.meta?.generated_at
+    ? new Date(DATA.meta.generated_at).toLocaleString()
+    : "—";
+  el.innerHTML = `
+    <div class="wb-stat"><span class="wb-stat-value">3</span><span class="wb-stat-label">Excel workbooks</span></div>
+    <div class="wb-stat"><span class="wb-stat-value">${totalSheets}</span><span class="wb-stat-label">Sheets in JSON</span></div>
+    <div class="wb-stat"><span class="wb-stat-value">${totalRows.toLocaleString()}</span><span class="wb-stat-label">Rows stored</span></div>
+    <div class="wb-stat wb-stat-wide"><span class="wb-stat-value wb-stat-sm">${updated}</span><span class="wb-stat-label">Last rebuild</span></div>`;
+}
+
+function renderWorkbookPipeline(workbooks) {
+  const el = document.getElementById("workbook-pipeline");
+  if (!el) return;
+  el.innerHTML = `
+    <div class="wb-pipeline">
+      <div class="wb-pipeline-label">Your Excel files (project root)</div>
+      <div class="wb-pipeline-row wb-pipeline-sources">
+        ${workbooks
+          .map((wb) => {
+            const guide = WORKBOOK_GUIDE[wb.id] || {};
+            return `
+          <div class="wb-pipeline-node wb-pipeline-excel" style="--wb-accent: ${guide.color || "var(--teal)"}">
+            <span class="wb-pipeline-icon">XLS</span>
+            <strong>${wb.label}</strong>
+            <span class="wb-pipeline-meta">${wb.sheet_count} sheets · ${wb.total_rows.toLocaleString()} rows</span>
+          </div>`;
+          })
+          .join("")}
+      </div>
+      <div class="wb-pipeline-arrow" aria-hidden="true"></div>
+      <div class="wb-pipeline-node wb-pipeline-script">
+        <span class="wb-pipeline-icon">PY</span>
+        <strong>build_dashboard_data.py</strong>
+        <span class="wb-pipeline-meta">Reads every sheet → unified JSON</span>
+      </div>
+      <div class="wb-pipeline-arrow" aria-hidden="true"></div>
+      <div class="wb-pipeline-node wb-pipeline-json">
+        <span class="wb-pipeline-icon">{ }</span>
+        <strong>dashboard / data.json</strong>
+        <span class="wb-pipeline-meta">Structured metrics + raw_sheets archive</span>
+      </div>
+      <div class="wb-pipeline-arrow" aria-hidden="true"></div>
+      <div class="wb-pipeline-node wb-pipeline-app">
+        <span class="wb-pipeline-icon">DBS</span>
+        <strong>Operations Dashboard</strong>
+        <span class="wb-pipeline-meta">Charts, tables, monthly PowerPoint</span>
+      </div>
+    </div>`;
+}
+
+function renderWorkbookFlowMap(workbooks, activeWorkbookId) {
+  const el = document.getElementById("workbook-flow-map");
+  if (!el) return;
+  el.innerHTML = `
+    <h4 class="wb-flow-heading">Which workbook powers which sidebar section</h4>
+    <p class="wb-flow-sub">Click a section pill to jump there. Click a workbook column to focus sheet previews below.</p>
+    <div class="wb-flow-grid">
+      ${workbooks
+        .map((wb) => {
+          const guide = WORKBOOK_GUIDE[wb.id] || {};
+          const active = wb.id === activeWorkbookId ? " active" : "";
+          return `
+        <div class="wb-flow-col${active}" data-workbook-id="${wb.id}" style="--wb-accent: ${guide.color || "var(--teal)"}">
+          <button type="button" class="wb-flow-source" data-workbook-id="${wb.id}">
+            <span class="wb-flow-source-tag">Workbook</span>
+            <strong>${wb.label}</strong>
+            <span>${wb.file}</span>
+          </button>
+          <div class="wb-flow-connector" aria-hidden="true"></div>
+          <div class="wb-flow-targets">
+            ${(guide.feeds || [])
+              .map(
+                (f) =>
+                  `<button type="button" class="wb-flow-pill" data-section="${f.section}">${f.label}</button>`
+              )
+              .join("")}
+          </div>
+        </div>`;
+        })
+        .join("")}
+    </div>`;
+
+  el.querySelectorAll(".wb-flow-pill").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      navigateToSection(btn.dataset.section);
+    });
+  });
+
+  el.querySelectorAll(".wb-flow-source").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.workbookId;
+      document.querySelector(`.workbook-card[data-workbook-id="${id}"]`)?.click();
+      document.getElementById("workbook-cards")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+  });
+}
+
+function renderWorkbookCharts(workbooks) {
+  const labels = workbooks.map((w) => w.label);
+  const colors = workbooks.map((w) => (WORKBOOK_GUIDE[w.id] || {}).color || "#1f6f78");
+  const rowCounts = workbooks.map((w) => w.total_rows);
+  const sheetCounts = workbooks.map((w) => w.sheet_count);
+
+  destroyChart("workbook-rows-donut");
+  charts["workbook-rows-donut"] = new Chart(document.getElementById("workbook-rows-donut"), {
+    type: "doughnut",
+    data: {
+      labels,
+      datasets: [{ data: rowCounts, backgroundColor: colors, borderWidth: 0 }],
+    },
+    options: {
+      plugins: { legend: { position: "bottom" } },
+      cutout: "58%",
+    },
+  });
+
+  destroyChart("workbook-sheets-bar");
+  charts["workbook-sheets-bar"] = new Chart(document.getElementById("workbook-sheets-bar"), {
+    type: "bar",
+    data: {
+      labels: labels.map((l) => l.replace(" (DHA/PE4)", "")),
+      datasets: [{ data: sheetCounts, backgroundColor: colors, borderRadius: 8, barThickness: 48 }],
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+    },
+  });
+
+  const allSheets = workbooks.flatMap((wb) =>
+    (wb.sheets || []).map((s) => ({
+      name: s.name,
+      rows: s.rows,
+      color: (WORKBOOK_GUIDE[wb.id] || {}).color || "#1f6f78",
+      workbook: wb.label,
+    }))
+  );
+  allSheets.sort((a, b) => b.rows - a.rows);
+  const top = allSheets.slice(0, 12);
+
+  destroyChart("workbook-top-sheets-bar");
+  charts["workbook-top-sheets-bar"] = new Chart(document.getElementById("workbook-top-sheets-bar"), {
+    type: "bar",
+    data: {
+      labels: top.map((s) => s.name),
+      datasets: [
+        {
+          data: top.map((s) => s.rows),
+          backgroundColor: top.map((s) => s.color),
+          borderRadius: 6,
+        },
+      ],
+    },
+    options: {
+      indexAxis: "y",
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            afterLabel: (ctx) => top[ctx.dataIndex]?.workbook || "",
+          },
+        },
+      },
+      scales: { x: { beginAtZero: true } },
+    },
+  });
+}
+
+function renderWorkbookSheetBreakdown(wb) {
+  const titleEl = document.getElementById("workbook-sheet-breakdown-title");
+  const canvas = document.getElementById("workbook-sheet-breakdown-bar");
+  if (!canvas || !wb) return;
+  if (titleEl) titleEl.textContent = `Sheets in ${wb.label}`;
+  const sheets = [...(wb.sheets || [])].sort((a, b) => b.rows - a.rows);
+  const color = (WORKBOOK_GUIDE[wb.id] || {}).color || "#1f6f78";
+  destroyChart("workbook-sheet-breakdown-bar");
+  charts["workbook-sheet-breakdown-bar"] = new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels: sheets.map((s) => s.name),
+      datasets: [{ data: sheets.map((s) => s.rows), backgroundColor: color, borderRadius: 6 }],
+    },
+    options: {
+      indexAxis: "y",
+      plugins: { legend: { display: false } },
+      scales: { x: { beginAtZero: true } },
+    },
+  });
+}
+
+let workbookVizCache = null;
+
+function refreshWorkbookChartsIfNeeded() {
+  if (!workbookVizCache?.length || typeof Chart === "undefined") return;
+  renderWorkbookCharts(workbookVizCache);
+  const activeId =
+    document.querySelector(".workbook-card.active")?.dataset.workbookId || workbookVizCache[0]?.id;
+  const wb = workbookVizCache.find((w) => w.id === activeId);
+  if (wb) renderWorkbookSheetBreakdown(wb);
+}
+
 function renderSourceWorkbooks() {
   const workbooks = DATA.meta?.workbooks || [];
+  workbookVizCache = workbooks;
   const introEl = document.getElementById("workbook-intro");
   const cardsEl = document.getElementById("workbook-cards");
   const listEl = document.getElementById("workbook-sheet-list");
@@ -636,6 +863,14 @@ function renderSourceWorkbooks() {
     cardsEl.innerHTML = `<p class="report-preview-note">No workbook inventory in data.json. Run the build script after adding Excel files.</p>`;
     return;
   }
+
+  let activeWorkbookId = workbooks[0]?.id;
+
+  renderWorkbookVizStats(workbooks);
+  renderWorkbookPipeline(workbooks);
+  renderWorkbookCharts(workbooks);
+  renderWorkbookFlowMap(workbooks, activeWorkbookId);
+  renderWorkbookSheetBreakdown(workbooks[0]);
 
   if (introEl) {
     introEl.hidden = false;
@@ -653,7 +888,7 @@ function renderSourceWorkbooks() {
             <p class="workbook-intro-desc">${guide.description || ""}</p>
             ${
               guide.feeds?.length
-                ? `<ul class="workbook-intro-feeds">${guide.feeds.map((f) => `<li>${f}</li>`).join("")}</ul>`
+                ? `<ul class="workbook-intro-feeds">${guide.feeds.map((f) => `<li>${f.label}</li>`).join("")}</ul>`
                 : ""
             }
           </div>`;
@@ -663,11 +898,12 @@ function renderSourceWorkbooks() {
       <p class="workbook-intro-hint">Click a card below to browse sheets and preview up to 200 rows stored in <code>data.json</code>.</p>`;
   }
 
-  let activeWorkbookId = workbooks[0]?.id;
-
   const renderSheetList = (workbookId) => {
     const wb = workbooks.find((w) => w.id === workbookId);
     if (!wb) return;
+    activeWorkbookId = workbookId;
+    renderWorkbookFlowMap(workbooks, activeWorkbookId);
+    renderWorkbookSheetBreakdown(wb);
     sheetTitle.textContent = `${wb.label} — sheets`;
     sheetSubtitle.textContent = `${wb.file} · ${wb.sheet_count} sheets · ${wb.total_rows.toLocaleString()} rows stored`;
     listEl.innerHTML = (wb.sheets || [])
@@ -779,6 +1015,9 @@ function activateSection(section) {
   if (section === "monthly-report" && typeof updateReportPreview === "function") {
     updateReportPreview();
   }
+  if (section === "source-data") {
+    requestAnimationFrame(() => refreshWorkbookChartsIfNeeded());
+  }
 }
 
 function initNavigation() {
@@ -801,7 +1040,7 @@ function initNavigation() {
 
 async function boot() {
   chartDefaults();
-  const response = await fetch("data.json?v=20261015e");
+  const response = await fetch("data.json?v=20261015f");
   DATA = await response.json();
   window.DATA = DATA;
   document.getElementById("generated-at").textContent = `Updated ${new Date(DATA.meta.generated_at).toLocaleString()}`;

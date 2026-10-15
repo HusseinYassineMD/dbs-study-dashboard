@@ -352,10 +352,43 @@
       </section>
 
       <section id="source-data" class="panel">
+        <article class="card workbook-viz-hero">
+          <div class="card-header">
+            <h3>Source Workbooks — full picture</h3>
+            <p>How your three Excel files flow into <code>data.json</code> and power each part of this dashboard</p>
+          </div>
+          <div id="workbook-viz-stats" class="workbook-viz-stats"></div>
+          <div id="workbook-pipeline" class="workbook-pipeline"></div>
+          <div id="workbook-flow-map" class="workbook-flow-map"></div>
+        </article>
         <article class="card">
           <div class="card-header">
-            <h3>Source Workbooks</h3>
-            <p>The three Excel files you provided — how each one fits the study, plus every sheet and a live preview</p>
+            <h3>By the numbers</h3>
+            <p>Share of stored rows and sheets across workbooks</p>
+          </div>
+          <div class="workbook-charts-grid">
+            <div class="workbook-chart-box">
+              <h4>Rows stored</h4>
+              <canvas id="workbook-rows-donut" height="220"></canvas>
+            </div>
+            <div class="workbook-chart-box">
+              <h4>Sheet count</h4>
+              <canvas id="workbook-sheets-bar" height="220"></canvas>
+            </div>
+          </div>
+          <div class="workbook-chart-box workbook-chart-wide">
+            <h4>Largest sheets (all workbooks)</h4>
+            <canvas id="workbook-top-sheets-bar" height="320"></canvas>
+          </div>
+          <div class="workbook-chart-box workbook-chart-wide">
+            <h4 id="workbook-sheet-breakdown-title">Sheets in selected workbook</h4>
+            <canvas id="workbook-sheet-breakdown-bar" height="280"></canvas>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-header">
+            <h3>What each file is for</h3>
+            <p>Plain-language roles and which sidebar sections they feed</p>
           </div>
           <div id="workbook-intro" class="workbook-intro" hidden></div>
           <h4 class="workbook-cards-heading">Select a workbook to explore sheets</h4>
