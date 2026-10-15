@@ -59,7 +59,7 @@ function setAppVisible(visible) {
 function loadDashboardScripts() {
   if (window.__dbsDashboardScriptsLoaded) return Promise.resolve();
   window.__dbsDashboardScriptsLoaded = true;
-  const v = "20261015d";
+  const v = "20261015e";
   const urls = [
     "https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js",
     "https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js",

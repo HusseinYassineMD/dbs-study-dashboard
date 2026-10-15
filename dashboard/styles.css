@@ -567,11 +567,105 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
   color: var(--text);
 }
 
+.workbook-intro {
+  margin-bottom: 22px;
+}
+
+.workbook-intro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.workbook-intro-item {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 16px 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), var(--bg-elevated));
+  border-top: 3px solid var(--wb-accent, var(--teal));
+}
+
+.workbook-intro-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--wb-accent, var(--teal));
+  margin-bottom: 8px;
+}
+
+.workbook-intro-item h4 {
+  margin: 0 0 4px;
+  font-size: 0.98rem;
+}
+
+.workbook-intro-file {
+  margin: 0 0 8px;
+  font-size: 0.72rem;
+  color: var(--muted);
+  word-break: break-all;
+}
+
+.workbook-intro-tagline {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--wb-accent, var(--teal));
+}
+
+.workbook-intro-desc {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.workbook-intro-feeds {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.workbook-intro-hint {
+  margin: 14px 0 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.workbook-cards-heading {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
 .workbook-cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
   margin-top: 8px;
+}
+
+.workbook-card-badge {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--wb-accent, var(--teal));
+  background: color-mix(in srgb, var(--wb-accent, var(--teal)) 12%, transparent);
 }
 
 .workbook-card {
@@ -580,7 +674,8 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
   padding: 18px;
   cursor: pointer;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  background: var(--surface);
+  background: var(--bg-elevated);
+  border-left: 4px solid var(--wb-accent, var(--teal));
 }
 
 .workbook-card:hover,
@@ -706,7 +801,7 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
 }
 
 @media (max-width: 1200px) {
-  .kpi-grid, .mini-kpi-grid, .grid-2, .catalog-grid, .workbook-cards {
+  .kpi-grid, .mini-kpi-grid, .grid-2, .catalog-grid, .workbook-cards, .workbook-intro-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -717,7 +812,7 @@ tbody tr:hover { background: rgba(31, 111, 120, 0.04); }
     position: static;
     height: auto;
   }
-  .kpi-grid, .mini-kpi-grid, .grid-2, .catalog-grid, .workbook-cards {
+  .kpi-grid, .mini-kpi-grid, .grid-2, .catalog-grid, .workbook-cards, .workbook-intro-grid {
     grid-template-columns: 1fr;
   }
   .topbar { flex-direction: column; }

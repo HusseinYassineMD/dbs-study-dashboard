@@ -49,7 +49,7 @@ const sectionCopy = {
   "monthly-report": ["Monthly Report", "One-click USC-branded PowerPoint for monthly progress meetings"],
   "source-data": [
     "Source Workbooks",
-    "DBS Tracker, Monthly Meeting Updates, and PT Visit Tracker — stored and ready in data.json",
+    "Your three Excel files — what each one is for, every sheet, and live previews",
   ],
   "data-explorer": ["Data Explorer", "Browse every sheet loaded from all workbooks"],
 };
@@ -596,8 +596,33 @@ function renderDropouts() {
   renderTable("yearly-dropouts-table", DATA.dropouts.year_1_to_4);
 }
 
+const WORKBOOK_GUIDE = {
+  tracker: {
+    short: "Day-to-day study operations",
+    description:
+      "Participant IDs, visit scheduling and completion, recruitment funnel, genotype/labs, screening, and dropout tabs. Most dashboard views (Overview, Visits, Clinical, Genotype) are built from here.",
+    feeds: ["Overview", "Participants", "Visit Tracking", "Clinical Ops", "Genotype & Labs", "Dropouts"],
+    color: "#c45c26",
+  },
+  meeting: {
+    short: "Monthly board / PI meeting workbook",
+    description:
+      "Study Progress tables for slides, Study Details monthly visit columns, recruitment summaries, and meeting dropout notes. Powers Study Progress and the Monthly Report PowerPoint.",
+    feeds: ["Study Progress", "Monthly Report", "Recruitment"],
+    color: "#1f6f78",
+  },
+  pt: {
+    short: "Physical therapy visit tracker (DHA / PE4)",
+    description:
+      "PT-specific visit sheets for the DHA and PE4 arms. Stored in full for audit and exploration alongside the main tracker.",
+    feeds: ["Data Explorer", "Source previews"],
+    color: "#5c4d7a",
+  },
+};
+
 function renderSourceWorkbooks() {
   const workbooks = DATA.meta?.workbooks || [];
+  const introEl = document.getElementById("workbook-intro");
   const cardsEl = document.getElementById("workbook-cards");
   const listEl = document.getElementById("workbook-sheet-list");
   const previewTitle = document.getElementById("workbook-preview-title");
@@ -607,8 +632,35 @@ function renderSourceWorkbooks() {
   if (!cardsEl || !listEl) return;
 
   if (!workbooks.length) {
+    if (introEl) introEl.hidden = true;
     cardsEl.innerHTML = `<p class="report-preview-note">No workbook inventory in data.json. Run the build script after adding Excel files.</p>`;
     return;
+  }
+
+  if (introEl) {
+    introEl.hidden = false;
+    introEl.innerHTML = `
+      <div class="workbook-intro-grid">
+        ${workbooks
+          .map((wb) => {
+            const guide = WORKBOOK_GUIDE[wb.id] || {};
+            return `
+          <div class="workbook-intro-item" style="--wb-accent: ${guide.color || "var(--teal)"}">
+            <span class="workbook-intro-step">${wb.id === "tracker" ? "1" : wb.id === "meeting" ? "2" : "3"}</span>
+            <h4>${wb.label}</h4>
+            <p class="workbook-intro-file">${wb.file}</p>
+            <p class="workbook-intro-tagline">${guide.short || ""}</p>
+            <p class="workbook-intro-desc">${guide.description || ""}</p>
+            ${
+              guide.feeds?.length
+                ? `<ul class="workbook-intro-feeds">${guide.feeds.map((f) => `<li>${f}</li>`).join("")}</ul>`
+                : ""
+            }
+          </div>`;
+          })
+          .join("")}
+      </div>
+      <p class="workbook-intro-hint">Click a card below to browse sheets and preview up to 200 rows stored in <code>data.json</code>.</p>`;
   }
 
   let activeWorkbookId = workbooks[0]?.id;
@@ -643,8 +695,11 @@ function renderSourceWorkbooks() {
 
   cardsEl.innerHTML = workbooks
     .map(
-      (wb) => `
-    <article class="workbook-card ${wb.loaded ? "loaded" : "missing"}" data-workbook-id="${wb.id}">
+      (wb) => {
+        const guide = WORKBOOK_GUIDE[wb.id] || {};
+        return `
+    <article class="workbook-card ${wb.loaded ? "loaded" : "missing"}" data-workbook-id="${wb.id}" style="--wb-accent: ${guide.color || "var(--teal)"}">
+      <span class="workbook-card-badge">${guide.short || "Workbook"}</span>
       <h4>${wb.label}</h4>
       <p class="workbook-file">${wb.file}</p>
       <dl class="workbook-stats">
@@ -652,7 +707,8 @@ function renderSourceWorkbooks() {
         <div><dt>Rows stored</dt><dd>${wb.total_rows.toLocaleString()}</dd></div>
         <div><dt>Status</dt><dd>${wb.loaded ? "Ready" : "Missing file"}</dd></div>
       </dl>
-    </article>`
+    </article>`;
+      }
     )
     .join("");
 
@@ -745,7 +801,7 @@ function initNavigation() {
 
 async function boot() {
   chartDefaults();
-  const response = await fetch("data.json?v=20261015d");
+  const response = await fetch("data.json?v=20261015e");
   DATA = await response.json();
   window.DATA = DATA;
   document.getElementById("generated-at").textContent = `Updated ${new Date(DATA.meta.generated_at).toLocaleString()}`;
